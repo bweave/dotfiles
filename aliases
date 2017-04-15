@@ -1,0 +1,46 @@
+alias vhosts="subl /private/etc/apache2/extra/httpd-vhosts.conf"
+alias vaprobash="wget -O Vagrantfile http://bit.ly/vaprobash"
+alias hosts="subl /etc/hosts"
+alias sequelpro="open /Applications/Sequel\ Pro.app"
+alias chrome="open /Applications/Google\ Chrome.app --args --disable-web-security"
+alias chromecustom="subl ~/Library/Application\ Support/Google/Chrome/Default/User\ Stylesheets/Custom.css"
+alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy && echo 'Copied to Clipboard.'"
+alias art="php artisan"
+alias dirperm="find . -type d -exec chmod 755 {} \;"
+alias fileperm="find . -type f -exec chmod 644 {} \;"
+alias wgetwp="wget wordpress.org/latest.zip && unzip latest.zip && rm -f latest.zip && mv wordpress/* ./ && rmdir wordpress && mv wp-config-sample.php wp-config.php"
+alias ..="cd .."
+alias cd..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+alias sudo='sudo '
+alias pngcrush="find . -name '*.png' -print0 | xargs -0 -P4 /Applications/ImageAlpha.app/Contents/Resources/pngquant --ext .png --force 256"
+alias undopush="git push -f origin HEAD^:master"
+alias gpd="git push origin develop"
+alias gs="git status"
+alias gc="git commit -m "
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias flush="sudo killall -HUP mDNSResponder"
+
+# List all files colorized in long format
+alias l="ls -lF -G"
+alias ll="ls -lF -G"
+
+# List all files colorized in long format, including dot files
+alias la="ls -laF -G"
+
+# List only directories
+alias lsd='ls -lF -G | grep "^d"'
+
+alias be='bundle exec'
+alias r="bundle exec rails"
+alias toggl="ruby ~/bin/ruby/toggl/toggl.rb"
+
+alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+alias ctags="`brew --prefix`/bin/ctags"
+alias rctags="ctags -R --languages=ruby --exclude=.git --exclude=log . $(bundle list --paths)"
+alias pctags="ctags -R --languages=php --exclude=.git ."
