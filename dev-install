@@ -1,0 +1,84 @@
+#!/bin/sh
+
+#
+# Brew packages
+#
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew install brew-cask
+brew install git
+brew install node
+brew install nvm
+brew install sqlite
+brew install ssh-copy-id
+brew install tmux
+brew install wget
+brew install ansible
+brew install ctags
+brew install imagemagick
+brew install openssl
+brew install rcm
+brew install reattach-to-user-namespace
+brew install vim
+brew install redis
+brew install mysql
+brew install postgres
+brew install the_silver_searcher
+brew install htop
+brew install heroku
+brew install heroku-toolbelt
+brew install zsh
+brew install yarn
+brew install wget
+brew install libyaml
+
+#
+# Cask packages
+#
+brew cask install angry-ip-scanner
+brew cask install cyberduck
+brew cask install dropbox
+brew cask install firefox
+brew cask install google-chrome
+brew cask install imagealpha
+brew cask install imageoptim
+brew cask install iterm2
+brew cask install kaleidoscope
+brew cask install macdown
+brew cask install openemu
+brew cask install opera
+brew cask install sequel-pro
+brew cask install sqlpro-for-sqlite
+brew cask install skype
+brew cask install slack
+brew cask install spectacle
+brew cask install spotifree
+brew cask install spotify
+brew cask install sublime-text
+brew cask install tower
+brew cask install transmit
+brew cask install vagrant
+brew cask install vagrant-manager
+brew cask install virtualbox
+brew cask install ipassword
+brew cask install postico
+brew cask install docker
+
+#
+# Node packages
+#
+npm install -g bower
+npm install -g browser-sync
+npm install -g cordova
+npm install -g grunt
+npm install -g grunt-cli
+npm install -g gulp
+npm install -g ionic
+npm install -g ios-sim
+npm install -g jshint
+npm install -g json-server
+npm install -g phantomjs
+npm install -g eslint
+npm install -g eslint-plugin-react
+npm install -g babel-eslint
+npm install -g react-native-cli
+npm install -g create-react-native-app

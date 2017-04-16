@@ -73,7 +73,7 @@ set_prompts() {
             userStyle="${magenta}";
         fi;
 
-        userhost=""
+        userhost="FUCKIT - "
         userhost+="\[${userStyle}\]$USER "
         userhost+="${white}at "
         userhost+="${orange}$HOSTNAME "
