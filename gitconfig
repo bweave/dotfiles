@@ -1,6 +1,6 @@
 [user]
 	name = Brian Weaver
-	email = brian.weaver@northpoint.org
+	email = bdrums@gmail.com
 [filter "lfs"]
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f

@@ -2,3 +2,15 @@ tags
 gems.tags
 *.swp
 *.swo
+.DS_Store
+*.sublime*
+.idea
+.byebug_history
+yarn-error.log
+.vscode
+.vscode/*
+GPATH
+GRTAGS
+GTAGS
+.projectile
+tags.tmp

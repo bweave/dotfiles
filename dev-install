@@ -30,6 +30,8 @@ brew install zsh
 brew install yarn
 brew install wget
 brew install libyaml
+brew install fzf
+brew install rbenv
 
 #
 # Cask packages
@@ -62,6 +64,7 @@ brew cask install virtualbox
 brew cask install ipassword
 brew cask install postico
 brew cask install docker
+brew cask install simplenote
 
 #
 # Node packages
