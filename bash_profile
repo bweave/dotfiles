@@ -16,3 +16,5 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH="/Users/brianweaver/pco-box/bin:$PATH"
 eval "$(/Users/brianweaver/Code/pco/bin/pco init -)"
 eval "$(rbenv init -)"
+
+export PATH="$HOME/.cargo/bin:$PATH"
