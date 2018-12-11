@@ -19,17 +19,14 @@ set clipboard=unnamed
 
 
 " GUI
-colo space-vim-dark
 syntax on
 syntax enable
 set t_CO=Fira_Mono_for_Powerline:17
 set background=dark
 set laststatus=2
-set updatetime=250
+set updatetime=750
 set number
 set relativenumber
-highlight LineNr ctermfg=DarkGrey ctermbg=NONE
-highlight CursorLineNR cterm=bold ctermfg=DarkGrey
 set tabstop=2
 set shiftwidth=2
 set expandtab
@@ -43,14 +40,6 @@ set ignorecase
 set smartcase
 set splitbelow
 set splitright
-set guioptions-=l "Disable Gui scrollbars.
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-		  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-		  \,sm:block-blinkwait175-blinkoff150-blinkon175
-
 
 
 
@@ -65,18 +54,6 @@ nnoremap <S-Left> :vertical resize +5<CR>
 nnoremap <S-Right> :vertical resize -5<CR>
 nnoremap <S-Up> :resize +10<CR>
 nnoremap <S-Down> :resize -10<CR>
-
-
-
-
-
-" Neovim Terminal Navigation
-tnoremap <C-h> <C-\><C-N><C-w>h
-tnoremap <C-j> <C-\><C-N><C-w>j
-tnoremap <C-k> <C-\><C-N><C-w>k
-tnoremap <C-l> <C-\><C-N><C-w>l
-tnoremap <Esc> <C-\><C-n>  " Map ESC to exit Terminal mode
-
 
 
 
@@ -151,24 +128,8 @@ let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:30,results:30'
 
 
 
-" Vimux config
-let g:vroom_use_vimux = 1
-
-
-
-
-
 " Mouse
 set mouse+=a
-"if &term =~ '^screen'
-	"" tmux knows the extended mouse mode
-	"set ttymouse=xterm2
-"endif
-"if has("mouse_sgr")
-	"set ttymouse=sgr
-"else
-	"set ttymouse=xterm2
-"end
 
 
 
@@ -195,7 +156,7 @@ let mapleader = "\<Space>"
 nmap <Leader>ev :tabedit $MYVIMRC<cr>
 nmap <Leader>ep :tabedit ~/.vim/plugins.vim<cr>
 nmap <Leader>es :e ~/.vim/snippets/
-nmap <c-R> :CtrlPBufTag<cr>
+nmap <Leader>b :CtrlPBuffer<cr>
 nmap <c-e> :CtrlPMRUFiles<cr>
 nnoremap <C-g> :NERDTreeToggle<cr>
 map <leader><tab> :AV<cr>
@@ -211,17 +172,6 @@ imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 
 
-" Rspec.vim mappings
-"let g:rspec_runner = "os_x_iterm"
-"map <leader>t :call RunCurrentSpecFile()<CR>
-"map <leader>s :call RunNearestSpec()<CR>
-"map <leader>l :call RunLastSpec()<CR>
-"map <leader>a :call RunAllSpecs()<CR>
-
-
-
-
-
 " JSX
 let g:jsx_ext_required = 0
 let g:user_emmet_settings = {
@@ -229,17 +179,3 @@ let g:user_emmet_settings = {
 			\      'extends' : 'jsx',
 			\  },
 			\}
-
-
-
-
-
-" Markdown
-let g:vim_markdown_folding_disabled = 1 "disable folding on file open
-
-
-
-
-
-" Enable rufo (RUby FOrmat)
-"let g:rufo_auto_formatting = 1

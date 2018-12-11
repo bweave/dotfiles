@@ -14,3 +14,6 @@ GRTAGS
 GTAGS
 .projectile
 tags.tmp
+tags.*
+Session.vim
+Session.vim

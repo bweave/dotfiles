@@ -18,3 +18,4 @@ eval "$(/Users/brianweaver/Code/pco/bin/pco init -)"
 eval "$(rbenv init -)"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$PATH:/Applications/VSCodium.app/Contents/Resources/app/bin"

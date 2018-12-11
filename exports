@@ -1,5 +1,5 @@
 # Make vim the default editor
-export EDITOR="nvim"
+export EDITOR="vim"
 
 # Larger bash history (allow 32³ entries; default is 500)
 export HISTSIZE=32768
@@ -38,3 +38,5 @@ export CLICOLOR=1
 export TERM=xterm-256color
 export RUNDECK_API_TOKEN=ZK103tmKEEUD2AKNlNXzbmUl3HEDONgK
 export RUNDECK_BROWSERIFY=false
+
+PCO_BOX_LEAVE_DOCKER_RUNNING=true
