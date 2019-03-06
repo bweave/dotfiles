@@ -5,6 +5,9 @@ so ~/.vim/plugins.vim
 set hidden                   " hide buffers when abandoned instead of unload
 set synmaxcol=1000           " Don't syntax highlight long lines
 
+" Use the old regex engine because perf
+set re=1
+
 " Clipboard
 set clipboard=unnamed
 
@@ -34,6 +37,7 @@ set matchpairs+=<:> " Make < and > to match
 
 " Use 256 colors in vim
 set t_Co=256
+colo gruvbox
 
 " ---------------------------------------------------------------------------
 " UI
@@ -48,7 +52,7 @@ set wildmenu
 set wildmode=list:longest
 set wildcharm=<TAB> " Autocmpletion hotkey
 set visualbell t_vb=
-set cursorline   " highlight current line
+" set cursorline   " highlight current line
 set ttyfast
 set backspace=indent,eol,start  "allow backspacing over everything in insert mode
 set laststatus=2 " display the status line always
@@ -83,8 +87,26 @@ set expandtab
 " Mappings
 " ---------------------------------------------------------------------------
 
-" Open new tab
+" eslint-disable-line
+imap <leader>ee /*eslint-disable-line*/
+
+" Delete buffer
+nmap <leader>w :bd<CR>
+
+" Tabs
 nmap <silent><leader>tt :tabnew<CR>
+nmap <leader>tw :tabclose<CR>
+
+nmap <Leader>1 1gt<CR>
+nmap <Leader>2 2gt<CR>
+nmap <Leader>3 3gt<CR>
+nmap <Leader>4 4gt<CR>
+nmap <Leader>5 5gt<CR>
+nmap <Leader>6 6gt<CR>
+nmap <Leader>7 7gt<CR>
+nmap <Leader>8 8gt<CR>
+nmap <Leader>9 9gt<CR>
+
 
 " Replace
 nmap <leader>s :%s//<left>
@@ -132,15 +154,25 @@ nmap <leader>hs :set hlsearch! hlsearch?<CR>
 " Format json strings
 com! FormatJSON %!python -m json.tool
 
+nmap <silent> <leader>g :Magit<CR>
+
 " ---------------------------------------------------------------------------
-" Eslint/Prettier
+" StandardRB/Eslint/Prettier
 " ---------------------------------------------------------------------------
 
+let g:ale_ruby_rubocop_executable = 'bundle exec rubocop'
+let g:ale_linters = {
+\   'ruby': ['rubocop'],
+\   'javascript': ['eslint'],
+\   'css': ['eslint'],
+\}
 let g:ale_fixers = {
 \   'javascript': ['eslint'],
 \   'css': ['eslint'],
 \}
 let g:ale_fix_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
 
 " ---------------------------------------------------------------------------
 " Ruby/Rails
@@ -173,49 +205,41 @@ map <leader>gd :vsp <cr>:exec("tag ".expand("<cword>"))<cr>
 " Plugins
 " ---------------------------------------------------------------------------
 
-"-------------------------
-" Airline
+"--------------------------
+" Emmet - tab for expansion
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
 set laststatus=2
-let g:airline_theme = 'base16'
-let g:airline_powerline_fonts = 1
-let g:airline_left_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#branch#enabled = 1
-let g:airline_mode_map = {
-      \ 'n' : 'N',
-      \ 'i' : 'I',
-      \ 'R' : 'REPLACE',
-      \ 'v' : 'VISUAL',
-      \ 'V' : 'V-LINE',
-      \ 'c' : 'CMD   ',
-      \ '': 'V-BLCK',
-      \ }
 
-" Tabline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tab_nr = 1
-let airline#extensions#tabline#tab_nr_type = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#fnamemod = ':~:.'
-let g:airline#extensions#tabline#fnamecollapse = 0
-let g:airline#extensions#tabline#fnametruncate = 0
-let g:airline#extensions#tabline#formatter = 'folder'
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_buffers = 0
-
-let g:airline#extensions#tabline#buffer_idx_mode = 0
-map <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader>h <Plug>AirlineSelectPrevTab
-nmap <leader>l <Plug>AirlineSelectNextTab
+"-------------------------
+" Lightline
+set showtabline=2  " always show tabline
+let g:lightline = {}
+let g:lightline.colorscheme = 'gruvbox'
+let g:lightline.component = { 'separator': '' }
+let g:lightline.component_function = { 'gitbranch': 'fugitive#head', 'bufferinfo': 'lightline#buffer#bufferinfo' }
+let g:lightline.component_expand = { 'buffers': 'lightline#bufferline#buffers' }
+let g:lightline.component_type = { 'buffers': 'tabsel' }
+let g:lightline.active = { 'left': [ [ 'paste' ], [ 'gitbranch', 'readonly', 'filename', 'modified' ] ] }
+" let g:lightline.tabline = { 'left': [['bufferinfo'],['separator'],['buffers']], 'right': [['close']]}
+let g:lightline.tabline = { 'left': [['bufferinfo'],['separator'],['tabs']], 'right': [['close']]}
+let g:lightline#bufferline#filename_modifier = ':t'
+let g:lightline#bufferline#show_number=2
+let g:lightline#bufferline#enable_devicons=1
+let g:lightline#bufferline#unicode_symbols=1
+let g:lightline#bufferline#number_map = {
+\ 0: '0 ', 1: '1 ', 2: '2 ', 3: '3 ', 4: '4 ',
+\ 5: '5 ', 6: '6 ', 7: '7 ', 8: '8 ', 9: '9 '}
+" nmap <Leader>1 <Plug>lightline#bufferline#go(1)
+" nmap <Leader>2 <Plug>lightline#bufferline#go(2)
+" nmap <Leader>3 <Plug>lightline#bufferline#go(3)
+" nmap <Leader>4 <Plug>lightline#bufferline#go(4)
+" nmap <Leader>5 <Plug>lightline#bufferline#go(5)
+" nmap <Leader>6 <Plug>lightline#bufferline#go(6)
+" nmap <Leader>7 <Plug>lightline#bufferline#go(7)
+" nmap <Leader>8 <Plug>lightline#bufferline#go(8)
+" nmap <Leader>9 <Plug>lightline#bufferline#go(9)
+" nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
 "-------------------------
 " Markdown
@@ -232,7 +256,7 @@ let NERDTreeChDirMode = 2
 let NERDTreeDirArrows = 1
 let NERDTreeMinimalUI=1
 silent! nmap <silent> <Leader>m :NERDTreeToggle<CR>
-silent! nmap <silent> <leader>f :NERDTreeFind<cr>
+silent! nmap <silent> <leader>f :NERDTreeFind<CR>
 
 "-------------------------
 " NERDCommenter

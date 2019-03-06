@@ -11,6 +11,7 @@ Plugin 'VundleVim/Vundle.vim'
 "--------------------------
 " tpope plugins
 "--------------------------
+Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
@@ -33,9 +34,12 @@ Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'w0rp/ale'
 Plugin 'benmills/vimux'
 Plugin 'jgdavey/vim-turbux'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'josemarluedke/airline-tabline-folder-formatter.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'itchyny/lightline.vim'
+Plugin 'shinchu/lightline-gruvbox.vim'
+Plugin 'mengelbrecht/lightline-bufferline'
+Plugin 'ryanoasis/vim-devicons'
 Plugin 'vim-scripts/Tabmerge'
 Plugin 'godlygeek/tabular'
 Plugin 'jreybert/vimagit'
@@ -46,7 +50,6 @@ Plugin 'jreybert/vimagit'
 Plugin 'corntrace/bufexplorer'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'vim-scripts/ctags.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'epmatsw/ag.vim'
 
@@ -55,7 +58,6 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 Plugin 'ludovicchabant/vim-gutentags'
-
 "--------------------------
 " language and syntax
 "--------------------------
