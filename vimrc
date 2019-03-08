@@ -5,6 +5,8 @@ so ~/.vim/plugins.vim
 set hidden                   " hide buffers when abandoned instead of unload
 set synmaxcol=1000           " Don't syntax highlight long lines
 
+set background=dark
+
 " Use the old regex engine because perf
 set re=1
 
