@@ -17,3 +17,6 @@ tags.tmp
 tags.*
 Session.vim
 Session.vim
+.tern-port
+.vimrc
+.solargraph.yml

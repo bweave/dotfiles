@@ -20,10 +20,24 @@ Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-obsession'
+Plugin 'tpope/vim-projectionist'
+
+"--------------------------
+" colors
+"--------------------------
+Plugin 'ayu-theme/ayu-vim'
+Plugin 'junegunn/seoul256.vim'
+Plugin 'morhetz/gruvbox'
+Plugin 'shinchu/lightline-gruvbox.vim'
+Plugin 'whatyouhide/vim-gotham'
+Plugin 'AlessandroYorba/Sierra'
+Plugin 'liuchengxu/space-vim-dark'
+Plugin 'joshdick/onedark.vim'
 
 "--------------------------
 " utility
 "--------------------------
+Plugin 'mhinz/vim-startify'
 Plugin 'optroot/auto-pairs'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'terryma/vim-multiple-cursors'
@@ -32,22 +46,23 @@ Plugin 'alvan/vim-closetag'
 Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'w0rp/ale'
-Plugin 'benmills/vimux'
-Plugin 'jgdavey/vim-turbux'
+Plugin 'janko/vim-test'
+Plugin 'kassio/neoterm'
 Plugin 'mattn/emmet-vim'
-Plugin 'morhetz/gruvbox'
 Plugin 'itchyny/lightline.vim'
-Plugin 'shinchu/lightline-gruvbox.vim'
 Plugin 'mengelbrecht/lightline-bufferline'
 Plugin 'ryanoasis/vim-devicons'
 Plugin 'vim-scripts/Tabmerge'
 Plugin 'godlygeek/tabular'
 Plugin 'jreybert/vimagit'
+Plugin 'matze/vim-move'
+Plugin 'tmhedberg/matchit'
+Plugin 'Valloric/MatchTagAlways'
 
 "--------------------------
 " tools to explore the file system
 "--------------------------
-Plugin 'corntrace/bufexplorer'
+Plugin 'jlanzarotta/bufexplorer'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mileszs/ack.vim'
@@ -58,12 +73,18 @@ Plugin 'junegunn/fzf'
 Plugin 'junegunn/fzf.vim'
 
 Plugin 'ludovicchabant/vim-gutentags'
+
 "--------------------------
 " language and syntax
 "--------------------------
 Plugin 'gabrielelana/vim-markdown'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+
+"--------------------------
+" Ruby Refactoring
+"--------------------------
+Plugin 'ecomba/vim-ruby-refactoring'
 
 call vundle#end()            " required
 filetype plugin indent on    " required

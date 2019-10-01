@@ -23,7 +23,7 @@ alias gb="git branch"
 alias gba="git branch -a"
 alias gdel="git branch -d"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias gwip="git add -A; git rm (git ls-files --deleted) 2> /dev/null; git commit -m 'WIP'"
+alias gwip="git add -A; git rm '$(git ls-files --deleted)' 2> /dev/null; git commit -m 'WIP'"
 alias gunwip="git log -n 1 | grep -q -c 'WIP' ; git reset HEAD~1"
 alias nah="echo '(╯°□°)╯︵ ┻━┻' && git reset --hard;git clean -df;"
 
