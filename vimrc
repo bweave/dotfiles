@@ -114,15 +114,19 @@ if has("nvim")
 endif
 
 " vim-test
-if has("nvim")
-	let test#strategy = "neovim"
-else
-	let test#strategy = "vimterminal"
-endif
+" if has("nvim")
+	" let test#strategy = "neovim"
+" else
+	" let test#strategy = "vimterminal"
+" endif
+let test#strategy = 'vimux'
 nnoremap <leader>t :TestFile<CR>
 nnoremap <leader>T :TestNearest<CR>
-nnoremap <leader>st :TREPLSendLine<CR>
-vnoremap <leader>st :TREPLSendSelection<CR>
+" nnoremap <leader>st :TREPLSendLine<CR>
+" vnoremap <leader>st :TREPLSendSelection<CR>
+
+" Vim + Tmux
+nnoremap <Leader>vp :VimuxPromptCommand<CR>
 
 " eslint-disable-line
 inoremap <leader>ee /*eslint-disable-line*/
@@ -161,7 +165,6 @@ let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
 nmap sj :SplitjoinJoin<CR>
 nmap ss :SplitjoinSplit<CR>
-
 
 " Replace
 nnoremap <C-s> :%s//<left>
@@ -372,7 +375,7 @@ imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 " Lightline
 
 function! LightlineTags()
-    return '%{gutentags#statusline("[Generating\ tags...]")}'
+    return '%{gutentags#statusline("⚙tags...")}'
 endfunction
 
 function! LightlineObsession()
@@ -404,7 +407,8 @@ let g:lightline.component_function = {
 \}
 let g:lightline.component_expand = {
 \  'buffers': 'lightline#bufferline#buffers',
-\  'obsession': 'LightlineObsession'
+\  'obsession': 'LightlineObsession',
+\  'tags': 'LightlineTags'
 \ }
 let g:lightline.component_type = {
 \  'paste': 'warning',
@@ -416,7 +420,7 @@ let g:lightline.active = {
 \ }
 let g:lightline.inactive = g:lightline.active
 let g:lightline.tabline = {
-\  'left': [['obsession'],['tabs']],
+\  'left': [['obsession', 'tags'],['tabs']],
 \  'right': []
 \ }
 let g:lightline#bufferline#filename_modifier = ':t'
@@ -565,3 +569,9 @@ set fillchars+=vert:│
 " Override color scheme
 " autocmd ColorScheme * highlight VertSplit guibg=NONE
 " autocmd ColorScheme * highlight NonText guifg=bg
+
+" ---------------------------------------------------------------------------
+" rcodetools
+" ---------------------------------------------------------------------------
+" autocmd FileType ruby nmap <buffer> <C-m> <Plug>(xmpfilter-mark)
+" autocmd FileType ruby nmap <buffer> <C-r> <Plug>(xmpfilter-run)

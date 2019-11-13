@@ -45,8 +45,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'alvan/vim-closetag'
 Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'w0rp/ale'
-Plugin 'janko/vim-test'
 Plugin 'kassio/neoterm'
 Plugin 'mattn/emmet-vim'
 Plugin 'itchyny/lightline.vim'
@@ -58,6 +58,10 @@ Plugin 'jreybert/vimagit'
 Plugin 'matze/vim-move'
 Plugin 'tmhedberg/matchit'
 Plugin 'Valloric/MatchTagAlways'
+Plugin 'janko/vim-test'
+Plugin 'benmills/vimux'
+" Plugin 'jgdavey/vim-turbux'
+Plugin 't9md/vim-ruby-xmpfilter'
 
 "--------------------------
 " tools to explore the file system
@@ -80,6 +84,7 @@ Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'gabrielelana/vim-markdown'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'leafgarland/typescript-vim'
 
 "--------------------------
 " Ruby Refactoring

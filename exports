@@ -24,17 +24,16 @@ export GREP_OPTIONS="--color=auto"
 # Link Homebrew casks in `/Applications` rather than `~/Applications`
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
-# node version manage
-#export NVM_DIR=~/.nvm
-#. $(brew --prefix nvm)/nvm.sh
-
-#source /usr/local/opt/php-version/php-version.sh && php-version 7
 export RAILS_ENV=development
 export ANSIBLE_ROLES_PATH=~/.ansible/roles
 # Set CLICOLOR if you want Ansi Colors in iTerm2
 export CLICOLOR=1
 
 # Set colors to match iTerm2 Terminal Colors
-export TERM=screen-256color
+export TERM="xterm-256color"
 
+export RBENV_ROOT=$HOME/.rbenv
+export MYSQL_PORT_3306_TCP_ADDR=127.0.0.1
+export MYSQL_SLAVE_PORT_3306_TCP_ADDR=127.0.0.1
+export MYSQL_SLAVE_PORT_3306_TCP_PORT=3307
 PCO_BOX_LEAVE_DOCKER_RUNNING=true
