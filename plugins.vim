@@ -32,7 +32,7 @@ Plugin 'shinchu/lightline-gruvbox.vim'
 Plugin 'whatyouhide/vim-gotham'
 Plugin 'AlessandroYorba/Sierra'
 Plugin 'liuchengxu/space-vim-dark'
-Plugin 'joshdick/onedark.vim'
+Plugin 'rakr/vim-one'
 
 "--------------------------
 " utility
@@ -47,7 +47,6 @@ Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'w0rp/ale'
-Plugin 'kassio/neoterm'
 Plugin 'mattn/emmet-vim'
 Plugin 'itchyny/lightline.vim'
 Plugin 'mengelbrecht/lightline-bufferline'
@@ -60,8 +59,6 @@ Plugin 'tmhedberg/matchit'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'janko/vim-test'
 Plugin 'benmills/vimux'
-" Plugin 'jgdavey/vim-turbux'
-Plugin 't9md/vim-ruby-xmpfilter'
 
 "--------------------------
 " tools to explore the file system
@@ -78,6 +75,11 @@ Plugin 'junegunn/fzf.vim'
 
 Plugin 'ludovicchabant/vim-gutentags'
 
+" Denite
+Plugin 'roxma/vim-hug-neovim-rpc'
+Plugin 'roxma/nvim-yarp'
+Plugin 'Shougo/denite.nvim'
+
 "--------------------------
 " language and syntax
 "--------------------------
@@ -85,6 +87,12 @@ Plugin 'gabrielelana/vim-markdown'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'leafgarland/typescript-vim'
+
+"--------------------------
+" Completion
+"--------------------------
+" TODO: try out nvim-lsp once it's in a tagged version
+
 
 "--------------------------
 " Ruby Refactoring

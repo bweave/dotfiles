@@ -5,9 +5,5 @@
 	clean = git-lfs clean %f
 	smudge = git-lfs smudge %f
 	required = true
-[http "https://git.demo.localflynn.com"]
-	sslCAInfo = /Users/brianwe/.flynn/ca-certs/default.pem
-[credential "https://git.demo.localflynn.com"]
-	helper = /usr/local/bin/flynn git-credentials
 [core]
 	excludesfile = ~/.gitignore

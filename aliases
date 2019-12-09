@@ -1,5 +1,5 @@
-alias zshconfig="nvim ~/.zshrc"
-alias ohmyzsh="nvim ~/.oh-my-zsh"
+alias zshconfig="vim ~/.zshrc"
+alias ohmyzsh="vim ~/.oh-my-zsh"
 
 alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy ; echo 'Copied to Clipboard.'"
 alias ..="cd .."
@@ -8,7 +8,6 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias sudo='sudo '
-alias pngcrush="find . -name '*.png' -print0 | xargs -0 -P4 /Applications/ImageAlpha.app/Contents/Resources/pngquant --ext .png --force 256"
 
 # Git
 # Use `hub` as our git wrapper:
@@ -30,38 +29,6 @@ alias gwip="git add -A && git commit --no-verify -m 'WIP'"
 alias gunwip="git log -n 1 | grep -q -c 'WIP' ; git reset HEAD~1"
 alias nah="echo '(╯°□°)╯︵ ┻━┻' && git reset --hard;git clean -df;"
 
-function gitchanges {
-  CHANGED_LENGTH=$(git status -s | wc -l)
-  if [[ $CHANGED_LENGTH -ne "0" ]]
-  then
-    echo true
-  else
-    echo false
-  fi
-}
-
-function staging() {
-  if $(gitchanges)
-  then
-    echo "NOPE! you have changes"
-    gs
-  else
-    git checkout staging && git fetch origin staging && git reset --hard origin/staging
-  fi
-}
-
-function deploymetostaging() {
-  if $(gitchanges)
-  then
-    echo "NOPE! you have changes"
-    gs
-    false
-  else
-    CURRENT_BRANCH=$(git symbolic-ref HEAD | sed 's/refs\/heads\///')
-    staging && git merge $CURRENT_BRANCH --no-edit && gp && pco deploy
-  fi
-}
-
 # List all files colorized in long format
 alias l="ls -lF -G"
 alias ll="ls -lF -G"
@@ -74,33 +41,17 @@ alias lsd='ls -lF -G | grep "^d"'
 
 alias be='bundle exec'
 alias r="bundle exec rails"
-alias toggl="ruby ~/bin/ruby/toggl/toggl.rb"
 
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-alias ctags="`brew --prefix`/bin/ctags"
-alias rctags="ctags -R --language=ruby --exclude=.git --exclude=log ."
-alias pctags="ctags -R --language=php --exclude=.git ."
 
 alias resetav="sudo killall VDCAssistant"
 alias c=clear
 
-# PCO Box
-alias bt="box tail -f log/development.log"
-alias by="box yarn"
-alias bys="box yarn start"
-alias br="box bundle exec rake"
-alias bguard="box bundle exec guard start"
-alias bb="box bundle install"
-alias b="bundle exec"
 alias rdebug='rdebug --host 127.0.0.1 --port 1234 -- bin/rails s'
 alias rdebug='rdebug-ide --host 127.0.0.1 --port 1234 -- bin/rails s'
 alias rc="bin/rails console"
 alias rs="bin/rails server"
-
-# Home Network
-alias find_ips="sudo nmap 10.0.1.1/24 -sP"
-
 
 alias super_tail="grc tail -f ~/Code/**/log/development.log"
 alias super_tail_groups="grc tail -f ~/Code/{api,church-center,groups,people}/log/development.log"

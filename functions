@@ -12,24 +12,6 @@ function pco() {
   fi
 }
 
-function boxit() {
-  sudo openresty -s stop
-  brew services stop mysql
-  brew services stop redis
-  brew services stop elasticsearch
-  brew services stop rabbitmq
-  box start
-}
-
-function unboxit() {
-  box stop
-  brew services start mysql
-  brew services start redis
-  brew services start elasticsearch
-  brew services start rabbitmq
-  sudo openresty
-}
-
 # extract any type of compressed file
 function extract {
     echo Extracting $1 ...
@@ -52,15 +34,4 @@ function extract {
     else
         echo "'$1' is not a valid file"
     fi
-}
-
-function update-branch(){
-  git checkout master && git pull && git checkout - && git rebase master
-}
-
-# Rainymood
-rainymood() {
-  FILE=$((RANDOM%4))
-  URL="https://rainymood.com/audio1110/${FILE}.ogg"
-  mpv "$URL" && rainymood
 }
