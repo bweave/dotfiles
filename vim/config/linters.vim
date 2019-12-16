@@ -18,4 +18,4 @@ let g:ale_fix_on_save = 1
 
 " Set this in your vimrc file to disabling highlighting
 " let g:ale_set_highlights = 0
-highlight ALEWarning ctermbg=DarkMagenta
+" highlight ALEWarning ctermbg=DarkMagenta
