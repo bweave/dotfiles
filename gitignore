@@ -15,6 +15,7 @@ GTAGS
 .projectile
 tags.tmp
 tags.*
+!tags.vim
 Session.vim
 .tern-port
 .vimrc
