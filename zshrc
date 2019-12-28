@@ -2,7 +2,7 @@ source $HOME/.exports
 # Path to your oh-my-zsh installation.
 export ZSH=~/.oh-my-zsh
 
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="nerdfont-complete"
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon background_jobs dir vcs rbenv)
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
@@ -33,11 +33,24 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
 
-source $HOME/.secrets
-source $HOME/.aliases
-source $HOME/.functions
-source $HOME/.path
-source /usr/local/etc/profile.d/autojump.sh
-source ~/.tmuxinator.zsh
+include () {
+  [[ -f "$1" ]] && source "$1" || echo "$1 not found"
+}
+
+include $HOME/.secrets
+include $HOME/.aliases
+include $HOME/.functions
+include $HOME/.path
+include ~/.tmuxinator.zsh
 eval "$(rbenv init -)"
-eval "$($HOME/Code/pco/bin/pco init -)"
+[[ -f $HOME/Code/pco/bin/pco ]] && eval "$($HOME/Code/pco/bin/pco init -)"
+
+# OS Specific bits
+case "$OSTYPE" in
+  darwin*)
+    include /usr/local/etc/profile.d/authojump.sh
+    ;;
+  linux*)
+    include /usr/share/autojump/autojump.sh
+    ;;
+esac
