@@ -2,6 +2,10 @@
 " Lang
 " ======================
 
+" Markdown
+let g:vim_markdown_folding_disabled=1
+let g:mkdp_refresh_slow=1
+
 " Add support to go to file in JS without file extention
 augroup suffixes
   autocmd!

@@ -16,3 +16,10 @@ so ~/.vim/config/snippets.vim
 so ~/.vim/config/fzf.vim
 " so ~/.vim/config/denite.vim
 " so ~/.vim/config/coc.vim
+
+let &showbreak='  '
+vmap j gj
+vmap k gk
+nmap j gj
+nmap k gk
+command! -nargs=* Wrap set wrap linebreak breakindent

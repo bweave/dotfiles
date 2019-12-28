@@ -8,6 +8,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+Plugin 'chrisbra/Colorizer'
+
 "--------------------------
 " tpope plugins
 "--------------------------
@@ -83,7 +85,8 @@ Plugin 'Shougo/denite.nvim'
 "--------------------------
 " language and syntax
 "--------------------------
-Plugin 'gabrielelana/vim-markdown'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'iamcco/markdown-preview.nvim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'leafgarland/typescript-vim'
