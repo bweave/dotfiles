@@ -48,9 +48,9 @@ eval "$(rbenv init -)"
 # OS Specific bits
 case "$OSTYPE" in
   darwin*)
-    include /usr/local/etc/profile.d/authojump.sh
+    include "/usr/local/etc/profile.d/autojump.sh"
     ;;
   linux*)
-    include /usr/share/autojump/autojump.sh
+    include "/usr/share/autojump/autojump.sh"
     ;;
 esac
