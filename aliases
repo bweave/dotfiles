@@ -29,6 +29,7 @@ alias lsd='ls -lF -G | grep "^d"' # List only directories
 alias sudo='sudo '
 alias dc=docker-compose
 alias c=clear
+alias grep="grep --color=auto"
 
 # Git
 eval "$(hub alias -s)" # Use `hub` as our git wrapper
