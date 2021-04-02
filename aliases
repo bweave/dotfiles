@@ -1,3 +1,18 @@
+# OS Specific bits
+case "$OSTYPE" in
+  darwin*)
+    alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+    alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+    alias resetav="sudo killall VDCAssistant"
+    alias python=/usr/local/bin/python3
+    alias pip=/usr/local/bin/pip3
+    ;;
+  linux*)
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+    ;;
+esac
+
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
@@ -7,12 +22,16 @@ alias cd..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+alias l="ls -lF -G" # List all files colorized in long format
+alias ll="ls -lF -G"
+alias la="ls -laF -G" # List all files colorized in long format, including dot files
+alias lsd='ls -lF -G | grep "^d"' # List only directories
 alias sudo='sudo '
+alias dc=docker-compose
+alias c=clear
 
 # Git
-# Use `hub` as our git wrapper:
-eval "$(hub alias -s)"
-
+eval "$(hub alias -s)" # Use `hub` as our git wrapper
 alias undopush="git push -f origin HEAD^:master"
 alias gs="git status -sb"
 alias gco="git checkout"
@@ -28,30 +47,23 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %
 alias gwip="git add -A && git commit --no-verify -m 'WIP'"
 alias gunwip="git log -n 1 | grep -q -c 'WIP' ; git reset HEAD~1"
 alias nah="echo '(╯°□°)╯︵ ┻━┻' && git reset --hard;git clean -df;"
+alias commit_count='git rev-list --count HEAD ^master'
 
-# List all files colorized in long format
-alias l="ls -lF -G"
-alias ll="ls -lF -G"
-
-# List all files colorized in long format, including dot files
-alias la="ls -laF -G"
-
-# List only directories
-alias lsd='ls -lF -G | grep "^d"'
-
+# Ruby & Rails
 alias be='bundle exec'
 alias r="bundle exec rails"
-
-alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-
-alias resetav="sudo killall VDCAssistant"
-alias c=clear
-
-alias rdebug='rdebug --host 127.0.0.1 --port 1234 -- bin/rails s'
-alias rdebug='rdebug-ide --host 127.0.0.1 --port 1234 -- bin/rails s'
 alias rc="bin/rails console"
 alias rs="bin/rails server"
+alias rdebug='rdebug --host 127.0.0.1 --port 1234 -- bin/rails s'
+alias rdebug='rdebug-ide --host 127.0.0.1 --port 1234 -- bin/rails s'
+alias yundle="yarn install && bundle install"
 
+# PCO stuff
 alias super_tail="grc tail -f ~/Code/**/log/development.log"
-alias super_tail_groups="grc tail -f ~/Code/{api,church-center,groups,people}/log/development.log"
+alias super_tail_publishing="tail -f ~/Code/{api,church-center,publishing}/log/development.log /usr/local/var/log/nginx/{access,error}.log | bat --paging=never -l log"
+
+# Exercism.io
+alias exrb='nvim -O *.rb term://"rerun -x -b --dir . --pattern \"*.rb\" -- ruby -r minitest/pride *_test.rb"'
+alias expy='nvim -O *.py term://"rerun -x -b --dir . --pattern \"*.py\" -- pytest *_test.py"'
+alias exbash='nvim -O *.sh term://"rerun -x --dir . --pattern \"*.sh\" -- bats *_test.sh"'
+alias excr='nvim -O {src,spec}/*.cr term://"rerun -x --dir src,spec --pattern *.cr -- crystal spec"'
