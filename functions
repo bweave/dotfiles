@@ -1,15 +1,5 @@
-function mkd
-{
+function mkd {
     mkdir -p "$@" && cd "$@";
-}
-
-function pco() {
-  if [[ "$1" == "box" ]]; then
-    shift
-    $HOME/pco-box/bin/box "$@"
-  else
-    command pco "$@"
-  fi
 }
 
 # extract any type of compressed file
@@ -35,3 +25,72 @@ function extract {
         echo "'$1' is not a valid file"
     fi
 }
+
+function gbranches() {
+  git branch --sort=committerdate |
+    tail -r |
+    sed 's/^..//' |
+    xargs -I{} -n 1 git log -1 --color --format='%C(green){}%Creset|%ai|%C(dim)%hi%Creset|%C(yellow)%s%Creset' {} |
+    column -t -s "|"
+  }
+
+function fgb() {
+  if [[ "$ZSH_SUBSHELL" == "0" ]]; then
+    git checkout $(fgb)
+  else
+    gbranches |
+      fzf --height 40% --ansi |
+      awk '{print $1}' |
+      sed 's#^remotes/[^/]*/##'
+      fi
+}
+
+case "$OSTYPE" in
+  darwin*)
+    update_pis() {
+      for pi in rpi2 rpi3 rpi4 rpi400; do
+        echo "\n⚙️   Updating $pi...\n"
+        ssh -t $pi "sudo apt-get update && sudo apt-get upgrade -y"
+      done
+    }
+
+  bh() {
+    local cols sep
+    cols=$(( COLUMNS / 3 ))
+    sep='{::}'
+    cp -f ~/Library/Application\ Support/BraveSoftware/Brave-Browser/Default/History /tmp/h
+    sqlite3 -separator $sep /tmp/h "select substr(title, 1, $cols), url from urls order by last_visit_time desc" |
+      awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+      fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+    }
+
+  function dark_mode_toggle {
+    local dark_mode=$(osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode.get()")
+
+    if [[ "$dark_mode" == "true" ]]; then
+      # flip it to light mode
+      osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode.set(false)"
+
+    # set iTerm profile
+    if [[ -z "$TMUX" ]]; then
+      echo -en "\033]50;SetProfile=BWeave Light\a"
+    else
+      echo -en "\033Ptmux;\033\033]50;SetProfile=BWeave Light\a\033\\"
+    fi
+  else
+    # flip it to dark mode
+    osascript -l JavaScript -e "Application('System Events').appearancePreferences.darkMode.set(true)"
+
+    # set iTerm profile
+    if [[ -z "$TMUX" ]]; then
+      echo -en "\033]50;SetProfile=BWeave Dark\a"
+    else
+      echo -en "\033Ptmux;\033\033]50;SetProfile=BWeave Dark\a\033\\"
+    fi
+    fi
+  }
+;;
+linux*)
+  # ...
+  ;;
+esac
