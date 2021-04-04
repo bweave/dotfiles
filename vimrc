@@ -1,3 +1,16 @@
+"  ___      _    __ _ _               __   ___
+" |   \ ___| |_ / _(_) |___ ___  ___  \ \ / (_)_ __
+" | |) / _ \  _|  _| | / -_|_-< |___|  \ V /| | '  \
+" |___/\___/\__|_| |_|_\___/__/         \_/ |_|_|_|_|
+"
+" 1. Base
+" 2. Plugins
+" 3. Settings
+" 4. Mappings
+
+""""""""""""""""""
+" Base
+""""""""""""""""""
 set nocp
 filetype plugin on
 set encoding=UTF-8
@@ -59,6 +72,11 @@ au WinLeave,FocusLost,CmdwinLeave * set nocul
 autocmd FileType javascript iabbrev <buffer> wiplog console.log("WIPLOG",)<left>
 autocmd FileType ruby iabbrev <buffer> wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>
 
+
+""""""""""""""""""
+" Plugins
+""""""""""""""""""
+
 call plug#begin('~/.vim/plugins')
 Plug 'airblade/vim-gitgutter'
 Plug 'AndrewRadev/splitjoin.vim'
@@ -98,6 +116,10 @@ Plug 'wsdjeg/vim-fetch'
 "   Plug 'hrsh7th/nvim-compe'
 " endif
 call plug#end()
+
+""""""""""""""""""
+" Settings
+""""""""""""""""""
 
 " LSP
 " if has('nvim')
@@ -186,21 +208,6 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
-function! Dark()
-	set background=dark
-  colorscheme onehalfdark
-  :AirlineTheme base16
-endfunction
-
-function! Light()
-	set background=light
-  colorscheme onehalflight
-  :AirlineTheme papercolor
-endfunction
-
-command! Light call Light()
-command! Dark call Dark()
-
 
 let g:currentmode={
 \ 'n'  : 'N',
@@ -223,6 +230,11 @@ let g:currentmode={
 \ '!'  : 'S',
 \ 't'  : 'T'
 \}
+
+
+""""""""""""""""""
+" Mappings
+""""""""""""""""""""
 
 let mapleader = "\<Space>"
 
