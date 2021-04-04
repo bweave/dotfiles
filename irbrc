@@ -1,4 +1,5 @@
-require 'irb/ext/save-history'
+# frozen_string_literal: true
 
-#History configuration
+require "irb/ext/save-history"
+
 IRB.conf[:SAVE_HISTORY] = 1000
