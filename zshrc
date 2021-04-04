@@ -3,10 +3,17 @@
 # | |) / _ \  _|  _| | / -_|_-< |___|  / /\__ \ __ |
 # |___/\___/\__|_| |_|_\___/__/       /___|___/_||_|
 #
-# 1. ZSH
-# 2. Aliases
-# 3. Exports
-# 4. Functions
+# 1. Path
+# 2. ZSH
+# 3. Aliases
+# 4. Exports
+# 5. Functions
+
+########################
+# Path
+########################
+
+export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
 
 ########################
 # ZSH
@@ -219,3 +226,8 @@ linux*)
   # ...
   ;;
 esac
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
