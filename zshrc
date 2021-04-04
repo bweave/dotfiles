@@ -125,7 +125,6 @@ esac
 ########################
 
 export ANSIBLE_ROLES_PATH=~/.ansible/roles
-export AWS_CLOUDBOX_EC2_INSTANCE_ID="i-0022c06a166ea7f0e"
 export DISABLE_AUTO_TITLE='true'
 export EDITOR="nvim" # Make vim the default editor
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
@@ -144,7 +143,6 @@ export PCO_BOX_LEAVE_DOCKER_RUNNING=true
 export PRERENDER_SERVICE_URL=http://localhost:3000
 export RAILS_ENV=development
 export RBENV_ROOT=$HOME/.rbenv
-export REACT_APP_TRELLO_API_KEY=516f350ffb583506c2e181417968f310
 export SSH_KEY_PATH="~/.ssh/rsa_id" # ssh
 
 case "$OSTYPE" in
