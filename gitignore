@@ -21,3 +21,6 @@ Session.vim
 .vimrc
 .solargraph.yml
 ETAGS
+.rerun
+.solargraph.yml
+solargraph_rails_definitions.rb
