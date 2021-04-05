@@ -35,8 +35,6 @@ set noswapfile                                     "disable swap files
 set nowrap                                         "disable soft wrap for lines
 set relativenumber number                          "relative line numbers
 set scrolloff=2                                    "always show 2 lines above/below the cursor
-set shell=/usr/local/bin/zsh                       "set the shell to use
-" set shellcmdflag=-i                                " Make :! commands act like shell with aliases, etc.
 set showcmd                                        "don't display incomplete commands
 set smartcase                                      " ..unless they contain at least one capital letter
 set splitbelow                                     "vertical splits will be at the bottom
