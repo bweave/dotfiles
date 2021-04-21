@@ -13,7 +13,7 @@
 # Path
 ########################
 
-export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
+export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$PATH
 
 ########################
 # ZSH
