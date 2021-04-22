@@ -108,12 +108,6 @@ Plug 'vim-crystal/vim-crystal'
 Plug 'vim-test/vim-test'
 Plug 'w0rp/ale'
 Plug 'wsdjeg/vim-fetch'
-
-" Neovim LSP
-" if has('nvim')
-"   Plug 'neovim/nvim-lspconfig'
-"   Plug 'hrsh7th/nvim-compe'
-" endif
 call plug#end()
 
 """"""""""""""""""
