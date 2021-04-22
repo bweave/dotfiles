@@ -19,6 +19,7 @@ set autoindent                                     "always set autoindenting on
 set autoread                                       "automatically read changes in the file
 set backspace=indent,eol,start                     "make backspace behave properly in insert mode
 set clipboard=unnamed                              "use system clipboard; requires has('unnamedplus') to be 1
+set cmdheight=2
 set colorcolumn=121                                "display text width column
 set completeopt=longest,menuone,preview            "better insert mode completions
 set cursorline                                     "highlight current line
@@ -119,23 +120,20 @@ call plug#end()
 " Settings
 """"""""""""""""""
 
-" LSP
-" if has('nvim')
-" lua << EOF
-" -- require("lsp-lang-config")
-" -- require("lsp-autocomplete-config")
-" EOF
+if has('macunix')
+  function! OsDarkModeTheme()
+    if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
+      colorscheme onehalfdark   " for the dark version of the theme
+    else
+      colorscheme onehalflight  " for the light version of the theme
+    endif
+  endfunction
+  " initialize the colorscheme for the first run
+  call OsDarkModeTheme()
+else
+  colorscheme onehalfdark
+endif
 
-  " nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-  " nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>
-  " nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
-  " nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>
-  " nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
-  " nnoremap <silent> <C-s> <cmd>lua vim.lsp.buf.signature_help()<CR>
-" endif
-
-colorscheme onehalfdark
-set cmdheight=2
 let g:airline_theme="base16"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#obsession#indicator_text = "⚡️ "
