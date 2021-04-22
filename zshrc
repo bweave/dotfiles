@@ -5,15 +5,22 @@
 #
 # 1. Path
 # 2. ZSH
-# 3. Aliases
-# 4. Exports
-# 5. Functions
+# 3. PCO
+# 4. Ruby
+# 5. Nvm
+# 6. Aliases
+# 7. Exports
+# 8. Functions
+
+include () {
+  [[ -f "$1" ]] && source "$1" || echo "$1 not found"
+}
 
 ########################
 # Path
 ########################
 
-export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$PATH
+export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$HOME/Code/pco/bin:$PATH
 
 ########################
 # ZSH
@@ -21,7 +28,7 @@ export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$PATH
 
 export ZSH=~/.oh-my-zsh # Path to your oh-my-zsh installation.
 ZSH_THEME="powerlevel10k/powerlevel10k"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=244'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 
 plugins=(extract fzf zsh-autosuggestions)
 
@@ -32,17 +39,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-include () {
-  [[ -f "$1" ]] && source "$1" || echo "$1 not found"
-}
-
 include $ZSH/oh-my-zsh.sh
 include $HOME/.p10k.zsh
 include $HOME/.fzf.zsh
 include $HOME/.secrets
-eval "$(rbenv init -)"
-[[ -f $HOME/Code/pco/bin/pco ]] && eval "$($HOME/Code/pco/bin/pco init -)"
-unsetopt nomatch # for rake tasks with args
 
 case "$OSTYPE" in
   darwin*)
@@ -52,6 +52,28 @@ case "$OSTYPE" in
     include "/usr/share/autojump/autojump.sh"
     ;;
 esac
+
+########################
+# Ruby
+########################
+
+if type rbenv > /dev/null; then
+  eval "$(rbenv init -)"
+fi
+unsetopt nomatch # for rake tasks with args
+
+########################
+# PCO
+########################
+
+[[ -f $HOME/Code/pco/bin/pco ]] && eval "$($HOME/Code/pco/bin/pco init -)"
+
+########################
+# Nvm
+########################
+
+include "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+include "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 ########################
 # Aliases
@@ -151,6 +173,7 @@ export PRERENDER_SERVICE_URL=http://localhost:3000
 export RAILS_ENV=development
 export RBENV_ROOT=$HOME/.rbenv
 export SSH_KEY_PATH="~/.ssh/rsa_id" # ssh
+export NVM_DIR="$HOME/.nvm"
 
 case "$OSTYPE" in
   darwin*)
@@ -226,8 +249,3 @@ linux*)
   # ...
   ;;
 esac
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
