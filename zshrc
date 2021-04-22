@@ -28,7 +28,6 @@ export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$HOME/Code/pco
 
 export ZSH=~/.oh-my-zsh # Path to your oh-my-zsh installation.
 ZSH_THEME="powerlevel10k/powerlevel10k"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=5'
 
 plugins=(extract fzf zsh-autosuggestions)
 
@@ -174,6 +173,7 @@ export RAILS_ENV=development
 export RBENV_ROOT=$HOME/.rbenv
 export SSH_KEY_PATH="~/.ssh/rsa_id" # ssh
 export NVM_DIR="$HOME/.nvm"
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#d75f87'
 
 case "$OSTYPE" in
   darwin*)
