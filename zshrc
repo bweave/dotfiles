@@ -12,11 +12,6 @@
 # 7. Exports
 # 8. Functions
 
-# https://werat.dev/blog/happy-ssh-agent-forwarding/
-if [ ! -S ~/.ssh/ssh_auth_sock ] && [ -S "$SSH_AUTH_SOCK" ]; then
-  ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-fi
-
 include () {
   [[ -f "$1" ]] && source "$1" || echo "$1 not found"
 }
