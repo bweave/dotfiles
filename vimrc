@@ -15,6 +15,7 @@ set nocp
 filetype plugin on
 set encoding=UTF-8
 
+set mouse=a
 set autoindent                                     "always set autoindenting on
 set autoread                                       "automatically read changes in the file
 set backspace=indent,eol,start                     "make backspace behave properly in insert mode
