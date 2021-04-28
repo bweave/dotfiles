@@ -20,7 +20,7 @@ include () {
 # Path
 ########################
 
-export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$HOME/Code/pco/bin:$PATH
+export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$HOME/pco/bin:$PATH
 
 ########################
 # ZSH
