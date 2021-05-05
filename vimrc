@@ -70,8 +70,10 @@ au WinLeave,FocusLost,CmdwinLeave * set nocul
 
 "wiplog
 autocmd FileType javascript iabbrev <buffer> wiplog console.log("WIPLOG",)<left>
-autocmd FileType ruby iabbrev <buffer> wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>
+" autocmd FileType ruby iabbrev <buffer> wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>
 
+"Co-authored-by
+autocmd FileType gitcommit iabbrev <buffer> co Co-authored-by: SOMEONE <HANDLE@users.noreply.github.com>
 
 """"""""""""""""""
 " Plugins
@@ -109,6 +111,11 @@ Plug 'vim-crystal/vim-crystal'
 Plug 'vim-test/vim-test'
 Plug 'w0rp/ale'
 Plug 'wsdjeg/vim-fetch'
+
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
 call plug#end()
 
 """"""""""""""""""
@@ -164,7 +171,7 @@ let g:ale_fixers = {
 \}
 let g:ale_fix_on_save = 1
 if has('nvim')
-  let test#strategy = "neoterm"
+  let test#strategy = "neovim"
 elseif has('gui_macvim')
   let test#strategy = "iterm"
 else
@@ -174,8 +181,10 @@ let g:test#preserve_screen = 1
 let test#neovim#term_position = "vert botright 80"
 let g:neoterm_default_mod = "vert botright 80"
 let test#vim#term_position = "vert botright 80"
-let g:user_emmet_expandabbr_key='<Tab>'
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_install_global = 0
+" autocmd FileType html EmmetInstall
+" let g:user_emmet_expandabbr_key='<Tab>'
+" autocmd FileType html imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " If another buffer tries to replace NERDTree, put in the other window, and bring back NERDTree.
 autocmd BufEnter * if bufname('#') =~ 'NERD_tree_\d\+' && bufname('%') !~ 'NERD_tree_\d\+' && winnr('$') > 1 |
