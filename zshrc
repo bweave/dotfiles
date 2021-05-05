@@ -124,6 +124,9 @@ alias rdebug='rdebug --host 127.0.0.1 --port 1234 -- bin/rails s'
 alias rdebug='rdebug-ide --host 127.0.0.1 --port 1234 -- bin/rails s'
 alias yundle="yarn install && bundle install"
 
+# React Native
+alias rn_clean="watchman watch-del-all && killall -9 node && rm -rf yarn.lock package-lock.json node_modules ios/Pods ios/Podfile.lock android/app/build && npm install && cd ios && pod update && cd .. && npm start -- --reset-cache"
+
 # PCO stuff
 alias super_tail="grc tail -f ~/Code/**/log/development.log"
 alias super_tail_publishing="tail -f ~/Code/{api,church-center,publishing}/log/development.log /usr/local/var/log/nginx/{access,error}.log | bat --paging=never -l log"
