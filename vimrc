@@ -58,6 +58,10 @@ if exists('+termguicolors')
   set termguicolors
 endif
 
+if has('nvim')
+  set inccommand=nosplit
+endif
+
 "remove trailing whitespace on save
 autocmd! BufWritePre * :%s/\s\+$//e
 
