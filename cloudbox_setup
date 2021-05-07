@@ -53,6 +53,14 @@ if [ ! -f $HOME/.vim/autoload/plug.vim ]; then
   nvim +PlugInstall +qall
 fi
 
+# Setup neovim-remote
+if ! command -v nvr; then
+  if ! command -v pip3; then
+    sudo apt install -y python3-pip
+  fi
+  pip3 install neovim-remote
+if
+
 # Install AWS-CLI if needed
 if ! command -v aws; then
   pushd /tmp &> /dev/null

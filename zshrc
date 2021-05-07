@@ -20,7 +20,22 @@ include () {
 # Path
 ########################
 
-export PATH=$HOME/.rbenv/shims:$HOME/.rbenv/bin:$HOME/pco-box/bin:$HOME/pco/bin:$PATH
+# if the dir exists and it's not already in PATH, prepend it
+path_prepend() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="$1${PATH:+":$PATH"}"
+  else
+    echo PATH already includes "$1"
+  fi
+}
+
+path_prepend $HOME/.rbenv/shims
+path_prepend $HOME/.rbenv/bin
+path_prepend $HOME/pco-box/bin
+path_prepend $HOME/pco/bin
+path_prepend $HOME/.local/bin
+
+export PATH
 
 ########################
 # ZSH
@@ -158,7 +173,11 @@ esac
 export ANSIBLE_ROLES_PATH=~/.ansible/roles
 export DISABLE_AUTO_TITLE='true'
 export EDITOR="nvim" # Make vim the default editor
-export VISUAL="nvim" # Make vim the default editor
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+  export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'" # nvr allows us to use the current nvim instance from an nvim terminal
+else
+  export VISUAL="nvim" # Make vim the default editor
+fi
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=$HISTSIZE
