@@ -158,6 +158,7 @@ esac
 export ANSIBLE_ROLES_PATH=~/.ansible/roles
 export DISABLE_AUTO_TITLE='true'
 export EDITOR="nvim" # Make vim the default editor
+export VISUAL="nvim" # Make vim the default editor
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=$HISTSIZE
