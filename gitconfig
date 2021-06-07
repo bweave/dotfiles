@@ -14,3 +14,5 @@
   default = current
 [alias]
   stashdiff = stash show -
+[init]
+	defaultBranch = main
