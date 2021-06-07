@@ -53,6 +53,13 @@ if [ ! -f $HOME/.vim/autoload/plug.vim ]; then
   nvim +PlugInstall +qall
 fi
 
+# Setup my Ruby neovim plugins
+nvim_ruby_plugins_dir = $HOME/.config/nvim/rplugin/ruby
+if [ ! -d nvim_ruby_plugins_dir ]; then
+  mkdir -p nvim_ruby_plugins_dir
+  git clone git@github.com:bweave/nvim-plugins.git nvim_ruby_plugins_dir
+fi
+
 # Setup neovim-remote
 if ! command -v nvr; then
   if ! command -v pip3; then
