@@ -15,12 +15,12 @@ set nocp
 filetype plugin on
 set encoding=UTF-8
 
-set mouse=a
+set mouse=i
 set autoindent                                     "always set autoindenting on
 set autoread                                       "automatically read changes in the file
 set backspace=indent,eol,start                     "make backspace behave properly in insert mode
 set clipboard=unnamed                              "use system clipboard; requires has('unnamedplus') to be 1
-set cmdheight=2
+" set cmdheight=2
 set colorcolumn=121                                "display text width column
 set completeopt=longest,menuone,preview            "better insert mode completions
 set cursorline                                     "highlight current line
@@ -95,7 +95,7 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'kassio/neoterm'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mattn/emmet-vim'
-Plug 'morhetz/gruvbox'
+Plug 'lifepillar/vim-gruvbox8'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'preservim/nerdtree'
@@ -130,8 +130,10 @@ if has('macunix')
   function! OsDarkModeTheme()
     if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
       colorscheme onehalfdark   " for the dark version of the theme
+      set background=dark
     else
       colorscheme onehalflight  " for the light version of the theme
+      set background=light
     endif
   endfunction
   " initialize the colorscheme for the first run
@@ -292,3 +294,9 @@ highlight LineHighlight ctermbg=239 guibg=#474e5d
 nnoremap <silent> <Leader>hl :call matchadd('LineHighlight', '\%'.line('.').'l')<CR>
 " clear all the highlighted lines
 nnoremap <silent> <Leader>cl :call clearmatches()<CR>
+
+" Convert Ruby hash keys
+nnoremap <Leader>ht :HashKeysToString<CR>
+vnoremap <Leader>ht :HashKeysToString<CR>
+nnoremap <Leader>hy :HashKeysToSymbol<CR>
+vnoremap <Leader>hy :HashKeysToSymbol<CR>
