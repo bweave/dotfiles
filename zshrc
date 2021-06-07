@@ -272,3 +272,9 @@ linux*)
   # ...
   ;;
 esac
+
+########################
+# iTerm Shell Integration
+########################
+
+include $HOME/.iterm2_shell_integration.zsh
