@@ -87,7 +87,6 @@ call plug#begin('~/.vim/plugins')
 Plug 'airblade/vim-gitgutter'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'gabrielelana/vim-markdown'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -101,8 +100,10 @@ Plug 'maxmellon/vim-jsx-pretty'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'slim-template/vim-slim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
@@ -148,8 +149,10 @@ let g:airline#extensions#obsession#indicator_text = "⚡️ "
 let g:airline#extensions#ale#error_symbol = "❕"
 let g:airline#extensions#ale#warning_symbol = "❔"
 
+let g:markdown_fenced_languages = ['css', 'html', 'python', 'ruby', 'javascript', 'typescript=javascript', 'zsh=sh', 'bash=sh', 'vim']
 let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
+let g:splitjoin_trailing_comma = 1
 let g:vim_jsx_pretty_colorful_config = 1
 let g:markdown_enable_spell_checking = 0
 let g:any_jump_search_prefered_engine = 'ag'
