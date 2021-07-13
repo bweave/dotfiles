@@ -273,6 +273,31 @@ linux*)
   ;;
 esac
 
+function start_all_pco_apps() {
+  Apps=(
+    accounts
+    api
+    avatars
+    check-ins
+    church-center
+    giving groups
+    helpdesk
+    login
+    notifications
+    people
+    publishing
+    registrations
+    resources
+    services
+    webhooks
+  )
+
+  for app in ${Apps[*]}
+  do
+    { curl -v $app.pco.test & }
+  done
+}
+
 ########################
 # iTerm Shell Integration
 ########################
