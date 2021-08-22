@@ -81,6 +81,9 @@ autocmd FileType javascript iabbrev <buffer> wiplog console.log("WIPLOG",)<left>
 "Co-authored-by
 autocmd FileType gitcommit iabbrev <buffer> co Co-authored-by: SOMEONE <HANDLE@users.noreply.github.com>
 
+" php
+autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4
+
 """"""""""""""""""
 " Plugins
 """"""""""""""""""
