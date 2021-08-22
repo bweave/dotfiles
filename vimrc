@@ -379,7 +379,7 @@ nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>c :Commits<cr>
 nnoremap <leader>C :Colors<cr>
 nnoremap <leader>gd :exec("tag ".expand("<cword>"))<cr>
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :vertical Git<CR>
 nnoremap <leader>j :SplitjoinSplit<cr>
 nnoremap <leader>k :SplitjoinJoin<cr>
 nnoremap <leader>s :Ag <C-R><C-W><CR>
