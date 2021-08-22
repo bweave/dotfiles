@@ -7,6 +7,7 @@
 " 2. Plugins
 " 3. Settings
 " 4. Mappings
+" 5. Functions
 
 """"""""""""""""""
 " Base
@@ -303,3 +304,19 @@ nnoremap <Leader>ht :HashKeysToString<CR>
 vnoremap <Leader>ht :HashKeysToString<CR>
 nnoremap <Leader>hy :HashKeysToSymbol<CR>
 vnoremap <Leader>hy :HashKeysToSymbol<CR>
+
+""""""""""""""""""
+" Functions
+""""""""""""""""""""
+
+function! SynGroup()
+  let l:s = synID(line('.'), col('.'), 1)
+  echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfunction
+
+function! ToggleCopyPasta()
+  set invnumber
+  set invrelativenumber
+  :GitGutterToggle
+endfunction
+nnoremap <leader>cp :call ToggleCopyPasta()<CR>
