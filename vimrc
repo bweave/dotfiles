@@ -92,6 +92,7 @@ call plug#begin('~/.vim/plugins')
 Plug 'airblade/vim-gitgutter'
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'joshdick/onedark.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -103,7 +104,6 @@ Plug 'lifepillar/vim-gruvbox8'
 Plug 'pangloss/vim-javascript'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'preservim/nerdtree'
-Plug 'ryanoasis/vim-devicons'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'slim-template/vim-slim'
 Plug 'terryma/vim-multiple-cursors'
@@ -113,10 +113,9 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-rails'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-crystal/vim-crystal'
 Plug 'vim-test/vim-test'
 Plug 'w0rp/ale'
@@ -126,40 +125,155 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'tomtom/tlib_vim'
 Plug 'garbas/vim-snipmate'
 Plug 'honza/vim-snippets'
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'rktjmp/lush.nvim'
+Plug '~/src/bweave-nvim'
+Plug '~/src/nord-light'
+
+Plug 'hoob3rt/lualine.nvim'
+Plug 'akinsho/bufferline.nvim'
+
+Plug 'neovim/nvim-lspconfig'
 call plug#end()
 
 """"""""""""""""""
 " Settings
 """"""""""""""""""
 
+let g:nvim_tree_follow = 1
+
+lua <<EOF
+require'lspconfig'.solargraph.setup{}
+
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below funcs
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+end
+
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { "solargraph", "tsserver" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+      }
+    }
+end
+
+require'lualine'.setup {
+  options = {
+    icons_enabled = true,
+    theme = 'onedark',
+    component_separators = {'', ''},
+    section_separators = {'', ''},
+    disabled_filetypes = {}
+    },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff'},
+    lualine_c = {{'filename', file_status = true}},
+    lualine_x = {'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location',
+      {
+        'diagnostics',
+        -- table of diagnostic sources, available sources:
+        -- nvim_lsp, coc, ale, vim_lsp
+        sources = {'nvim_lsp', 'ale'},
+        -- displays diagnostics from defined severity
+        sections = {'error', 'warn', 'info', 'hint'},
+        -- all colors are in format #rrggbb
+        color_error = "#ff0000", -- changes diagnostic's error foreground color
+        color_warn = "#ff0000", -- changes diagnostic's warn foreground color
+        color_info = "#ff0000", -- Changes diagnostic's info foreground color
+        color_hint = "#ff0000", -- Changes diagnostic's hint foreground color
+        symbols = {error = '🚫', warn = '⚠️', info = 'I', hint = 'H'}
+      }
+    }
+    },
+  inactive_sections = {
+    lualine_a = {},
+    lualine_b = {},
+    lualine_c = {{'filename', file_status = true}},
+    lualine_x = {'location'},
+    lualine_y = {},
+    lualine_z = {}
+    },
+  tabline = {},
+  extensions = {
+    'fugitive',
+    'fzf',
+    'nerdtree',
+    'nvim-tree'
+    }
+  }
+
+require'bufferline'.setup{
+  options = {
+    numbers = "ordinal"
+    }
+  }
+EOF
+
+let g:dark_theme = "bweave"
+let g:light_theme = "onehalflight"
 if has('macunix')
   function! OsDarkModeTheme()
     if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
-      colorscheme onehalfdark   " for the dark version of the theme
+      exec 'colorscheme' g:dark_theme
       set background=dark
     else
-      colorscheme onehalflight  " for the light version of the theme
+      exec 'colorscheme' g:light_theme
       set background=light
     endif
   endfunction
   " initialize the colorscheme for the first run
   call OsDarkModeTheme()
 else
-  colorscheme onehalfdark
+  exec 'colorscheme' g:dark_theme
+  set background=dark
 endif
 
-let g:airline_theme="base16"
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#obsession#indicator_text = "⚡️ "
-let g:airline#extensions#ale#error_symbol = "❕"
-let g:airline#extensions#ale#warning_symbol = "❔"
-
-let g:markdown_fenced_languages = ['css', 'html', 'python', 'ruby', 'javascript', 'typescript=javascript', 'zsh=sh', 'bash=sh', 'vim']
+let g:markdown_fenced_languages = ['bash=sh', 'css', 'html', 'javascript', 'typescript=javascript', 'json', 'php', 'python', 'ruby', 'sql', 'vim', 'yaml', 'zsh=sh']
+let g:markdown_enable_spell_checking = 0
 let g:splitjoin_split_mapping = ''
 let g:splitjoin_join_mapping = ''
 let g:splitjoin_trailing_comma = 1
 let g:vim_jsx_pretty_colorful_config = 1
-let g:markdown_enable_spell_checking = 0
 let g:any_jump_search_prefered_engine = 'ag'
 let g:any_jump_grouping_enabled = 1
 let b:preferred_searcher = 'ag'
@@ -282,12 +396,11 @@ nnoremap <C-P> :FZF<cr>
 nnoremap <leader>/ :Commentary<CR>
 vnoremap <leader>/ :Commentary<CR>
 nnoremap <leader>BD :BD<cr>
-nnoremap <leader>E :NERDTreeToggle<CR>
 nnoremap <leader>S :tab drop .vscode/scratchpad_local.md<CR>
 nnoremap <leader>O :vs ~/Desktop/Onboarding.md<CR>
 nnoremap <leader>b :Buffers<cr>
-nnoremap <leader>c :Colors<cr>
-nnoremap <leader>f :NERDTreeFind<CR>
+nnoremap <leader>c :Commits<cr>
+nnoremap <leader>C :Colors<cr>
 nnoremap <leader>gd :exec("tag ".expand("<cword>"))<cr>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>j :SplitjoinSplit<cr>
@@ -296,6 +409,9 @@ nnoremap <leader>s :Ag <C-R><C-W><CR>
 nnoremap <leader>t :TestFile<CR>
 nnoremap <leader>T :TestNearest<CR>
 
+nnoremap <leader>E :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>f :NvimTreeFindFile<CR>
 " define line highlight color
 highlight LineHighlight ctermbg=239 guibg=#474e5d
 " highlight the current line
