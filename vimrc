@@ -39,6 +39,7 @@ set nowrap                                         "disable soft wrap for lines
 set relativenumber number                          "relative line numbers
 set scrolloff=2                                    "always show 2 lines above/below the cursor
 set showcmd                                        "don't display incomplete commands
+set showtabline=2                                  "always show the tabline
 set smartcase                                      " ..unless they contain at least one capital letter
 set splitbelow                                     "vertical splits will be at the bottom
 set splitright                                     "horizontal splits will be to the right
