@@ -21,7 +21,6 @@ set autoindent                                     "always set autoindenting on
 set autoread                                       "automatically read changes in the file
 set backspace=indent,eol,start                     "make backspace behave properly in insert mode
 set clipboard=unnamed                              "use system clipboard; requires has('unnamedplus') to be 1
-" set cmdheight=2
 set colorcolumn=121                                "display text width column
 set completeopt=longest,menuone,preview            "better insert mode completions
 set cursorline                                     "highlight current line
@@ -52,7 +51,6 @@ set wildmode=longest:full,full
 
 set t_Co=256                        "enable 256 colors
 set background=dark
-" hi Normal guibg=NONE ctermbg=NONE "with a transparent terminal, this is nice
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -197,7 +195,7 @@ end
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'onedark',
+    theme = 'wombat',
     component_separators = {'', ''},
     section_separators = {'', ''},
     disabled_filetypes = {}
@@ -250,7 +248,7 @@ require'bufferline'.setup{
 EOF
 
 let g:dark_theme = "bweave"
-let g:light_theme = "onehalflight"
+let g:light_theme = "nord-light"
 if has('macunix')
   function! OsDarkModeTheme()
     if system("defaults read -g AppleInterfaceStyle") =~ '^Dark'
