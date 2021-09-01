@@ -30,10 +30,7 @@ path_prepend() {
 }
 
 path_prepend $HOME/.rbenv/shims
-path_prepend $HOME/.rbenv/bin
-path_prepend $HOME/pco-box/bin
 path_prepend $HOME/pco/bin
-path_prepend $HOME/.local/bin
 
 export PATH
 
@@ -80,7 +77,7 @@ unsetopt nomatch # for rake tasks with args
 # PCO
 ########################
 
-[[ -f $HOME/Code/pco/bin/pco ]] && eval "$($HOME/Code/pco/bin/pco init -)"
+include ~/pco-box/env.sh
 
 ########################
 # Nvm
@@ -187,13 +184,9 @@ export LANG="en_US" # Prefer US English and use UTF-8
 export LC_ALL="en_US.UTF-8"
 export LESS_TERMCAP_md="$ORANGE" # Highlight section titles in manual pages
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
-export MYSQL_PORT_3306_TCP_ADDR=127.0.0.1
-export MYSQL_READER_PORT_3306_TCP_ADDR=127.0.0.1
-export MYSQL_READER_PORT_3306_TCP_PORT=3307
 export PCO_BOX_LEAVE_DOCKER_RUNNING=true
 export PRERENDER_SERVICE_URL=http://localhost:3000
 export RAILS_ENV=development
-export RBENV_ROOT=$HOME/.rbenv
 export SSH_KEY_PATH="~/.ssh/rsa_id" # ssh
 export NVM_DIR="$HOME/.nvm"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#d75f87'
