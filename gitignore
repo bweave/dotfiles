@@ -25,3 +25,4 @@ ETAGS
 .solargraph.yml
 solargraph_rails_definitions.rb
 config/definitions.rb
+projections.json

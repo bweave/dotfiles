@@ -16,7 +16,7 @@ set nocp
 filetype plugin on
 set encoding=UTF-8
 
-set mouse=i
+set mouse=a
 set autoindent                                     "always set autoindenting on
 set autoread                                       "automatically read changes in the file
 set backspace=indent,eol,start                     "make backspace behave properly in insert mode
@@ -166,7 +166,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<M-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -197,7 +197,7 @@ end
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'onedark',
+    theme = 'wombat',
     component_separators = {'', ''},
     section_separators = {'', ''},
     disabled_filetypes = {}
