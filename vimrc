@@ -134,6 +134,8 @@ Plug 'hoob3rt/lualine.nvim'
 Plug 'akinsho/bufferline.nvim'
 
 Plug 'neovim/nvim-lspconfig'
+
+Plug 'wincent/vim-clipper'
 call plug#end()
 
 """"""""""""""""""

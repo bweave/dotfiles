@@ -34,13 +34,13 @@ popd &> /dev/null
 if [ ! -d $HOME/dotfiles ]; then
   git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
   pushd $HOME/dotfiles &> /dev/null
-    for dotfile in eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf vimrc zshrc; do
+    for dotfile in eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.linux vimrc zshrc; do
       if [ ! -f $HOME/.$dotfile ]; then
         ln -s $dotfile $HOME/.$dotfile
       fi
     done
     mkdir -p $HOME/config/nvim
-    [ ! -f $HOME/config/nvim/init.vim ] && ln -s init.vim $HOME/config/nvim/init.vim
+    [ ! -f $HOME/config/nvim/init.lua ] && ln -s init.lua $HOME/config/nvim/init.lua
     [ ! -f $HOME/.ssh/rc ] && ln -s ssh_rc $HOME/.ssh/rc
     [ ! -f $HOME/.secrets ] && touch $HOME/.secrets
   popd &> /dev/null

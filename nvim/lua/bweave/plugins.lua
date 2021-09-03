@@ -47,5 +47,6 @@ paq {'tpope/vim-surround'}
 paq {'vim-crystal/vim-crystal'}
 paq {'vim-test/vim-test'}
 paq {'w0rp/ale'}
+paq {'wincent/vim-clipper'}
 paq {'wsdjeg/vim-fetch'}
 paq {'Glench/Vim-Jinja2-Syntax'}
