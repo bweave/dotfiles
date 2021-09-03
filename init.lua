@@ -18,9 +18,11 @@ function OsDarkModeTheme()
   end
 end
 
-if (vim.fn.has('macunix')) then
+if (vim.fn.has('macunix') == 1) then
+  print('dark')
   OsDarkModeTheme()
 else
+  print('light')
   vim.cmd('colorscheme ' .. darkTheme)
   vim.cmd 'set background=dark'
 end
