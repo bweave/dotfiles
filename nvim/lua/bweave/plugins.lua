@@ -1,10 +1,5 @@
 -- Plugins
 
--- Local plugins
-vim.opt.runtimepath:append("~/src/bweave-nvim") -- my dark theme built with Lush
-vim.opt.runtimepath:append("~/src/nord-light")  -- Nord light theme built with Lush
-vim.cmd 'colorscheme bweave'
-
 -- auto-install paq if needed
 local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/paqs/start/paq-nvim'
@@ -50,3 +45,8 @@ paq {'w0rp/ale'}
 paq {'wincent/vim-clipper'}
 paq {'wsdjeg/vim-fetch'}
 paq {'Glench/Vim-Jinja2-Syntax'}
+
+-- Local plugins
+vim.opt.runtimepath:append("~/src/bweave-nvim") -- my dark theme built with Lush
+vim.opt.runtimepath:append("~/src/nord-light")  -- Nord light theme built with Lush
+vim.cmd 'colorscheme bweave'
