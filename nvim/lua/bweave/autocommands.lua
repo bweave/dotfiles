@@ -4,7 +4,6 @@ local cmd = vim.cmd  -- to execute Vim commands e.g. cmd('pwd')
 
 -- Autocommands
 
-cmd 'au BufWritePre * :%s/\\s\\+$//e' -- remove trailing whitespace on save
 cmd 'autocmd VimResized * wincmd ='       -- automatically resize splits when resizing the window
 cmd 'autocmd FileType javascript iabbrev <buffer> wiplog console.log("WIPLOG",)<left>' -- wiplog JS
 cmd 'autocmd FileType ruby iabbrev <buffer> wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>' -- wiplog Ruby
