@@ -17,6 +17,9 @@ map('', '<c-h>', '<c-w>h')
 -- Quickly edit/reload the init.lua file
 map('n', '<leader>ei', ':e ~/.config/nvim/init.lua<CR>')
 map('n', '<leader>ri', ':so ~/.config/nvim/init.lua<CR>')
+map('n', '<leader>ep', ':e ~/.config/nvim/lua/bweave/plugins.lua<CR>')
+map('n', '<leader>eps', ':e ~/.config/nvim/lua/bweave/plugin_settings.lua<CR>')
+map('n', '<leader>em', ':e ~/.config/nvim/lua/bweave/mappings.lua<CR>')
 
 -- Quickly edit/reload the vimrc file
 map('n', '<leader>ev', ':e ~/.vimrc<CR>')
@@ -42,7 +45,7 @@ map('v', '>', '>gv')
 map('n', '<C-P>', ':FZF<cr>')
 map('n', '<leader>b', ':Buffers<cr>')
 map('n', '<leader>c', ':Commits<cr>')
-map('n', '<leader>C', ':Colors<cr>')
+map('n', '<leader>C', ':lua require("bweave.functions.colors").colors()<CR>')
 
 map('n', '<leader>/', ':Commentary<CR>')
 map('v', '<leader>/', ':Commentary<CR>')

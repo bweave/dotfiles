@@ -25,11 +25,11 @@ vim.g['test#vim#term_position'] = "vert botright 80"
 vim.g.neoterm_default_mod = "vert botright 80"
 
 -- emmet
-vim.g.user_emmet_install_global = 0
+vim.g.user_emmet_leader_key = ','
 
 -- treesitter
-local ts = require 'nvim-treesitter.configs'
-ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
+-- local ts = require 'nvim-treesitter.configs'
+-- ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
 
 -- lsp
 local lsp = require 'lspconfig'
