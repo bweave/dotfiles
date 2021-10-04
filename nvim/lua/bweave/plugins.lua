@@ -16,6 +16,7 @@ paq {'akinsho/bufferline.nvim'}
 paq {'hoob3rt/lualine.nvim'}
 paq {'junegunn/fzf', run = fn['fzf#install']}
 paq {'junegunn/fzf.vim'}
+paq {'junegunn/vim-peekaboo'}
 paq {'kassio/neoterm'} -- TODO: mappings to make this useful?
 paq {'kosayoda/nvim-lightbulb'}
 paq {'kyazdani42/nvim-tree.lua'}
