@@ -3,6 +3,7 @@
 -- ale
 vim.g.ale_fix_on_save = 1
 vim.g.ale_ruby_rubocop_executable = 'bundle'
+vim.g.ale_ruby_ruby_executable = '~/.rbenv/shims/ruby'
 vim.g.ale_linters = {
    ruby = {'rubocop'},
    javascript = {'eslint'},
