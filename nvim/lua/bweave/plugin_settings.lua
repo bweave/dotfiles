@@ -29,7 +29,13 @@ vim.g.user_emmet_leader_key = ','
 
 -- treesitter
 -- local ts = require 'nvim-treesitter.configs'
--- ts.setup {ensure_installed = 'maintained', highlight = {enable = true}}
+-- ts.setup {
+--   ensure_installed = 'maintained',
+--   highlight = {
+--     enable = true,
+--     additional_vim_regex_highlighting = true, -- compatibility with ruby endwise
+--   },
+-- }
 
 -- lsp
 local lsp = require 'lspconfig'
