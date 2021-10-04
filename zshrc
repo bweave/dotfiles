@@ -113,6 +113,7 @@ eval "$(hub alias -s)" # Use `hub` as our git wrapper
 alias undopush="git push -f origin HEAD^:master"
 alias gs="git status -sb"
 alias gco="git checkout"
+alias gcb="git branch | fzf | xargs git checkout"
 alias gc="git commit -m "
 alias gpub='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
 alias gunpub='git push origin :$(git rev-parse --abbrev-ref HEAD)'
