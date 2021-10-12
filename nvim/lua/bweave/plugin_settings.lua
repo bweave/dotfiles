@@ -49,6 +49,8 @@ lsp.solargraph.setup {}
 lsp.tsserver.setup {}
 lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
 
+require'nvim-tree'.setup()
+
 -- lualine
 local lualine = require 'lualine'
 lualine.setup {
