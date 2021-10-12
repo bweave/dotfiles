@@ -7,12 +7,16 @@ vim.g.ale_ruby_ruby_executable = '~/.rbenv/shims/ruby'
 vim.g.ale_linters = {
    ruby = {'rubocop'},
    javascript = {'eslint'},
+   javascriptreact = {'eslint'},
    css = {'eslint'},
+   sql = {'sqlint'},
+   mysql = {'sqlint'},
 }
 vim.g.ale_fixers = {
   ['*'] = {'remove_trailing_lines', 'trim_whitespace'},
    ruby = {'rubocop'},
    javascript = {'eslint'},
+   javascriptreact = {'eslint'},
    css = {'eslint'},
 }
 
