@@ -30,7 +30,7 @@ path_prepend() {
 }
 
 path_prepend $HOME/.rbenv/shims
-path_prepend $HOME/pco/bin
+path_prepend $HOME/Code/pco/bin
 
 export PATH
 
@@ -83,8 +83,12 @@ include ~/pco-box/env.sh
 # Nvm
 ########################
 
-include "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-include "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+case "$OSTYPE" in
+  darwin*)
+    include "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+    include "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+    ;;
+esac
 
 ########################
 # Aliases
@@ -296,4 +300,4 @@ function start_all_pco_apps() {
 # iTerm Shell Integration
 ########################
 
-include $HOME/.iterm2_shell_integration.zsh
+# include $HOME/.iterm2_shell_integration.zsh

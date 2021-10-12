@@ -4,7 +4,7 @@ sudo apt update
 sudo apt dist-upgrade -y
 
 # Install some packages
-sudo apt install -y exuberant-ctags silversearcher-ag ripgrep autojump
+sudo apt install -y exuberant-ctags hub silversearcher-ag ripgrep autojump zsh-autosuggestions
 
 # Check if zsh is intalled and install if needed
 if ! command -v zsh; then
@@ -19,6 +19,10 @@ fi
 # Install oh-my-zsh
 if [ ! -d $HOME/.oh-my-zsh ]; then
   sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+fi
+
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
 # Install powerlevel10k theme
@@ -38,8 +42,9 @@ pushd $HOME/dotfiles &> /dev/null
   for dotfile in eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.linux vimrc zshrc; do
     ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
   done
-  mkdir -p $HOME/.config/nvim
+  mkdir -p $HOME/.config/nvim/lua
   ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
+  ln -sf $HOME/dotfiles/nvim/lua/bweave $HOME/.config/nvim/lua/bweave
   ln -sf $HOME/dotfiles/ssh_rc $HOME/.ssh/rc
   touch $HOME/.secrets
 popd &> /dev/null
