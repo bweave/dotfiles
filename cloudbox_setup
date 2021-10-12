@@ -4,10 +4,7 @@ sudo apt update
 sudo apt dist-upgrade -y
 
 # Install some packages
-sudo apt install -y exuberant-ctags silversearcher-ag ripgrep autojump xclip
-
-# TODO: instll neovim from snap until v0.5 is available from apt
-# TODO: manually install fzf!
+sudo apt install -y exuberant-ctags silversearcher-ag ripgrep autojump
 
 # Check if zsh is intalled and install if needed
 if ! command -v zsh; then
@@ -15,7 +12,7 @@ if ! command -v zsh; then
 fi
 
 # Set zsh as the default shell from the current user
-if [ ! "$SHELL" =~ "zsh" ]; then
+if [ ! "$SHELL" = "zsh" ]; then
   sudo chsh $(whoami) -s $(which zsh)
 fi
 
@@ -33,47 +30,34 @@ pushd $HOME/.oh-my-zsh/custom &> /dev/null
   popd &> /dev/null
 popd &> /dev/null
 
-# TODO: setup clipper!
-
 # Setup dotfiles
 if [ ! -d $HOME/dotfiles ]; then
   git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
-  pushd $HOME/dotfiles &> /dev/null
-    for dotfile in eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.linux vimrc zshrc; do
-      if [ ! -f $HOME/.$dotfile ]; then
-        ln -s $dotfile $HOME/.$dotfile
-      fi
-    done
-    mkdir -p $HOME/config/nvim
-    [ ! -f $HOME/.config/nvim/init.lua ] && ln -s init.lua $HOME/.config/nvim/init.lua
-    [ ! -f $HOME/.ssh/rc ] && ln -s ssh_rc $HOME/.ssh/rc
-    [ ! -f $HOME/.secrets ] && touch $HOME/.secrets
-  popd &> /dev/null
+fi
+pushd $HOME/dotfiles &> /dev/null
+  for dotfile in eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.linux vimrc zshrc; do
+    ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
+  done
+  mkdir -p $HOME/.config/nvim
+  ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
+  ln -sf $HOME/dotfiles/ssh_rc $HOME/.ssh/rc
+  touch $HOME/.secrets
+popd &> /dev/null
+
+# instll neovim from snap until v0.5 is available from apt
+sudo snap install --beta nvim --classic
+
+# setup paq for neovim plugins
+if [ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
+  git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
 fi
 
-# TODO: setup paq
-
-# Setup vim-plug
-if [ ! -f $HOME/.vim/autoload/plug.vim ]; then
-  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  nvim +PlugInstall +qall
+# manually install fzf to get the most up to date version
+if [ ! -d $HOME/.fzf ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+  $HOME/.fzf/install --no-update-rc --key-bindings --completion
+  exec $SHELL
 fi
-
-# Setup my Ruby neovim plugins
-nvim_ruby_plugins_dir = $HOME/.config/nvim/rplugin/ruby
-if [ ! -d nvim_ruby_plugins_dir ]; then
-  mkdir -p nvim_ruby_plugins_dir
-  git clone git@github.com:bweave/nvim-plugins.git nvim_ruby_plugins_dir
-fi
-
-# Setup neovim-remote
-if ! command -v nvr; then
-  if ! command -v pip3; then
-    sudo apt install -y python3-pip
-  fi
-  pip3 install neovim-remote
-if
 
 # Install AWS-CLI if needed
 if ! command -v aws; then
