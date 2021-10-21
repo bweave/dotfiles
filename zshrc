@@ -298,6 +298,10 @@ function start_all_pco_apps() {
   done
 }
 
+fixssh() {
+  eval $(tmux show-env -s |grep '^SSH_')
+}
+
 ########################
 # iTerm Shell Integration
 ########################
