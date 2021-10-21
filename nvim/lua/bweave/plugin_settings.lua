@@ -45,7 +45,14 @@ vim.g.user_emmet_leader_key = ','
 -- lsp
 local lsp = require 'lspconfig'
 local lspfuzzy = require 'lspfuzzy'
-lsp.solargraph.setup {}
+lsp.solargraph.setup {
+  settings = {
+    solargraph = {
+      diagnostics = true,
+      bundlerPath = '~/.rbenv/shims/bundle'
+    }
+  }
+}
 lsp.tsserver.setup {}
 lspfuzzy.setup {}  -- Make the LSP client use FZF instead of the quickfix list
 
