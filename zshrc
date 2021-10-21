@@ -272,6 +272,8 @@ linux*)
 esac
 
 function start_all_pco_apps() {
+  box prevent-idle
+
   Apps=(
     accounts
     api
@@ -292,7 +294,7 @@ function start_all_pco_apps() {
 
   for app in ${Apps[*]}
   do
-    { curl -v $app.pco.test & }
+    { curl -v $app.pco.test &>/dev/null }
   done
 }
 
