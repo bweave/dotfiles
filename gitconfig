@@ -11,6 +11,8 @@
   commentChar = ";"
 [rebase]
   autosquash = true
+[pull]
+  rebase = true
 [push]
   default = current
 [alias]
