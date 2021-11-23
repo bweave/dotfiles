@@ -7,10 +7,10 @@ if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
 end
 
-local paq = require('paq-nvim').paq  -- a convenient alias
-paq {'savq/paq-nvim', opt = true}    -- paq-nvim manages itself
+paq = require('paq-nvim').paq  -- a convenient alias
+paq {'savq/paq-nvim'}    -- paq-nvim manages itself
 
-paq {'AndrewRadev/splitjoin.vim'}
+require "bweave.plugins.splitjoin"
 paq {'Glench/Vim-Jinja2-Syntax'}
 paq {'akinsho/bufferline.nvim'}
 paq {'hoob3rt/lualine.nvim'}

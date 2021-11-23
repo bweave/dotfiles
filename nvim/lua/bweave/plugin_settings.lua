@@ -159,9 +159,6 @@ require('gitsigns').setup {
   },
 }
 
-vim.g.splitjoin_split_mapping = ''
-vim.g.splitjoin_join_mapping = ''
-vim.g.splitjoin_trailing_comma = 1
 vim.g.vim_jsx_pretty_colorful_config = 1
 vim.g.preferred_searcher = 'ag'
 vim.g.fzf_layout = { down = '30%' }
