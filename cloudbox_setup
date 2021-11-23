@@ -80,5 +80,15 @@ pushd /tmp &> /dev/null
   rm awscliv2.zip
 popd &> /dev/null
 
+# Setup forwarding GITHUB_TOKEN env var over ssh
+if [ -z ${GITHUB_TOKEN+x} ]; then
+  echo GITHUB_TOKEN is not setup. Adding it to ssh config;
+  sudo sed -i '/AcceptEnv/ s/$/ GITHUB_TOKEN/' /etc/ssh/sshd_config
+  echo Reloading SSH
+  sudo service ssh reload
+else
+  echo "GITHUB_TOKEN is gtg: '$GITHUB_TOKEN'";
+fi
+
 echo Done!
 echo Be sure to update ~/.secrets
