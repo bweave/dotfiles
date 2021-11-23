@@ -57,6 +57,8 @@ map('n', '<leader>O', ':vs ~/Desktop/Onboarding.md<CR>')
 
 map('n', '<leader>gs', ':vertical Git<CR>')
 
+map('n', '<leader>G', ':TSHighlightCapturesUnderCursor<CR>')
+
 map('n', '<leader>j', ':SplitjoinSplit<cr>')
 map('n', '<leader>k', ':SplitjoinJoin<cr>')
 

@@ -28,6 +28,7 @@ paq {'maxmellon/vim-jsx-pretty'}
 paq {'neovim/nvim-lspconfig'}
 paq {'nvim-lua/plenary.nvim'}
 paq {'nvim-treesitter/nvim-treesitter'}
+paq {'nvim-treesitter/playground'}
 paq {'ojroques/nvim-lspfuzzy'}
 paq {'pangloss/vim-javascript'}
 paq {'rktjmp/lush.nvim'}
