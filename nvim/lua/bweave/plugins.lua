@@ -7,45 +7,44 @@ if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
 end
 
-paq = require('paq-nvim').paq  -- a convenient alias
+paq = require('paq-nvim').paq  -- a convenient global alias
 paq {'savq/paq-nvim'}    -- paq-nvim manages itself
 
-require "bweave.plugins.splitjoin"
-paq {'Glench/Vim-Jinja2-Syntax'}
-paq {'akinsho/bufferline.nvim'}
-paq {'hoob3rt/lualine.nvim'}
-paq {'junegunn/fzf', run = fn['fzf#install']}
-paq {'junegunn/fzf.vim'}
-paq {'junegunn/vim-peekaboo'}
-paq {'kassio/neoterm'} -- TODO: mappings to make this useful?
-paq {'kosayoda/nvim-lightbulb'}
-paq {'kyazdani42/nvim-tree.lua'}
-paq {'kyazdani42/nvim-web-devicons'}
-paq {'lewis6991/gitsigns.nvim'}
-paq {'ludovicchabant/vim-gutentags'}
-paq {'mattn/emmet-vim'}
-paq {'maxmellon/vim-jsx-pretty'}
-paq {'neovim/nvim-lspconfig'}
-paq {'nvim-lua/plenary.nvim'}
-paq {'nvim-treesitter/nvim-treesitter'}
-paq {'nvim-treesitter/playground'}
-paq {'ojroques/nvim-lspfuzzy'}
-paq {'pangloss/vim-javascript'}
-paq {'rktjmp/lush.nvim'}
-paq {'slim-template/vim-slim'}
-paq {'terryma/vim-multiple-cursors'}
-paq {'tpope/vim-commentary'}
-paq {'tpope/vim-dispatch'}
-paq {'tpope/vim-endwise'}
-paq {'tpope/vim-fugitive'}
-paq {'tpope/vim-obsession'}
-paq {'tpope/vim-rails'}
-paq {'tpope/vim-repeat'}
-paq {'tpope/vim-rhubarb'}
-paq {'tpope/vim-surround'}
-paq {'vijaymarupudi/nvim-fzf'}
-paq {'vim-crystal/vim-crystal'}
-paq {'vim-test/vim-test'}
-paq {'w0rp/ale'}
-paq {'wincent/vim-clipper'}
-paq {'wsdjeg/vim-fetch'}
+local function plugin(name)
+  require("bweave.plugins." .. name)
+end
+
+plugin "ale"
+plugin "bufferline"
+plugin "clipper"
+plugin "crystal"
+plugin "emmet"
+plugin "fzf"
+plugin "gitsigns"
+plugin "gutentags"
+plugin "javascript"
+plugin "jsx-pretty"
+plugin "lightbulb"
+plugin "lspconfig"
+plugin "lualine"
+plugin "lush"
+plugin "multiple-cursors"
+plugin "neoterm"
+plugin "nvim-fzf"
+plugin "nvim-tree"
+plugin "peekaboo"
+plugin "slim"
+plugin "splitjoin"
+plugin "tpope-commentary"
+plugin "tpope-dispatch"
+plugin "tpope-endwise"
+plugin "tpope-fugitive"
+plugin "tpope-obsession"
+plugin "tpope-vim-rails"
+plugin "tpope-vim-repeat"
+plugin "tpope-vim-rhubarb"
+plugin "tpope-vim-surround"
+plugin "treesitter"
+plugin "vim-fetch"
+plugin "vim-jinja2-syntax"
+plugin "vim-test"

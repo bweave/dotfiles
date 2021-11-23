@@ -1,0 +1,1 @@
+paq {'rktjmp/lush.nvim'}

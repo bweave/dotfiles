@@ -19,7 +19,7 @@ local function get_buffers()
   return buffers
 end
 
--- M.delete_buffers = function()
+M.delete_buffers = function()
   coroutine.wrap(function ()
     local chosen = fzf(get_buffers(), "--multi --bind ctrl-a:select-all+accept", { height = 20, width = 100 })
 
@@ -31,6 +31,6 @@ end
       cmd("bd " .. bufname)
     end
   end)()
--- end
+end
 
 return M

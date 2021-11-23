@@ -1,0 +1,1 @@
+paq {'pangloss/vim-javascript'}
