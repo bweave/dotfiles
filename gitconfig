@@ -19,3 +19,7 @@
   stashdiff = stash show -
 [init]
 	defaultBranch = main
+[hub]
+	protocol = ssh
+[fetch]
+	prune = true
