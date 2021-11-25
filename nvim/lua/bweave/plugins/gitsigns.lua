@@ -1,3 +1,4 @@
+paq {'nvim-lua/plenary.nvim'}
 paq {'lewis6991/gitsigns.nvim'}
 
 require('gitsigns').setup {
