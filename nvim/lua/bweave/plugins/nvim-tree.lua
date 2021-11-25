@@ -1,5 +1,5 @@
-paq {'kyazdani42/nvim-tree.lua'}
 paq {'kyazdani42/nvim-web-devicons'}
+paq {'kyazdani42/nvim-tree.lua'}
 
 require 'nvim-tree'.setup{}
 
