@@ -1,6 +1,10 @@
+#  ___      _    __ _ _                ___                 __ _ _
+# |   \ ___| |_ / _(_) |___ ___  ___  | _ )_ _ _____ __ __/ _(_) |___
+# | |) / _ \  _|  _| | / -_|_-< |___| | _ \ '_/ -_) V  V /  _| | / -_)
+# |___/\___/\__|_| |_|_\___/__/       |___/_| \___|\_/\_/|_| |_|_\___|
+
 tap "amberframework/amber"
 tap "aws/tap"
-tap "bwilczynski/tap"
 tap "crisidev/chunkwm"
 tap "d12frosted/emacs-plus"
 tap "denji/nginx"
@@ -17,26 +21,24 @@ tap "koekeishiya/formulae"
 tap "osx-cross/avr"
 tap "px4/px4"
 tap "universal-ctags/universal-ctags"
-tap "watsonbox/cmu-sphinx"
 brew "libyaml"
-brew "ansible", link: false
+brew "ansible"
 brew "arp-scan"
-brew "autojump"
 brew "automake"
+brew "coreutils"
+brew "asdf"
+brew "autojump"
 brew "avrdude"
 brew "awscli"
 brew "bash"
 brew "bat"
-brew "coreutils"
 brew "bats-core"
 brew "bdw-gc"
 brew "bfg"
-brew "glib"
 brew "pkg-config"
 brew "cairo"
-brew "chromedriver", restart_service: true
-brew "chunkwm", args: ["HEAD", "with-tmp-logging"], restart_service: true
-brew "clipper", restart_service: true
+brew "chromedriver"
+brew "chunkwm", args: ["HEAD", "with-tmp-logging"]
 brew "cmake"
 brew "composer"
 brew "cpulimit"
@@ -46,21 +48,20 @@ brew "crystal"
 brew "llvm"
 brew "crystal-icr"
 brew "openldap"
+brew "curl"
 brew "dfu-programmer"
 brew "docutils", link: false
-brew "elasticsearch", restart_service: true
+brew "elasticsearch"
 brew "erlang"
 brew "elixir"
 brew "exercism"
 brew "fd"
 brew "gobject-introspection"
 brew "harfbuzz"
-brew "libass"
 brew "srt"
 brew "ffmpeg"
 brew "pango"
 brew "fontforge", link: false
-brew "freetds"
 brew "fzf"
 brew "gdb"
 brew "gdk-pixbuf"
@@ -91,11 +92,11 @@ brew "libpq"
 brew "librsvg"
 brew "libssh"
 brew "libxml2"
-brew "logrotate"
+brew "logrotate", restart_service: true
 brew "lua@5.1", link: false
 brew "luajit"
 brew "luarocks"
-brew "memcached", restart_service: true
+brew "memcached"
 brew "mkvtoolnix", link: false
 brew "molecule"
 brew "protobuf"
@@ -103,27 +104,25 @@ brew "mosh"
 brew "mp4v2"
 brew "multimarkdown"
 brew "mysql-client"
-brew "neovim"
+brew "neovim", args: ["HEAD"]
 brew "nmap"
 brew "node@10", link: true
 brew "notmuch"
-brew "nvm"
 brew "open-mpi"
 brew "openjdk"
 brew "osx-cpu-temp"
-brew "pandoc"
 brew "passenger"
-brew "php", restart_service: true
+brew "php"
 brew "postgresql", restart_service: true
-brew "postgresql@12", restart_service: true
+brew "postgresql@12"
 brew "python@2", link: false
 brew "python@3.7"
 brew "qemu"
-brew "rabbitmq", restart_service: true
+brew "rabbitmq"
 brew "ruby-build"
 brew "rbenv"
 brew "reattach-to-user-namespace"
-brew "redis", restart_service: true
+brew "redis"
 brew "rename"
 brew "ripgrep"
 brew "ruby"
@@ -146,7 +145,6 @@ brew "yarn", link: false
 brew "zsh"
 brew "amberframework/amber/amber"
 brew "aws/tap/aws-sam-cli"
-brew "bwilczynski/tap/sonos-cli"
 brew "d12frosted/emacs-plus/emacs-plus@28"
 brew "denji/nginx/openresty", link: false
 brew "denji/nginx/push-stream-nginx-module"
@@ -156,22 +154,23 @@ brew "koekeishiya/formulae/skhd", args: ["HEAD", "with-logging"]
 brew "osx-cross/avr/avr-gcc@9"
 brew "px4/px4/gcc-arm-none-eabi"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
-brew "watsonbox/cmu-sphinx/cmu-sphinxbase", args: ["HEAD"]
-brew "watsonbox/cmu-sphinx/cmu-pocketsphinx", args: ["HEAD"]
-brew "watsonbox/cmu-sphinx/cmu-sphinxtrain", args: ["HEAD"]
 cask "alacritty"
 cask "amethyst"
 cask "appcleaner"
 cask "authy"
-cask "barrier"
 cask "basecamp"
-cask "blackhole-16ch"
 cask "brave-browser"
-cask "camo-studio"
 cask "dash"
 cask "edex-ui"
 cask "eqmac"
 cask "etcher"
+cask "openemu"
+cask "iterm2"
+cash "google-chrome"
+cash "slack"
+cash "virtualbox"
+cash "docker"
+cask "firefox"
 cask "firefox-developer-edition"
 cask "font-firamono-nerd-font-mono"
 cask "font-go-mono-nerd-font"
@@ -189,7 +188,6 @@ cask "gitter"
 cask "hammerspoon"
 cask "handbrake"
 cask "jqbx"
-cask "kitty"
 cask "macvim"
 cask "makemkv"
 cask "min"
@@ -210,4 +208,3 @@ cask "vlc"
 cask "wireshark"
 cask "wkhtmltopdf"
 cask "xquartz"
-cask "zsa-wally"
