@@ -1,0 +1,1 @@
+paq {'junegunn/goyo.vim'}
