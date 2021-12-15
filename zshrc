@@ -29,6 +29,7 @@ path_prepend() {
   fi
 }
 
+path_prepend $HOME/.local/bin
 path_prepend $HOME/.rbenv/shims
 path_prepend $HOME/Code/pco/bin
 
@@ -190,9 +191,7 @@ export LANG="en_US" # Prefer US English and use UTF-8
 export LC_ALL="en_US.UTF-8"
 export LESS_TERMCAP_md="$ORANGE" # Highlight section titles in manual pages
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
-export PCO_BOX_LEAVE_DOCKER_RUNNING=true
 export PRERENDER_SERVICE_URL=http://localhost:3000
-export RAILS_ENV=development
 export SSH_KEY_PATH="~/.ssh/rsa_id" # ssh
 export NVM_DIR="$HOME/.nvm"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#d75f87'
