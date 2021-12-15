@@ -53,8 +53,22 @@ pushd $HOME/dotfiles &> /dev/null
   ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
   ln -sf $HOME/dotfiles/nvim/lua/bweave $HOME/.config/nvim/lua/bweave
   ln -sf $HOME/dotfiles/ssh_rc $HOME/.ssh/rc
+  ln -sf $HOME/dotfiles/tat /usr/local/bin/tat
   touch $HOME/.secrets
 popd &> /dev/null
+
+# Install latest tmux
+sudo mv "$(which tmux)" "$(which tmux)_orig"
+sudo apt install libevent-dev
+curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
+  | grep "browser_download_url.*" \
+  | cut -d : -f 2,3 \
+  | tr -d \" \
+  | wget -qi -
+tar -zxf tmux-*.tar.gz
+cd tmux-*/
+./configure --prefix=/usr
+make && sudo make install
 
 # instll neovim from snap until v0.5 is available from apt
 sudo snap install --beta nvim --classic
