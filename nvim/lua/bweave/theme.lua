@@ -12,9 +12,11 @@ function OsDarkModeTheme()
   if (fn.system("defaults read -g AppleInterfaceStyle"):find('^Dark' ) ~= nil) then
     cmd('colorscheme ' .. darkTheme)
     cmd 'set background=dark'
+    require'lualine'.setup {options = {theme = 'onedark'}}
   else
     cmd('colorscheme ' .. lightTheme)
     cmd 'set background=light'
+    require'lualine'.setup {options = {theme = 'nord'}}
   end
 end
 
