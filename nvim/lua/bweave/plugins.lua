@@ -7,7 +7,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   fn.system({'git', 'clone', '--depth=1', 'https://github.com/savq/paq-nvim.git', install_path})
 end
 
-paq = require('paq-nvim').paq  -- a convenient global alias
+paq = require('paq').paq  -- a convenient global alias
 paq {'savq/paq-nvim'}    -- paq-nvim manages itself
 
 local function plugin(name)

@@ -69,13 +69,20 @@ tar -zxf tmux-*.tar.gz
 cd tmux-*/
 ./configure --prefix=/usr
 make && sudo make install
+cd -
+rm -rf tmux-*
 
 # instll neovim from snap until v0.5 is available from apt
 sudo snap install --beta nvim --classic
 
-# setup paq for neovim plugins
-if [ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
-  git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+# Clone custom nvim themes
+if [ ! -d $HOME/src/bweave-nvim ]; then
+  mkdir -p $HOME/src
+  git clone --depth=1 git@github.com:bweave/bweave-nvim $HOME/src/bweave-nvim
+fi
+if [ ! -d $HOME/src/nord-light ]; then
+  mkdir -p $HOME/src
+  git clone --depth=1 git@github.com:bweave/nord-light ${$HOME}/src/nord-light
 fi
 
 # manually install fzf to get the most up to date version
@@ -84,6 +91,9 @@ if [ ! -d $HOME/.fzf ]; then
   $HOME/.fzf/install --no-update-rc --key-bindings --completion
   exec $SHELL
 fi
+
+# Install nvim plugins
+nvim --headless -u NONE -c 'lua require("bweave.bootstrap").bootstrap_paq()'
 
 # Install AWS-CLI if needed
 pushd /tmp &> /dev/null
