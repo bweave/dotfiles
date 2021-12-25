@@ -58,7 +58,7 @@ include $HOME/.secrets
 
 case "$OSTYPE" in
   darwin*)
-    include "/usr/local/etc/profile.d/autojump.sh"
+    include "/opt/homebrew/etc/profile.d/autojump.sh"
     ;;
   linux*)
     include "/usr/share/autojump/autojump.sh"
@@ -78,7 +78,11 @@ unsetopt nomatch # for rake tasks with args
 # PCO
 ########################
 
-include ~/pco-box/env.sh
+case "$OSTYPE" in
+  linux*)
+	  include ~/pco-box/env.sh
+		;;
+esac
 
 ########################
 # Nvm
@@ -86,8 +90,8 @@ include ~/pco-box/env.sh
 
 case "$OSTYPE" in
   darwin*)
-    include "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-    include "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+    # include "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+    # include "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
     ;;
 esac
 

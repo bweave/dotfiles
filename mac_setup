@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Install brew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install some packages
+brew bundle --file ~/dotfiles/Brewfile
+
+# Install oh-my-zsh
+if [ ! -d $HOME/.oh-my-zsh ]; then
+  sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+fi
+
+if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+fi
+
+# Install powerlevel10k theme
+pushd $HOME/.oh-my-zsh/custom &> /dev/null
+  pushd ./themes &> /dev/null
+    if [ ! -d ./powerlevel10k ]; then
+      git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./powerlevel10k
+    fi
+  popd &> /dev/null
+popd &> /dev/null
+
+# Setup dotfiles
+if [ ! -d $HOME/dotfiles ]; then
+  git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
+fi
+pushd $HOME/dotfiles &> /dev/null
+  dotfiles=(eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.osx zshrc)
+  for dotfile in $dotfiles; do
+    ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
+  done
+  mkdir -p $HOME/.config/nvim/lua
+  ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
+  ln -sf $HOME/dotfiles/nvim/lua/bweave $HOME/.config/nvim/lua/bweave
+  touch $HOME/.secrets
+popd &> /dev/null
+
+# setup paq for neovim plugins
+if [ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
+  git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+fi
+
+# Download Panda Syntax iTerm theme
+curl -fsSL -o ~/Desktop/panda-syntax.itermcolors https://raw.githubusercontent.com/PandaTheme/panda-syntax-iterm/master/panda-syntax.itermcolors
+
+# Setup Hammerspoon
+if [ ! -d $HOME/.hammerspoon ]; then
+  git clone git@github.com:bweave/hammerspoon-config.git $HOME/.hammerspoon
+fi
+pushd $HOME/.hammerspoon &> /dev/null
+  git pull
+popd &> /dev/null
+
+pushd /tmp &> /dev/null
+  curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+  sudo installer -pkg AWSCLIV2.pkg -target /
+  rm AWSCLIV2.pkg
+popd &> /dev/null
+
+# Set key repeat rate
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+
+echo Done!
+echo Be sure to update ~/.secrets
+echo Be sure to import Panda Syntax them into iTerm!
+echo Be sure to add Cloudbox to ~/.ssh/config
