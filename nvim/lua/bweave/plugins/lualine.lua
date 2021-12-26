@@ -16,21 +16,28 @@ lualine.setup {
     lualine_x = {'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location',
-      {
-        'diagnostics',
-        -- table of diagnostic sources, available sources:
-        -- nvim_lsp, coc, ale, vim_lsp
-        sources = {'nvim_diagnostics', 'ale'},
-        -- displays diagnostics from defined severity
-        sections = {'error', 'warn', 'info', 'hint'},
-        -- all colors are in format #rrggbb
-        color_error = "#ff0000", -- changes diagnostic's error foreground color
-        color_warn = "#ff0000", -- changes diagnostic's warn foreground color
-        color_info = "#ff0000", -- Changes diagnostic's info foreground color
-        color_hint = "#ff0000", -- Changes diagnostic's hint foreground color
-        symbols = {error = '🚫', warn = '⚠️', info = 'I', hint = 'H'}
-      }
+    {
+      'diagnostics',
+      -- table of diagnostic sources, available sources:
+      -- 'nvim_lsp', 'nvim_diagnostic', 'coc', 'ale', 'vim_lsp'
+      -- Or a function that returns a table like
+      --   {error=error_cnt, warn=warn_cnt, info=info_cnt, hint=hint_cnt}
+      sources = {'nvim_diagnostic', 'ale'},
+      -- displays diagnostics from defined severity
+      sections = {'error', 'warn', 'info', 'hint'},
+      diagnostics_color = {
+        -- Same values like general color option can be used here.
+        error = 'DiagnosticError', -- changes diagnostic's error color
+        warn  = 'DiagnosticWarn',  -- changes diagnostic's warn color
+        info  = 'DiagnosticInfo',  -- changes diagnostic's info color
+        hint  = 'DiagnosticHint',  -- changes diagnostic's hint color
+      },
+      symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
+      colored = true, -- displays diagnostics status in color if set to true
+      update_in_insert = false, -- Update diagnostics in insert mode
+      always_visible = false, -- Show diagnostics even if count is 0, boolean or function returning boolean
     }
+  }
   },
   inactive_sections = {
     lualine_a = {},
@@ -44,7 +51,6 @@ lualine.setup {
   extensions = {
     'fugitive',
     'fzf',
-    'nerdtree',
     'nvim-tree'
   }
 }
