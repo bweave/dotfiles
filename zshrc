@@ -29,9 +29,11 @@ path_prepend() {
   fi
 }
 
-# path_prepend $HOME/.local/bin
+path_prepend $HOME/bin
 path_prepend $HOME/.rbenv/shims
-# path_prepend $HOME/Code/pco/bin
+if [ -d $HOME/Code/pco ]; then
+  path_prepend $HOME/Code/pco/bin
+fi
 
 export PATH
 

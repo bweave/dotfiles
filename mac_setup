@@ -45,6 +45,7 @@ ln -sf $HOME/dotfiles/os_theme_toggle.py $HOME/Library/Application\ Support/iTer
 
 mkdir -p $HOME/bin
 ln -sf $HOME/dotfiles/tat $HOME/bin/tat
+ln -sf $HOME/dotfiles/git-nuke-staging $HOME/bin/git-nuke-staging
 
 mkdir -p $HOME/.config/karabiner
 ln -sf $HOME/dotfiles/karabiner.json $HOME/.config/karabiner/karabiner.json
