@@ -13,7 +13,7 @@
 # 8. Functions
 
 include () {
-  [[ -f "$1" ]] && source "$1" || echo "$1 not found"
+  [[ -f "$1" ]] && \. "$1" || echo "$1 not found"
 }
 
 ########################
@@ -29,9 +29,9 @@ path_prepend() {
   fi
 }
 
-path_prepend $HOME/.local/bin
+# path_prepend $HOME/.local/bin
 path_prepend $HOME/.rbenv/shims
-path_prepend $HOME/Code/pco/bin
+# path_prepend $HOME/Code/pco/bin
 
 export PATH
 
@@ -58,7 +58,7 @@ include $HOME/.secrets
 
 case "$OSTYPE" in
   darwin*)
-    include "/opt/homebrew/etc/profile.d/autojump.sh"
+    include "/usr/local/etc/profile.d/autojump.sh"
     ;;
   linux*)
     include "/usr/share/autojump/autojump.sh"
@@ -90,8 +90,9 @@ esac
 
 case "$OSTYPE" in
   darwin*)
-    # include "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-    # include "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
     ;;
 esac
 

@@ -1,7 +1,11 @@
 #!/bin/bash
 
+sudo echo "Let's go!"
+
 # Install brew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+if [ ! "$(command -v brew)" ]; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
 # Install some packages
 brew bundle --file ~/dotfiles/Brewfile
@@ -28,21 +32,29 @@ popd &> /dev/null
 if [ ! -d $HOME/dotfiles ]; then
   git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
 fi
-pushd $HOME/dotfiles &> /dev/null
-  dotfiles=(eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.osx zshrc)
-  for dotfile in $dotfiles; do
-    ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
-  done
-  mkdir -p $HOME/.config/nvim/lua
-  ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
-  ln -sf $HOME/dotfiles/nvim/lua/bweave $HOME/.config/nvim/lua/bweave
-  touch $HOME/.secrets
-popd &> /dev/null
+dotfiles=(eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.osx zshrc)
+for dotfile in $dotfiles; do
+  ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
+done
+mkdir -p $HOME/.config/nvim/lua
+ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
+ln -sf $HOME/dotfiles/nvim/lua/bweave $HOME/.config/nvim/lua/bweave
+
+mkdir -p $HOME/Library/Application\ Support/iTerm2/Scripts/AutoLaunch
+ln -sf $HOME/dotfiles/os_theme_toggle.py $HOME/Library/Application\ Support/iTerm2/Scripts/AutoLaunch/os_theme_toggle.py
+
+mkdir -p $HOME/bin
+ln -sf $HOME/dotfiles/tat $HOME/bin/tat
+
+mkdir -p $HOME/.config/karabiner
+ln -sf $HOME/dotfiles/karabiner.json $HOME/.config/karabiner/karabiner.json
+touch $HOME/.secrets
 
 # setup paq for neovim plugins
 if [ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
   git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
 fi
+nvim --headless -u NONE -c 'lua require("bweave.bootstrap").bootstrap_paq()'
 
 # Download Panda Syntax iTerm theme
 curl -fsSL -o ~/Desktop/panda-syntax.itermcolors https://raw.githubusercontent.com/PandaTheme/panda-syntax-iterm/master/panda-syntax.itermcolors
@@ -55,17 +67,31 @@ pushd $HOME/.hammerspoon &> /dev/null
   git pull
 popd &> /dev/null
 
-pushd /tmp &> /dev/null
-  curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-  sudo installer -pkg AWSCLIV2.pkg -target /
-  rm AWSCLIV2.pkg
-popd &> /dev/null
-
 # Set key repeat rate
-defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
-defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+sudo defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+sudo defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 
-echo Done!
-echo Be sure to update ~/.secrets
-echo Be sure to import Panda Syntax them into iTerm!
-echo Be sure to add Cloudbox to ~/.ssh/config
+# Install ruby
+ruby_version="3.0.3"
+rbenv install -s $ruby_version
+rbenv global $ruby_version
+gem install bundler rails
+rbenv rehash
+
+# Setup NVM and Node LTS
+if [ ! -d $HOME/.nvm ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+fi
+source $HOME/.nvm/nvm.sh
+nvm install --lts
+nvm alias system node
+
+echo
+echo "Donezo!"
+echo
+echo ===============================================
+echo "Be sure to update ~/.secrets"
+echo "Be sure to import Panda Syntax them into iTerm!"
+echo "Be sure to add Cloudbox to ~/.ssh/config"
+echo ===============================================
+echo
