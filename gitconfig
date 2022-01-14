@@ -9,6 +9,8 @@
 [core]
   excludesfile = ~/.gitignore
   commentChar = ";"
+[commit]
+  template = ~/.gitmessage
 [rebase]
   autosquash = true
 [pull]

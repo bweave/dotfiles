@@ -32,7 +32,7 @@ popd &> /dev/null
 if [ ! -d $HOME/dotfiles ]; then
   git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
 fi
-dotfiles=(eslintrc gitconfig gitignore irbrc p10k.zsh tmux.conf tmux.conf.osx zshrc)
+dotfiles=(eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.osx zshrc)
 for dotfile in $dotfiles; do
   ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
 done
