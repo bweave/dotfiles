@@ -29,6 +29,7 @@ path_prepend() {
   fi
 }
 
+path_prepend $HOME/.local/bin
 path_prepend $HOME/bin
 path_prepend $HOME/.rbenv/shims
 if [ -d $HOME/Code/pco ]; then
