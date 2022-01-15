@@ -57,6 +57,16 @@ if [ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-n
 fi
 nvim --headless -u NONE -c 'lua require("bweave.bootstrap").bootstrap_paq()'
 
+# Clone custom nvim themes
+if [ ! -d $HOME/src/bweave-nvim ]; then
+  mkdir -p $HOME/src
+  git clone git@github.com:bweave/bweave-nvim $HOME/src/bweave-nvim
+fi
+if [ ! -d $HOME/src/nord-light ]; then
+  mkdir -p $HOME/src
+  git clone git@github.com:bweave/nord-light $HOME/src/nord-light
+fi
+
 # Download Panda Syntax iTerm theme
 curl -fsSL -o ~/Desktop/panda-syntax.itermcolors https://raw.githubusercontent.com/PandaTheme/panda-syntax-iterm/master/panda-syntax.itermcolors
 
