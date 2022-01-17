@@ -196,6 +196,7 @@ export HISTCONTROL=ignoredups
 export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help" # Make some commands not show up in history
 export HISTSIZE=32768 # Larger bash history (allow 32³ entries; default is 500)
+export HOMEBREW_NO_AUTO_UPDATE=1
 export LANG="en_US" # Prefer US English and use UTF-8
 export LC_ALL="en_US.UTF-8"
 export LESS_TERMCAP_md="$ORANGE" # Highlight section titles in manual pages
