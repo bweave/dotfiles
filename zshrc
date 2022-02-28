@@ -61,7 +61,7 @@ include $HOME/.secrets
 
 case "$OSTYPE" in
   darwin*)
-    include "/usr/local/etc/profile.d/autojump.sh"
+    include "$(brew --prefix)/etc/profile.d/autojump.sh"
     ;;
   linux*)
     include "/usr/share/autojump/autojump.sh"
