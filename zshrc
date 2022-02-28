@@ -20,13 +20,13 @@ include () {
 # Path
 ########################
 
+# In zsh $PATH is tied (see typeset -T) to the $path array.
+# You can force that array to have unique values with:
+typeset -U path
+
 # if the dir exists and it's not already in PATH, prepend it
 path_prepend() {
-  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
-    PATH="$1${PATH:+":$PATH"}"
-  else
-    echo PATH already includes "$1"
-  fi
+  path=($1 "$path[@]")
 }
 
 path_prepend $HOME/.local/bin
@@ -36,7 +36,8 @@ if [ -d $HOME/Code/pco ]; then
   path_prepend $HOME/Code/pco/bin
 fi
 
-export PATH
+# ensure PATH only has unique values with -U
+export -U PATH
 
 ########################
 # ZSH
