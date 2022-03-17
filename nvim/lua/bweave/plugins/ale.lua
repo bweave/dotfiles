@@ -12,7 +12,6 @@ vim.g.ale_linters = {
    mysql = {'sqlint'},
 }
 vim.g.ale_fixers = {
-  ['*'] = {'remove_trailing_lines', 'trim_whitespace'},
    ruby = {'rubocop'},
    javascript = {'eslint'},
    javascriptreact = {'eslint'},
