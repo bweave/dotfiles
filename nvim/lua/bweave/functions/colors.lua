@@ -64,4 +64,16 @@ M.colors = function()
   end)()
 end
 
+M.toggle_dark_theme = function()
+  local current_theme = get_current_colorscheme()
+
+  if current_theme == "bweave" then
+    Utils.send_to_all_nvims(":colo nord-light<CR>")
+  elseif current_theme == "nord-light" then
+    Utils.send_to_all_nvims(":colo bweave<CR>")
+  else
+    Utils.send_to_all_nvims(":colo default<CR>")
+  end
+end
+
 return M

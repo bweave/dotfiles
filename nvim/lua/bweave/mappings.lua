@@ -45,6 +45,7 @@ map('v', '>', '>gv')
 
 -- misc
 map('n', '<leader>C', ':lua require("bweave.functions.colors").colors()<CR>')
+map('n', '<leader>D', ':lua require("bweave.functions.colors").toggle_dark_theme()<CR>')
 map('n', '<leader>BD', ':lua require("bweave.functions.delete_buffers").delete_buffers()<CR>')
 map('n', '<leader>S', ':tab drop .vscode/scratchpad_local.md<CR>')
 map('n', '<leader>O', ':vs ~/Desktop/Onboarding.md<CR>')

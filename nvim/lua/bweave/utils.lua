@@ -10,4 +10,11 @@ M.table_contains = function (table, value)
   return false
 end
 
+M.send_to_all_nvims = function(cmd)
+  local nvims = vim.fn.systemlist("nvr --serverlist")
+  for _, servername in pairs(nvims) do
+    vim.fn.system("nvr --remote-send '" .. cmd .. "' --servername " .. servername)
+  end
+end
+
 return M
