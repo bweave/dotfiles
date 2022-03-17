@@ -27,14 +27,18 @@ map('n', '<leader>rv', ':so ~/.vimrc<CR>')
 -- Toggle hlsearch with <leader>hs
 map('n', '<leader>hs', ':set hlsearch! hlsearch?<CR>')
 
+-- Esc to normal mode for when Esc doesn't work
+map('i', 'jj', '<Esc>')
+
 -- Esc to normal mode in terminal
 map('t', '<leader><Esc>', '<C-\\><C-n>')
+map('t', 'jj', '<C-\\><C-n>')
 
 -- toggle paste mode
 map('n', '<leader>p', ':set invpaste<CR>')
 
 -- delete buffer
-map('n', '<leader>w', ':bd<CR>')
+map('n', '<leader>w', ':bdelete<CR>')
 
 -- search
 map('n', '<leader>s', ':Ag <C-R><C-W><CR>')
