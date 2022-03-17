@@ -5,13 +5,13 @@ lualine.setup {
   options = {
     icons_enabled = true,
     theme = 'onedark',
-    component_separators = {'', ''},
-    section_separators = {'', ''},
+    component_separators = {left = '', right = ''},
+    section_separators = { left = ' ', right = ' '},
     disabled_filetypes = {}
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff'},
+    lualine_a = {{ 'mode', fmt = function(str) return str:sub(1,1) end }},
+    lualine_b = {'diff'},
     lualine_c = {{'filename', file_status = true}},
     lualine_x = {'filetype'},
     lualine_y = {'progress'},
@@ -40,14 +40,43 @@ lualine.setup {
   }
   },
   inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
+    lualine_a = {{ 'mode', fmt = function(str) return str:sub(1,1) end }},
+    lualine_b = {'diff'},
     lualine_c = {{'filename', file_status = true}},
-    lualine_x = {'location'},
-    lualine_y = {},
-    lualine_z = {}
+    lualine_x = {'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location',
+    {
+      'diagnostics',
+      -- table of diagnostic sources, available sources:
+      -- 'nvim_lsp', 'nvim_diagnostic', 'coc', 'ale', 'vim_lsp'
+      -- Or a function that returns a table like
+      --   {error=error_cnt, warn=warn_cnt, info=info_cnt, hint=hint_cnt}
+      sources = {'nvim_diagnostic', 'ale'},
+      -- displays diagnostics from defined severity
+      sections = {'error', 'warn', 'info', 'hint'},
+      diagnostics_color = {
+        -- Same values like general color option can be used here.
+        error = 'DiagnosticError', -- changes diagnostic's error color
+        warn  = 'DiagnosticWarn',  -- changes diagnostic's warn color
+        info  = 'DiagnosticInfo',  -- changes diagnostic's info color
+        hint  = 'DiagnosticHint',  -- changes diagnostic's hint color
+      },
+      symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'},
+      colored = true, -- displays diagnostics status in color if set to true
+      update_in_insert = false, -- Update diagnostics in insert mode
+      always_visible = false, -- Show diagnostics even if count is 0, boolean or function returning boolean
+    }
+  }
   },
-  tabline = {},
+  tabline = {
+    lualine_a = {'branch'},
+    lualine_b = {'buffers'},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {'tabs'},
+  },
   extensions = {
     'fugitive',
     'fzf',
