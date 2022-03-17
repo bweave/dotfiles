@@ -15,7 +15,6 @@ local function plugin(name)
 end
 
 plugin "ale"
-plugin "bufferline"
 plugin "clipper"
 plugin "crystal"
 plugin "emmet"
