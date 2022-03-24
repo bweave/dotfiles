@@ -67,14 +67,7 @@ lualine.setup {
     lualine_y = {location},
     lualine_z = {diagnostics},
   },
-  tabline = {
-    lualine_a = {},
-    lualine_b = {buffers},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {},
-  },
+  tabline = {},
   extensions = {
     'fugitive',
     'fzf',
