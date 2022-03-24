@@ -2,7 +2,7 @@
 vim.g.mapleader = ' '
 
 map = function(mode, lhs, rhs, opts)
-  local options = {noremap = true}
+  local options = {noremap = true, silent = true}
   if opts then options = vim.tbl_extend('force', options, opts) end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
@@ -12,6 +12,16 @@ map('', '<c-j>', '<c-w>j')
 map('', '<c-k>', '<c-w>k')
 map('', '<c-l>', '<c-w>l')
 map('', '<c-h>', '<c-w>h')
+
+-- Navigate buffers
+map("n", "<S-l>", ":bnext<CR>")
+map("n", "<S-h>", ":bprevious<CR>")
+
+-- Resize with arrows
+map("n", "<c-up>", ":resize -2<CR>")
+map("n", "<c-down>", ":resize +2<CR>")
+map("n", "<c-left>", ":vertical resize -2<CR>")
+map("n", "<c-right>", ":vertical resize +2<CR>")
 
 -- Quickly edit/reload the init.lua file
 map('n', '<leader>ei', ':e ~/.config/nvim/init.lua<CR>')
