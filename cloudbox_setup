@@ -110,6 +110,11 @@ pushd /tmp &> /dev/null
   rm awscliv2.zip
 popd &> /dev/null
 
+# Install rb script for text manipulation with Ruby from the command line
+if ! command -v rb; then
+  curl https://raw.githubusercontent.com/thisredone/rb/master/rb -o /usr/local/bin/rb && chmod +x /usr/local/bin/rb
+fi
+
 # Setup forwarding GITHUB_TOKEN env var over ssh
 if [ -z ${GITHUB_TOKEN+x} ]; then
   echo GITHUB_TOKEN is not setup. Adding it to ssh config;
