@@ -1,3 +1,3 @@
 paq {'tpope/vim-fugitive'}
 
-map('n', '<leader>gs', ':vertical Git<CR>')
+-- map('n', '<leader>gs', ':vertical Git<CR>')
