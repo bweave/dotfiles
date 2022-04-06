@@ -9,6 +9,7 @@ sudo apt install -y \
   bat \
   exuberant-ctags \
   hub \
+  luarocks \
   python3-pip \
   ripgrep \
   silversearcher-ag \
