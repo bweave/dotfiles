@@ -30,9 +30,9 @@ opt.autoindent = true                               -- Enable autoindenting
 opt.autoread = true                                 -- Auto read files when they change
 opt.background = 'dark'                             -- Dark background
 opt.backspace = {'indent', 'eol', 'start'}          -- make Backspace behave as expected
--- Commented out because it's conflicting with which-key.
--- For whatever reason, setting this breaks yy yanking to the correct register.
--- opt.clipboard = 'unnamed'                        -- use system clipboard; requires has('unnamedplus') to be 1
+if jit.os == "Linux" then
+  opt.clipboard = 'unnamed'                        -- use system clipboard; requires has('unnamedplus') to be 1
+end
 opt.colorcolumn = '121'                             -- display text width column
 opt.completeopt = {'longest', 'menuone', 'preview'} -- better insert mode completions
 opt.cursorline = true                               -- highlight current line
