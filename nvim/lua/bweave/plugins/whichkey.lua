@@ -54,7 +54,7 @@ local setup = {
     align = "left", -- align columns left, center or right
   },
   ignore_missing = true, -- enable this to hide mappings for which you didn't specify a label
-  hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
+  hidden = { "<silent>", "<cmd>", "<Cmd>", "<cr>", "call", "lua", "^:", "^ " }, -- hide mapping boilerplate
   show_help = true, -- show help message on the command line when the popup is visible
   triggers = "auto", -- automatically setup triggers
   -- triggers = {"<leader>"} -- or specify a list manually
@@ -99,7 +99,7 @@ local mappings = {
       f = { "<cmd>Git blame<cr>", "File" },
       l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Line" },
     },
-    B = { "<cmd>GBrowse!<CR>", "Browse" },
+    B = { "<cmd>GBrowse!<cr>", "Browse" },
     j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
     k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
     h = {
@@ -109,35 +109,36 @@ local mappings = {
       s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
       u = { "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", "Undo Stage Hunk" },
     },
-    s = { "<cmd>vertical Git<CR>", "Status" },
+    s = { "<cmd>vertical Git<cr>", "Status" },
+    S = { "<cmd>GStashList<cr>", "Stashes" },
     d = { "<cmd>Gitsigns diffthis HEAD<cr>", "Diff" },
     r = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
   },
   G = {
     name = "Go to",
-    d = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Definition" },
-    D = { "<cmd>lua vim.lsp.buf.declaration()<CR>", "Declaration" },
-    r = { "<cmd>lua vim.lsp.buf.references()<CR>", "References" },
+    d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Definition" },
+    D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Declaration" },
+    r = { "<cmd>lua vim.lsp.buf.references()<cr>", "References" },
   },
-  h = { "<cmd>set hlsearch! hlsearch?<CR>", "Highlight toggle" },
+  h = { "<cmd>set hlsearch! hlsearch?<cr>", "Highlight toggle" },
   l = {
     name = "LSP",
-    a = { "<cmd>lua vim.lsp.buf.code_action()<CR>", "Code action" },
-    d = { "<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<CR>", "Line diagnostics" },
-    K = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover" },
-    r = { "<cmd>lua vim.lsp.buf.rename()<CR>", "Rename" },
-    s = { "<cmd>lua vim.lsp.buf.signature_help()<CR>", "Signature help" },
+    a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code action" },
+    d = { "<cmd>lua vim.lsp.diagnostic.get_line_diagnostics()<cr>", "Line diagnostics" },
+    K = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Hover" },
+    r = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename" },
+    s = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Signature help" },
   },
   n = {
     name = "Neovim",
     e = {
       name = "Edit configs",
       -- TODO: could this list be dynamically generated?
-      i = { "<cmd>e ~/.config/nvim/init.lua<CR>", "init.lua"},
-      m = { "<cmd>e ~/.config/nvim/lua/bweave/mappings.lua<CR>", "mappings.lua"},
-      p = { "<cmd>e ~/.config/nvim/lua/bweave/plugins.lua<CR>", "plugins.lua"},
+      i = { "<cmd>e ~/.config/nvim/init.lua<cr>", "init.lua"},
+      m = { "<cmd>e ~/.config/nvim/lua/bweave/mappings.lua<cr>", "mappings.lua"},
+      p = { "<cmd>e ~/.config/nvim/lua/bweave/plugins.lua<cr>", "plugins.lua"},
     },
-    r = { "<cmd>so ~/.config/nvim/init.lua<CR>", "Reload config" },
+    r = { "<cmd>so ~/.config/nvim/init.lua<cr>", "Reload config" },
   },
   O = { "<cmd>vs ~/Desktop/Onboarding.md<cr>", "Onboarding" },
   p = {
@@ -153,27 +154,27 @@ local mappings = {
   P = { "<cmd>set invpaste<cr>", "Paste mode toggle" },
   s = {
     name = "Search",
-    w = { ":Ag <C-R><C-W><CR>", "Word under cursor" },
+    w = { ":Ag <C-R><C-W><cr>", "Word under cursor" },
     p = { ":Ag ", "Project", silent = false },
   },
   S = { "<cmd>vs .vscode/scratchpad_local.md<cr>", "Scratchpad" },
   t = {
     name = "Test",
-    r = { "<cmd>Texec rerun\\ -bcx\\ --no-notify\\ --\\ bin/rails\\ test\\ %<CR>", "Rails rerun test file" },
-    t = { "<cmd>TestFile<CR>", "File" },
-    T = { "<cmd>TestNearest<CR>", "Nearest" },
+    r = { "<cmd>Texec rerun\\ -bcx\\ --no-notify\\ --\\ bin/rails\\ test\\ %<cr>", "Rails rerun test file" },
+    t = { "<cmd>TestFile<cr>", "File" },
+    T = { "<cmd>TestNearest<cr>", "Nearest" },
   },
   T = {
     name = "Terminal",
-    n = { "<cmd>Tnew<CR>", "New" },
+    n = { "<cmd>Tnew<cr>", "New" },
     r = {
       name = "REPL",
-      f = { "<cmd>TREPLSendFile<CR>", "Send file" },
-      l = { "<cmd>TREPLSendLine<CR>", "Send line" },
-      s = { "<cmd>TREPLSendSelection<CR>", "Send selection" },
+      f = { "<cmd>TREPLSendFile<cr>", "Send file" },
+      l = { "<cmd>TREPLSendLine<cr>", "Send line" },
+      s = { "<cmd>TREPLSendSelection<cr>", "Send selection" },
     },
   },
-  w = { "<cmd>bdelete!<CR>", "Buffer delete" },
+  w = { "<cmd>bdelete!<cr>", "Buffer delete" },
 }
 
 local which_key = require 'which-key'
