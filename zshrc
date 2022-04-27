@@ -187,11 +187,7 @@ esac
 export ANSIBLE_ROLES_PATH=~/.ansible/roles
 export DISABLE_AUTO_TITLE='true'
 export EDITOR="nvim" # Make vim the default editor
-if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
-  export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'" # nvr allows us to use the current nvim instance from an nvim terminal
-else
-  export VISUAL="nvim" # Make vim the default editor
-fi
+export VISUAL="nvim" # Make vim the default editor
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=$HISTSIZE
