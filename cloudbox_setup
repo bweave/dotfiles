@@ -74,8 +74,12 @@ make && sudo make install
 cd -
 rm -rf tmux-*
 
-# instll neovim from snap until v0.5 is available from apt
-sudo snap install --beta nvim --classic
+# instll latest neovim from .deb
+pushd /tmp
+  curl -fsSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb -O
+  sudo apt install nvim-linux64.deb
+  rm nvim-linux64.deb
+popd &> /dev/null
 
 # Clone custom nvim themes
 if [ ! -d $HOME/src/bweave-nvim ]; then
