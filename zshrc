@@ -207,6 +207,7 @@ case "$OSTYPE" in
   darwin*)
     export CLICOLOR=1 # Set CLICOLOR if you want Ansi Colors in iTerm2
     export TERM="xterm-256color" # Set colors to match iTerm2 Terminal Colors
+    export PCO_CLOUDBOX_AFTER_PROVISION_SCRIPT_PATH=~/dotfiles/cloudbox_setup
     ;;
   linux*)
     export TERM="screen-256color"
