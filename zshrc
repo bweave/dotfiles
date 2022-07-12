@@ -82,11 +82,7 @@ unsetopt nomatch # for rake tasks with args
 # PCO
 ########################
 
-case "$OSTYPE" in
-  linux*)
-	  include ~/pco-box/env.sh
-		;;
-esac
+include ~/pco-box/env.sh
 
 ########################
 # Nvm
