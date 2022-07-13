@@ -48,12 +48,9 @@ if [ ! -d $HOME/dotfiles ]; then
   git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
 fi
 pushd $HOME/dotfiles &> /dev/null
-  for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux vimrc zshrc; do
+  for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux zshrc; do
     ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
   done
-  mkdir -p $HOME/.config/nvim/lua
-  ln -sf $HOME/dotfiles/init.lua $HOME/.config/nvim/init.lua
-  ln -sf $HOME/dotfiles/nvim/lua/bweave $HOME/.config/nvim/lua/bweave
   ln -sf $HOME/dotfiles/ssh_rc $HOME/.ssh/rc
   ln -sf $HOME/dotfiles/tat /usr/local/bin/tat
   touch $HOME/.secrets
@@ -81,13 +78,20 @@ pushd /tmp
   rm nvim-linux64.deb
 popd &> /dev/null
 
+# Clone my neovim config
+mkdir -p $HOME/src
+mkdir -p $HOME/.config/nvim
+if [ ! -d $HOME/src/nvim-minimal ]; then
+  git clone git@github.com:bweave/nvim-minimal.git $HOME/dotfiles
+fi
+ln -sf $HOME/src/nvim-minimal/init.lua $HOME/.config/nvim/init.lua
+ln -sf $HOME/src/nvim-minimal/lua $HOME/.config/nvim/lua
+
 # Clone custom nvim themes
 if [ ! -d $HOME/src/bweave-nvim ]; then
-  mkdir -p $HOME/src
   git clone --depth=1 https://github.com/bweave/bweave-nvim $HOME/src/bweave-nvim
 fi
 if [ ! -d $HOME/src/nord-light ]; then
-  mkdir -p $HOME/src
   git clone --depth=1 https://github.com/bweave/nord-light $HOME/src/nord-light
 fi
 
@@ -103,7 +107,7 @@ if [ ! -d $HOME/.fzf ]; then
 fi
 
 # Install nvim plugins
-nvim --headless -u NONE -c 'lua require("bweave.bootstrap").bootstrap_paq()'
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Install AWS-CLI if needed
 pushd /tmp &> /dev/null
