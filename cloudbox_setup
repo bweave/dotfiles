@@ -53,7 +53,6 @@ pushd $HOME/dotfiles &> /dev/null
   done
   ln -sf $HOME/dotfiles/ssh_rc $HOME/.ssh/rc
   ln -sf $HOME/dotfiles/tat /usr/local/bin/tat
-  touch $HOME/.secrets
 popd &> /dev/null
 
 # Install latest tmux
@@ -134,4 +133,3 @@ else
 fi
 
 echo Done!
-echo Be sure to update ~/.secrets
