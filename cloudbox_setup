@@ -61,7 +61,7 @@ popd &> /dev/null
 
 # Install latest tmux
 sudo mv "$(which tmux)" "$(which tmux)_orig"
-sudo apt install libevent-dev
+sudo apt install -y libevent-dev
 curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
   | grep "browser_download_url.*" \
   | cut -d : -f 2,3 \
