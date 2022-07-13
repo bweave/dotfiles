@@ -1,1 +1,0 @@
-paq {'wincent/vim-clipper'}

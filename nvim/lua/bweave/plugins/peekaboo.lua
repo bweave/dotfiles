@@ -1,1 +1,0 @@
-paq {'junegunn/vim-peekaboo'}

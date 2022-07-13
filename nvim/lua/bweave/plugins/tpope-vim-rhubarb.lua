@@ -1,1 +1,0 @@
-paq {'tpope/vim-rhubarb'}
