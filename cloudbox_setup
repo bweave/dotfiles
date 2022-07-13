@@ -15,22 +15,36 @@ sudo apt install -y \
   silversearcher-ag \
   zsh-autosuggestions
 
+# Install rb script for text manipulation with Ruby from the command line
+if ! command -v rb &> /dev/null; then
+  echo "Installing rb for string manipulation with Ruby..."
+  curl https://raw.githubusercontent.com/thisredone/rb/master/rb -o /usr/local/bin/rb && chmod +x /usr/local/bin/rb
+fi
+
 # Check if zsh is intalled and install if needed
-if ! command -v zsh; then
+if command -v zsh &> /dev/null; then
+  echo "ZSH is good to go"
+else
+  echo "Installing ZSH..."
   sudo apt install -y zsh
 fi
 
 # Set zsh as the default shell from the current user
-if [ ! "$SHELL" = "zsh" ]; then
+if "$SHELL" = "$(which zsh)"; then
+  echo "ZSH is already set as shell"
+else
+  echo "Setting shell to ZSH..."
   sudo chsh $(whoami) -s $(which zsh)
 fi
 
 # Install oh-my-zsh
 if [ ! -d $HOME/.oh-my-zsh ]; then
+  echo "Installing oh-my-zsh..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
+  echo "Cloning zsh-autosuggestions..."
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 fi
 
@@ -38,6 +52,7 @@ fi
 pushd $HOME/.oh-my-zsh/custom &> /dev/null
   pushd ./themes &> /dev/null
     if [ ! -d ./powerlevel10k ]; then
+      echo "Cloning powerlevel10k..."
       git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./powerlevel10k
     fi
   popd &> /dev/null
@@ -45,9 +60,11 @@ popd &> /dev/null
 
 # Setup dotfiles
 if [ ! -d $HOME/dotfiles ]; then
+  echo "Cloning dotfiles..."
   git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
 fi
 pushd $HOME/dotfiles &> /dev/null
+  echo "Symlinking dotfiles..."
   for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux zshrc; do
     ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
   done
@@ -56,31 +73,42 @@ pushd $HOME/dotfiles &> /dev/null
 popd &> /dev/null
 
 # Install latest tmux
-sudo mv "$(which tmux)" "$(which tmux)_orig"
-sudo apt install -y libevent-dev
-curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
-  | grep "browser_download_url.*" \
-  | cut -d : -f 2,3 \
-  | tr -d \" \
-  | wget -qi -
-tar -zxf tmux-*.tar.gz
-cd tmux-*/
-./configure --prefix=/usr
-make && sudo make install
-cd -
-rm -rf tmux-*
+if tmux -V | rb -l "split[1].to_f >= 3.2" | &> /dev/null; then
+  echo "Tmux is good to go"
+else
+  echo "Installing latest Tmux..."
+  sudo mv "$(which tmux)" "$(which tmux)_orig"
+  sudo apt install -y libevent-dev
+  curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
+    | grep "browser_download_url.*" \
+    | cut -d : -f 2,3 \
+    | tr -d \" \
+    | wget -qi -
+  tar -zxf tmux-*.tar.gz
+  cd tmux-*/
+  ./configure --prefix=/usr
+  make && sudo make install
+  cd -
+  rm -rf tmux-*
+fi
 
 # instll latest neovim from .deb
-pushd /tmp
-  curl -fsSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb -O
-  sudo apt install ./nvim-linux64.deb
-  rm nvim-linux64.deb
-popd &> /dev/null
+if command -v nvim &> /dev/null; then
+  echo "Neovim is good to go"
+else
+  echo "Installing latest Neovim..."
+  pushd /tmp
+    curl -fsSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb -O
+    sudo apt install ./nvim-linux64.deb
+    rm nvim-linux64.deb
+  popd &> /dev/null
+fi
 
 # Clone my neovim config
 mkdir -p $HOME/src
 mkdir -p $HOME/.config/nvim
 if [ ! -d $HOME/src/nvim-minimal ]; then
+  echo "Cloning nvim-minimal config"
   git clone git@github.com:bweave/nvim-minimal.git $HOME/dotfiles
 fi
 ln -sf $HOME/src/nvim-minimal/init.lua $HOME/.config/nvim/init.lua
@@ -88,38 +116,45 @@ ln -sf $HOME/src/nvim-minimal/lua $HOME/.config/nvim/lua
 
 # Clone custom nvim themes
 if [ ! -d $HOME/src/bweave-nvim ]; then
+  echo "Installing bweave-nvim nvim theme"
   git clone --depth=1 https://github.com/bweave/bweave-nvim $HOME/src/bweave-nvim
 fi
 if [ ! -d $HOME/src/nord-light ]; then
+  echo "Installing nord-light nvim theme"
   git clone --depth=1 https://github.com/bweave/nord-light $HOME/src/nord-light
 fi
 
-if ! command -v nvr; then
+if command -v nvr &> /dev/null; then
+  echo "nvr is good to go"
+else
+  echo "Installing neovim-remote"
   pip3 install neovim-remote
 fi
 
 # manually install fzf to get the most up to date version
 if [ ! -d $HOME/.fzf ]; then
+  echo "Installing FZF..."
   git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
   $HOME/.fzf/install --no-update-rc --key-bindings --completion
   exec $SHELL
 fi
 
 # Install nvim plugins
+echo "Installing Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Install AWS-CLI if needed
-pushd /tmp &> /dev/null
-  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-  unzip awscliv2.zip
-  sudo ./aws/install
-  rm -rf aws
-  rm awscliv2.zip
-popd &> /dev/null
-
-# Install rb script for text manipulation with Ruby from the command line
-if ! command -v rb; then
-  curl https://raw.githubusercontent.com/thisredone/rb/master/rb -o /usr/local/bin/rb && chmod +x /usr/local/bin/rb
+if command -v aws &> /dev/null; then
+  echo "AWS CLI is good to go"
+else
+  echo "Installing AWS CLI..."
+  pushd /tmp &> /dev/null
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
+    rm -rf aws
+    rm awscliv2.zip
+  popd &> /dev/null
 fi
 
 # Setup forwarding GITHUB_TOKEN env var over ssh
@@ -129,7 +164,7 @@ if [ -z ${GITHUB_TOKEN+x} ]; then
   echo Reloading SSH
   sudo service ssh reload
 else
-  echo "GITHUB_TOKEN is gtg: '$GITHUB_TOKEN'";
+  echo "GITHUB_TOKEN is good to go";
 fi
 
 echo Done!
