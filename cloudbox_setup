@@ -84,11 +84,11 @@ popd &> /dev/null
 # Clone custom nvim themes
 if [ ! -d $HOME/src/bweave-nvim ]; then
   mkdir -p $HOME/src
-  git clone --depth=1 git@github.com:bweave/bweave-nvim $HOME/src/bweave-nvim
+  git clone --depth=1 https://github.com/bweave/bweave-nvim $HOME/src/bweave-nvim
 fi
 if [ ! -d $HOME/src/nord-light ]; then
   mkdir -p $HOME/src
-  git clone --depth=1 git@github.com:bweave/nord-light ${$HOME}/src/nord-light
+  git clone --depth=1 https://github.com/bweave/nord-light $HOME/src/nord-light
 fi
 
 if ! command -v nvr; then
