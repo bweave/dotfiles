@@ -15,6 +15,12 @@ sudo apt install -y \
   silversearcher-ag \
   zsh-autosuggestions
 
+# Install Rust lang for editor tooling
+if ! command -v rustc &> /dev/null; then
+  echo "Installing rust for editor tooling..."
+  curl https://sh.rustup.rs -sSf | sh -s -- -y
+fi
+
 # Install rb script for text manipulation with Ruby from the command line
 if ! command -v rb &> /dev/null; then
   echo "Installing rb for string manipulation with Ruby..."
@@ -30,50 +36,50 @@ else
 fi
 
 # Set zsh as the default shell from the current user
-if "$SHELL" = "$(which zsh)"; then
+if [ "$SHELL" = "$(which zsh)" ]; then
   echo "ZSH is already set as shell"
 else
   echo "Setting shell to ZSH..."
-  sudo chsh $(whoami) -s $(which zsh)
+  sudo "chsh $(whoami) -s $(which zsh)"
 fi
 
 # Install oh-my-zsh
-if [ ! -d $HOME/.oh-my-zsh ]; then
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo "Installing oh-my-zsh..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
-if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ]; then
+if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
   echo "Cloning zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 fi
 
 # Install powerlevel10k theme
-pushd $HOME/.oh-my-zsh/custom &> /dev/null
-  pushd ./themes &> /dev/null
+pushd "$HOME/.oh-my-zsh/custom" &> /dev/null || echo "Couldn't navigate to ~/.oh-my-zsh/custom" && exit
+  pushd ./themes &> /dev/null || echo "Couldn't navigate to ~/.oh-my-zsh/custom/themes" && exit
     if [ ! -d ./powerlevel10k ]; then
       echo "Cloning powerlevel10k..."
       git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./powerlevel10k
     fi
-  popd &> /dev/null
-popd &> /dev/null
+  popd &> /dev/null || echo "Couldn't popd" && exit
+popd &> /dev/null || echo "Couldn't popd" && exit
 
 # Setup dotfiles
-if [ ! -d $HOME/dotfiles ]; then
+if [ ! -d "$HOME/dotfiles" ]; then
   echo "Cloning dotfiles..."
-  git clone git@github.com:bweave/dotfiles.git $HOME/dotfiles
+  git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
 fi
-pushd $HOME/dotfiles &> /dev/null
+pushd "$HOME/dotfiles" &> /dev/null || echo "Couldn't navigate to ~/dotfiles" && exit
   echo "Symlinking dotfiles..."
   for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux zshrc; do
-    ln -sf $HOME/dotfiles/$dotfile $HOME/.$dotfile
+    ln -sf "$HOME/dotfiles/$dotfile" "$HOME/.$dotfile"
   done
-  ln -sf $HOME/dotfiles/ssh_rc $HOME/.ssh/rc
-  ln -sf $HOME/dotfiles/tat /usr/local/bin/tat
-popd &> /dev/null
+  ln -sf "$HOME/dotfiles/ssh_rc" "$HOME/.ssh/rc"
+  ln -sf "$HOME/dotfiles/tat" /usr/local/bin/tat
+popd &> /dev/null || echo "Couldn't popd" && exit
 
 # Install latest tmux
-if tmux -V | rb -l "split[1].to_f >= 3.2" | &> /dev/null; then
+if tmux -V | rb -l "split[1].to_f >= 3.2" &> /dev/null; then
   echo "Tmux is good to go"
 else
   echo "Installing latest Tmux..."
@@ -85,43 +91,46 @@ else
     | tr -d \" \
     | wget -qi -
   tar -zxf tmux-*.tar.gz
-  cd tmux-*/
-  ./configure --prefix=/usr
-  make && sudo make install
-  cd -
+  pushd tmux-*/ || echo "Couldn't navigate to tmux-*" && exit
+    ./configure --prefix=/usr
+    make && sudo make install
+  popd &> /dev/null || echo "Couldn't popd" && exit
   rm -rf tmux-*
 fi
+
+echo "Installing lua-language-server..."
+echo "TODO: this is a manual process right now!!!"
 
 # instll latest neovim from .deb
 if command -v nvim &> /dev/null; then
   echo "Neovim is good to go"
 else
   echo "Installing latest Neovim..."
-  pushd /tmp
+  pushd /tmp || echo "Couldn't navigate to /tmp" && exit
     curl -fsSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb -O
     sudo apt install ./nvim-linux64.deb
     rm nvim-linux64.deb
-  popd &> /dev/null
+  popd &> /dev/null || echo "Couldn't popd" && exit
 fi
 
 # Clone my neovim config
-mkdir -p $HOME/src
-mkdir -p $HOME/.config/nvim
-if [ ! -d $HOME/src/nvim-minimal ]; then
+mkdir -p "$HOME/src"
+mkdir -p "$HOME/.config/nvim"
+if [ ! -d "$HOME/src/nvim-minimal" ]; then
   echo "Cloning nvim-minimal config"
-  git clone git@github.com:bweave/nvim-minimal.git $HOME/dotfiles
+  git clone git@github.com:bweave/nvim-minimal.git "$HOME/dotfiles"
 fi
-ln -sf $HOME/src/nvim-minimal/init.lua $HOME/.config/nvim/init.lua
-ln -sf $HOME/src/nvim-minimal/lua $HOME/.config/nvim/lua
+ln -sf "$HOME/src/nvim-minimal/init.lua" "$HOME/.config/nvim/init.lua"
+ln -sf "$HOME/src/nvim-minimal/lua" "$HOME/.config/nvim/lua"
 
 # Clone custom nvim themes
-if [ ! -d $HOME/src/bweave-nvim ]; then
+if [ ! -d "$HOME/src/bweave-nvim" ]; then
   echo "Installing bweave-nvim nvim theme"
-  git clone --depth=1 https://github.com/bweave/bweave-nvim $HOME/src/bweave-nvim
+  git clone --depth=1 https://github.com/bweave/bweave-nvim "$HOME/src/bweave-nvim"
 fi
-if [ ! -d $HOME/src/nord-light ]; then
+if [ ! -d "$HOME/src/nord-light" ]; then
   echo "Installing nord-light nvim theme"
-  git clone --depth=1 https://github.com/bweave/nord-light $HOME/src/nord-light
+  git clone --depth=1 https://github.com/bweave/nord-light "$HOME/src/nord-light"
 fi
 
 if command -v nvr &> /dev/null; then
@@ -132,10 +141,10 @@ else
 fi
 
 # manually install fzf to get the most up to date version
-if [ ! -d $HOME/.fzf ]; then
+if [ ! -d "$HOME/.fzf" ]; then
   echo "Installing FZF..."
-  git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
-  $HOME/.fzf/install --no-update-rc --key-bindings --completion
+  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+  "$HOME/.fzf/install --no-update-rc --key-bindings --completion"
   exec $SHELL
 fi
 
@@ -143,18 +152,28 @@ fi
 echo "Installing Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
+# Install additional editor tooling
+sudo npm install -g npm@latest
+sudo npm i -g \
+  bash-language-server \
+  sql-language-server \
+  typescript \
+  typescript-language-server \
+  vscode-langservers-extracted \
+  yaml-language-server
+
 # Install AWS-CLI if needed
 if command -v aws &> /dev/null; then
   echo "AWS CLI is good to go"
 else
   echo "Installing AWS CLI..."
-  pushd /tmp &> /dev/null
+  pushd /tmp &> /dev/null || echo "Couldn't navigate to /tmp" && exit
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     unzip awscliv2.zip
     sudo ./aws/install
     rm -rf aws
     rm awscliv2.zip
-  popd &> /dev/null
+  popd &> /dev/null || echo "Couldn't popd" && exit
 fi
 
 # Setup forwarding GITHUB_TOKEN env var over ssh
