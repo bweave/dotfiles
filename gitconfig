@@ -25,3 +25,5 @@
 	protocol = ssh
 [fetch]
 	prune = true
+[blame]
+	ignoreRevsFile = .git-blame-ignore-revs
