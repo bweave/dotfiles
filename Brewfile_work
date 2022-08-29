@@ -73,6 +73,7 @@ brew "ssh-copy-id", link: true
 brew "stylua"
 brew "terminal-notifier"
 brew "the_silver_searcher"
+brew "tldr"
 brew "tmux"
 brew "tmuxinator"
 brew "watchman"
