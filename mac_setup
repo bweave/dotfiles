@@ -37,12 +37,17 @@ dotfiles=(eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.
 for dotfile in $dotfiles; do
   ln -sf "$HOME/dotfiles/$dotfile" "$HOME/.$dotfile"
 done
-mkdir -p "$HOME/.config/nvim/lua"
-ln -sf "$HOME/dotfiles/init.lua" "$HOME/.config/nvim/init.lua"
-ln -sf "$HOME/dotfiles/nvim/lua/bweave" "$HOME/.config/nvim/lua/bweave"
 
-mkdir -p "$HOME/Library/Application\ Support/iTerm2/Scripts/AutoLaunch"
-ln -sf "$HOME/dotfiles/os_theme_toggle.py" "$HOME/Library/Application\ Support/iTerm2/Scripts/AutoLaunch/os_theme_toggle.py"
+# Kitty conf
+mkdir -p "$HOME/.config/kitty"
+ln -sf "$HOME/dotfiles/kitty.conf" "$HOME/.config/kitty/kitty.conf"
+
+# base16-kitty themes
+if [ ! -d "$HOME/src/base16-kitty" ]; then
+  info "cloning base16-kitty themes"
+  mkdir -p "$HOME/src"
+  git clone git@github.com:kdrag0n/base16-kitty "$HOME/src/base16-kitty"
+fi
 
 mkdir -p "$HOME/bin"
 ln -sf "$HOME/dotfiles/tat" "$HOME/bin/tat"

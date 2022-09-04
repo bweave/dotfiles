@@ -40,6 +40,7 @@ brew "htop"
 brew "hub"
 brew "imagemagick@6", link: true
 brew "jq"
+brew "kitty"
 brew "lame"
 brew "libav"
 brew "libpq"
