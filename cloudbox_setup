@@ -154,13 +154,7 @@ nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Install additional editor tooling
 sudo npm install -g npm@latest
-sudo npm i -g \
-  bash-language-server \
-  sql-language-server \
-  typescript \
-  typescript-language-server \
-  vscode-langservers-extracted \
-  yaml-language-server
+sudo npm i -g typescript
 
 # Install AWS-CLI if needed
 if command -v aws &> /dev/null; then
