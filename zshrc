@@ -73,9 +73,9 @@ esac
 # Base16 Kitty Theme
 ########################
 
-if command -v kitty &> /dev/null; then
+if [ ! -z $KITTY_PID ]; then
   if [ -d "$HOME/src/base16-kitty" ]; then
-    eval "kitty @ set-colors -c $HOME/src/base16-kitty/colors/$(cat $HOME/.base16_theme).conf"
+    eval "kitty @ set-colors -a -c $HOME/src/base16-kitty/colors/$(cat $HOME/.base16_theme).conf"
   fi
 fi
 
