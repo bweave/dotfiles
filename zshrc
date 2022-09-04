@@ -70,6 +70,16 @@ case "$OSTYPE" in
 esac
 
 ########################
+# Base16 Kitty Theme
+########################
+
+if command -v kitty &> /dev/null; then
+  if [ -d "$HOME/src/base16-kitty" ]; then
+    eval "kitty @ set-colors -c $HOME/src/base16-kitty/colors/$(cat $HOME/.base16_theme).conf"
+  fi
+fi
+
+########################
 # Ruby
 ########################
 
@@ -102,6 +112,8 @@ esac
 
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
+
+alias kitty_theme="cd $HOME/src/base16-kitty && fzf --preview 'head -n 100 {} && kitty @ set-colors -c {}'; cd -"
 
 alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy ; echo 'Copied to Clipboard.'"
 alias ..="cd .."
