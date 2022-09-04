@@ -1,33 +1,70 @@
 #!/bin/bash
 
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+BLUE="\033[0;34m"
+ENDCOLOR="\033[0m"
+
+function msg() {
+  echo -e "$1"
+}
+
+function info() {
+  msg "$BLUE$1$ENDCOLOR"
+}
+
+function success() {
+  msg "${GREEN}$1${ENDCOLOR}"
+}
+
+function error() {
+  msg "${RED}$1${ENDCOLOR}"
+}
+
+info "Mac setup - enter your password to get started:"
 sudo echo "Let's go!"
 
 # Install brew
 if [ ! "$(command -v brew)" ]; then
+  info "Installing homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  success "Homebrew is g2g"
+else
+  success "Homebrew is g2g"
 fi
 
 # Install some packages
-brew bundle --file ~/dotfiles/Brewfile
+info "Install Homebrew packages:"
+PS3="Select a Brewfile to install: "
+select brewfile in personal work
+do
+  brew bundle --file "$HOME/dotfiles/Brewfile_$brewfile"
+  break
+done
 
 # Install oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  info "Installing oh-my-zsh..."
   sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 fi
+success "oh-my-zsh is g2g"
 
 if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+  echo "Installing zsh-autosuggestions..."
   git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 fi
+success "zsh-autosuggestions is g2g"
 
 # Install powerlevel10k theme
-pushd "$HOME/.oh-my-zsh/custom" &> /dev/null || echo "Couldn't navigate to ~/.oh-my-zsh/custom" && exit
-  pushd ./themes &> /dev/null || echo "Couldn't navigate to ~/.oh-my-zsh/custom/themes" && exit
+pushd "$HOME/.oh-my-zsh/custom" &> /dev/null || error "Couldn't navigate to ~/.oh-my-zsh/custom" && exit
+  pushd ./themes &> /dev/null || error "Couldn't navigate to ~/.oh-my-zsh/custom/themes" && exit
     if [ ! -d ./powerlevel10k ]; then
-      echo "Cloning powerlevel10k..."
+      info "Cloning powerlevel10k..."
       git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./powerlevel10k
     fi
-  popd &> /dev/null || echo "Couldn't popd" && exit
-popd &> /dev/null || echo "Couldn't popd" && exit
+  popd &> /dev/null || error "Couldn't popd" && exit
+popd &> /dev/null || error "Couldn't popd" && exit
+success "powerlevel10k is g2g"
 
 # Setup dotfiles
 if [ ! -d "$HOME/dotfiles" ]; then
@@ -48,7 +85,9 @@ if [ ! -d "$HOME/src/base16-kitty" ]; then
   mkdir -p "$HOME/src"
   git clone git@github.com:kdrag0n/base16-kitty "$HOME/src/base16-kitty"
 fi
+success "base16-kitty themes cloned and read"
 
+# Custom bin scripts
 mkdir -p "$HOME/bin"
 ln -sf "$HOME/dotfiles/tat" "$HOME/bin/tat"
 ln -sf "$HOME/dotfiles/git-nuke-staging" "$HOME/bin/git-nuke-staging"
@@ -57,27 +96,21 @@ mkdir -p "$HOME/.config/karabiner"
 ln -sf "$HOME/dotfiles/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 touch "$HOME/.secrets"
 
-# setup paq for neovim plugins
-if [ ! -d "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim ]; then
-  git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+# Clone my neovim config
+mkdir -p "$HOME/src"
+mkdir -p "$HOME/.config/nvim"
+if [ ! -d "$HOME/src/nvim-minimal" ]; then
+  info "Cloning nvim-minimal config"
+  git clone git@github.com:bweave/nvim-minimal.git "$HOME/dotfiles"
 fi
-nvim --headless -u NONE -c 'lua require("bweave.bootstrap").bootstrap_paq()'
-
-# Clone custom nvim themes
-if [ ! -d "$HOME/src/bweave-nvim" ]; then
-  mkdir -p "$HOME/src"
-  git clone git@github.com:bweave/bweave-nvim "$HOME/src/bweave-nvim"
-fi
-if [ ! -d "$HOME/src/nord-light" ]; then
-  mkdir -p "$HOME/src"
-  git clone git@github.com:bweave/nord-light "$HOME/src/nord-light"
-fi
-
-# Download Panda Syntax iTerm theme
-curl -fsSL -o ~/Desktop/panda-syntax.itermcolors https://raw.githubusercontent.com/PandaTheme/panda-syntax-iterm/master/panda-syntax.itermcolors
+ln -sf "$HOME/src/nvim-minimal/init.lua" "$HOME/.config/nvim/init.lua"
+ln -sf "$HOME/src/nvim-minimal/lua" "$HOME/.config/nvim/lua"
+info "Installing Neovim plugins"
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 # Setup Hammerspoon
 if [ ! -d "$HOME/.hammerspoon" ]; then
+  info "cloning Hammerspoon config"
   git clone git@github.com:bweave/hammerspoon-config.git "$HOME/.hammerspoon"
 fi
 pushd "$HOME/.hammerspoon" &> /dev/null || echo "Couldn't navigate to ~/.hammerspoon" && exit
@@ -87,6 +120,7 @@ popd &> /dev/null || echo "Couldn't popd" && exit
 # Set key repeat rate
 sudo defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
 sudo defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+success "fast key repeat set"
 
 # Install ruby
 ruby_version="3.0.3"
@@ -94,21 +128,15 @@ rbenv install -s $ruby_version
 rbenv global $ruby_version
 gem install bundler rails
 rbenv rehash
+success "Ruby $ruby_version installed"
 
 # Setup NVM and Node LTS
-if [ ! -d "$HOME/.nvm" ]; then
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-fi
-source "$HOME/.nvm/nvm.sh"
+info "setting up NVM with Node LTS"
 nvm install --lts
 nvm alias system node
 
 echo
-echo "Donezo!"
-echo
-echo =================================================
-echo "Be sure to update ~/.secrets"
-echo "Be sure to import Panda Syntax them into iTerm!"
-echo "Be sure to add Cloudbox to ~/.ssh/config"
-echo =================================================
+success =================================================
+success "Donezo!"
+success =================================================
 echo
