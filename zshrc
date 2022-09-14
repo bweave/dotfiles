@@ -320,3 +320,5 @@ function start_all_pco_apps() {
 fixssh() {
   eval $(tmux show-env -s |grep '^SSH_')
 }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
