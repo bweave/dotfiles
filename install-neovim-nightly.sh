@@ -17,4 +17,4 @@ make install
 
 # link it so it's in PATH
 cd "$HOME/neovim" || exit
-ln -sf "$HOME/neovim/bin/nvim" "$HOMEBREW_PREFIX/bin/nvim"
+ln -sf "$HOME/neovim/bin/nvim" "${HOMEBREW_PREFIX:-/usr/local}/bin/nvim"
