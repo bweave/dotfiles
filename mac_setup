@@ -101,6 +101,7 @@ if [ ! -d "$HOME/src/nvim-minimal" ]; then
 fi
 ln -sf "$HOME/src/nvim-minimal/init.lua" "$HOME/.config/nvim/init.lua"
 ln -sf "$HOME/src/nvim-minimal/lua" "$HOME/.config/nvim/lua"
+ln -sf "$HOME/src/nvim-minimal/colors" "$HOME/.config/nvim/colors"
 info "Installing Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
