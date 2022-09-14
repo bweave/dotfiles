@@ -32,6 +32,9 @@ path_prepend() {
 path_prepend $HOME/.local/bin
 path_prepend $HOME/bin
 path_prepend $HOME/.rbenv/shims
+if command -v go &> /dev/null; then
+  path_prepend $(go env GOPATH)/bin
+fi
 if [ -d $HOME/Code/pco ]; then
   path_prepend $HOME/Code/pco/bin
 fi
