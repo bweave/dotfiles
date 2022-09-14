@@ -75,17 +75,10 @@ for dotfile in $dotfiles; do
   ln -sf "$HOME/dotfiles/$dotfile" "$HOME/.$dotfile"
 done
 
-# Kitty conf
-mkdir -p "$HOME/.config/kitty"
-ln -sf "$HOME/dotfiles/kitty.conf" "$HOME/.config/kitty/kitty.conf"
-
-# base16-kitty themes
-if [ ! -d "$HOME/src/base16-kitty" ]; then
-  info "cloning base16-kitty themes"
-  mkdir -p "$HOME/src"
-  git clone git@github.com:kdrag0n/base16-kitty "$HOME/src/base16-kitty"
-fi
-success "base16-kitty themes cloned and read"
+# wezterm conf
+mkdir -p "$HOME/.config"
+ln -sf "$HOME/dotfiles/wezterm" "$HOME/.config/wezterm"
+success "wezterm config g2g"
 
 # Custom bin scripts
 mkdir -p "$HOME/bin"
@@ -95,6 +88,9 @@ ln -sf "$HOME/dotfiles/git-nuke-staging" "$HOME/bin/git-nuke-staging"
 mkdir -p "$HOME/.config/karabiner"
 ln -sf "$HOME/dotfiles/karabiner.json" "$HOME/.config/karabiner/karabiner.json"
 touch "$HOME/.secrets"
+
+# Install neovim from source
+"$HOME/dotfiles/install-neovim-nightly.sh"
 
 # Clone my neovim config
 mkdir -p "$HOME/src"

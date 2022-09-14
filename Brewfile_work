@@ -50,7 +50,6 @@ brew "lua-language-server"
 brew "qt"
 brew "mkvtoolnix"
 brew "mysql-client", link: true
-brew "neovim"
 brew "neovim-remote"
 brew "node"
 brew "node@14", link: true
