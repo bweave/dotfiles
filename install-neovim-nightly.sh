@@ -2,7 +2,7 @@
 
 cd /tmp || exit
 # make sure we've got a clean slate
-rm ./neovim-nightly.tar.gz
+rm -f ./neovim-nightly.tar.gz
 rm -rf ./neovim-nightly
 
 # download and untar the source code
