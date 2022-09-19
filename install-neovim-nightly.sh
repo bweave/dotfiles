@@ -7,10 +7,10 @@ rm -rf ./neovim-nightly
 
 # download and untar the source code
 wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-tar xzvf ./neovim-linux64.tar.gz
+tar xzvf ./nvim-linux64.tar.gz
 
 # build from source
-cd /tmp/neovim-linux64 || exit
+cd /tmp/nvim-linux64 || exit
 rm -r build/  # clear the CMake cache in case there's anything stale
 make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/neovim"
 make install
