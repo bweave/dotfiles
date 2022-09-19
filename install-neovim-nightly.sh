@@ -11,7 +11,7 @@ tar xzvf ./nvim-linux64.tar.gz
 
 # build from source
 cd /tmp/nvim-linux64 || exit
-rm -r build/  # clear the CMake cache in case there's anything stale
+rm -rf build/  # clear the CMake cache in case there's anything stale
 make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/neovim"
 make install
 
