@@ -6,7 +6,7 @@ rm -f ./neovim-nightly.tar.gz
 rm -rf ./neovim-nightly
 
 # download and untar the source code
-gh release download nightly --archive=tar.gz --repo neovim/neovim
+wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
 tar xzvf ./neovim-nightly.tar.gz
 
 # build from source
