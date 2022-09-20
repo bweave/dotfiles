@@ -1,88 +1,148 @@
 #!/usr/bin/bash
 
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+BLUE="\033[0;34m"
+ENDCOLOR="\033[0m"
+
+function msg() {
+  echo -e "$1"
+}
+
+function info() {
+  msg "$BLUE$1$ENDCOLOR"
+}
+
+function success() {
+  msg "${GREEN}$1${ENDCOLOR}"
+}
+
+function error() {
+  msg "${RED}$1${ENDCOLOR}"
+}
+
+success "Cloudbox setup - Let's go!"
+
 sudo apt update
 sudo apt dist-upgrade -y
 
 # Install some packages
 sudo apt install -y \
+  autoconf \
   autojump \
+  automake \
   bat \
+  cmake \
+  curl \
+  doxygen \
   exuberant-ctags \
+  g++ \
+  gettext \
   hub \
+  libtool \
+  libtool-bin \
   luarocks \
+  ninja-build \
+  pkg-config \
   python3-pip \
   ripgrep \
   silversearcher-ag \
+  unzip \
   zsh-autosuggestions
+
+# Install Github CLI
+if ! command -v gh &> /dev/null; then
+  info "Installing Github CLI..."
+  curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+    && sudo apt update \
+    && sudo apt install gh -y
+fi
+success "Github CLI is g2g"
 
 # Install Rust lang for editor tooling
 if ! command -v rustc &> /dev/null; then
-  echo "Installing rust for editor tooling..."
+  info "Installing rust for editor tooling..."
   curl https://sh.rustup.rs -sSf | sh -s -- -y
 fi
+success "rustc is g2g"
+
+# Install wezterm
+if ! command -v wezterm &> /dev/null; then
+  info "Installing wezterm..."
+  curl -LO https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu20.04.deb
+  sudo apt install -y ./wezterm-nightly.Ubuntu20.04.deb
+fi
+success "wezterm is g2g"
 
 # Install rb script for text manipulation with Ruby from the command line
 if ! command -v rb &> /dev/null; then
-  echo "Installing rb for string manipulation with Ruby..."
+  info "Installing rb for string manipulation with Ruby..."
   curl https://raw.githubusercontent.com/thisredone/rb/master/rb -o /usr/local/bin/rb && chmod +x /usr/local/bin/rb
 fi
+success "rb is g2g"
 
 # Check if zsh is intalled and install if needed
-if command -v zsh &> /dev/null; then
-  echo "ZSH is good to go"
-else
-  echo "Installing ZSH..."
+if ! command -v zsh &> /dev/null; then
+  info "Installing ZSH..."
   sudo apt install -y zsh
 fi
+success "ZSH is good to go"
 
 # Set zsh as the default shell from the current user
-if [ "$SHELL" = "$(which zsh)" ]; then
-  echo "ZSH is already set as shell"
-else
-  echo "Setting shell to ZSH..."
-  sudo "chsh $(whoami) -s $(which zsh)"
+if [ ! "$SHELL" = "$(which zsh)" ]; then
+  info "Setting shell to ZSH..."
+  sudo chsh "$(whoami)" -s "$(which zsh)"
 fi
+success "ZSH is already set as shell"
 
 # Install oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  echo "Installing oh-my-zsh..."
+  info "Installing oh-my-zsh..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
+success "oh-my-zsh is g2g"
 
 if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
-  echo "Cloning zsh-autosuggestions..."
+  info "Cloning zsh-autosuggestions..."
   git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
 fi
+success "zsh-autosuggestions is g2g"
 
 # Install powerlevel10k theme
-pushd "$HOME/.oh-my-zsh/custom" &> /dev/null || echo "Couldn't navigate to ~/.oh-my-zsh/custom" && exit
-  pushd ./themes &> /dev/null || echo "Couldn't navigate to ~/.oh-my-zsh/custom/themes" && exit
-    if [ ! -d ./powerlevel10k ]; then
-      echo "Cloning powerlevel10k..."
-      git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ./powerlevel10k
-    fi
-  popd &> /dev/null || echo "Couldn't popd" && exit
-popd &> /dev/null || echo "Couldn't popd" && exit
+if [ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
+  info "Cloning powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+fi
+success "powerlevel10k is g2g"
 
 # Setup dotfiles
+mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/dotfiles" ]; then
-  echo "Cloning dotfiles..."
-  git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
+  info "Cloning dotfiles..."
+  git clone https://github.com/bweave/dotfiles.git "$HOME/dotfiles"
+else
+  info "Updating dotfiles repo..."
+  cd "$HOME/dotfiles" || exit
+  git pull
+  cd - || exit
 fi
-pushd "$HOME/dotfiles" &> /dev/null || echo "Couldn't navigate to ~/dotfiles" && exit
-  echo "Symlinking dotfiles..."
-  for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux zshrc; do
-    ln -sf "$HOME/dotfiles/$dotfile" "$HOME/.$dotfile"
-  done
-  ln -sf "$HOME/dotfiles/ssh_rc" "$HOME/.ssh/rc"
-  ln -sf "$HOME/dotfiles/tat" /usr/local/bin/tat
-popd &> /dev/null || echo "Couldn't popd" && exit
+success "dotfiles are g2g"
+info "Symlinking dotfiles..."
+for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux zshrc; do
+  ln -sf "$HOME/dotfiles/$dotfile" "$HOME/.$dotfile"
+done
+ln -sf "$HOME/dotfiles/ssh_rc" "$HOME/.ssh/rc"
+ln -sf "$HOME/dotfiles/tat" /usr/local/bin/tat
+ln -sf "$HOME/dotfiles/wezterm" "$HOME/.config/"
+success "dotfiles are symlinked"
 
 # Install latest tmux
 if tmux -V | rb -l "split[1].to_f >= 3.2" &> /dev/null; then
-  echo "Tmux is good to go"
+  success "Tmux is good to go"
 else
-  echo "Installing latest Tmux..."
+  info "Installing latest Tmux..."
   sudo mv "$(which tmux)" "$(which tmux)_orig"
   sudo apt install -y libevent-dev
   curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
@@ -96,88 +156,80 @@ else
     make && sudo make install
   popd &> /dev/null || echo "Couldn't popd" && exit
   rm -rf tmux-*
+  success "Tmux is g2g"
 fi
 
-echo "Installing lua-language-server..."
-echo "TODO: this is a manual process right now!!!"
+# Lua LSP
+if ! command -v lua-language-server &> /dev/null; then
+  info "Installing lua-language-server..."
+  sudo mkdir -p /usr/local/lua-language-server
+  sudo chown ubuntu:ubuntu /usr/local/lua-language-server
+  cd /usr/local/lua-language-server || exit
+  latest=$(curl -sL https://api.github.com/repos/sumneko/lua-language-server/releases/latest | jq -r ".tag_name")
+  curl -Lk "https://github.com/sumneko/lua-language-server/releases/download/$latest/lua-language-server-$latest-linux-x64.tar.gz" | tar xzv
+  cat <<EOF > /usr/local/bin/lua-language-server
+#!/bin/bash
 
-# instll latest neovim from .deb
-if command -v nvim &> /dev/null; then
-  echo "Neovim is good to go"
-else
-  echo "Installing latest Neovim..."
-  pushd /tmp || echo "Couldn't navigate to /tmp" && exit
-    curl -fsSL https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb -O
-    sudo apt install ./nvim-linux64.deb
-    rm nvim-linux64.deb
-  popd &> /dev/null || echo "Couldn't popd" && exit
+exec "/usr/local/lua-language-server/bin/lua-language-server" "\$@"
+EOF
+  sudo chmod +x /usr/local/bin/lua-language-server
 fi
+success "lua-language-server is g2g"
+
+# install neovim from source
+if ! command -v nvim &> /dev/null; then
+  info "installing nvim from source"
+  "$HOME/dotfiles/install-neovim-nightly.sh"
+fi
+success "nvim is g2g"
 
 # Clone my neovim config
 mkdir -p "$HOME/src"
 mkdir -p "$HOME/.config/nvim"
 if [ ! -d "$HOME/src/nvim-minimal" ]; then
-  echo "Cloning nvim-minimal config"
-  git clone git@github.com:bweave/nvim-minimal.git "$HOME/dotfiles"
-fi
-ln -sf "$HOME/src/nvim-minimal/init.lua" "$HOME/.config/nvim/init.lua"
-ln -sf "$HOME/src/nvim-minimal/lua" "$HOME/.config/nvim/lua"
-
-# Clone custom nvim themes
-if [ ! -d "$HOME/src/bweave-nvim" ]; then
-  echo "Installing bweave-nvim nvim theme"
-  git clone --depth=1 https://github.com/bweave/bweave-nvim "$HOME/src/bweave-nvim"
-fi
-if [ ! -d "$HOME/src/nord-light" ]; then
-  echo "Installing nord-light nvim theme"
-  git clone --depth=1 https://github.com/bweave/nord-light "$HOME/src/nord-light"
-fi
-
-if command -v nvr &> /dev/null; then
-  echo "nvr is good to go"
+  info "Cloning nvim-minimal config"
+  git clone https://github.com/bweave/nvim-minimal.git "$HOME/src/nvim-minimal"
 else
-  echo "Installing neovim-remote"
-  pip3 install neovim-remote
+  info "Updating nvim-minimal config"
+  cd "$HOME/src/nvim-minimal" || exit
+  git pull
+  cd - || exit
 fi
+success "nvim-minimal is g2g"
+ln -sf "$HOME/src/nvim-minimal/init.lua" "$HOME/.config/nvim/init.lua"
+ln -sf "$HOME/src/nvim-minimal/lua" "$HOME/.config/nvim/"
+ln -sf "$HOME/src/nvim-minimal/colors" "$HOME/.config/nvim/"
+info "Installing Neovim plugins"
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+success "Neovim plugins g2g"
 
 # manually install fzf to get the most up to date version
 if [ ! -d "$HOME/.fzf" ]; then
-  echo "Installing FZF..."
+  info "Cloning FZF..."
   git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+fi
+if [ ! command -v fzf &> /dev/null ]; then
+  info "Install FZF..."
   "$HOME/.fzf/install --no-update-rc --key-bindings --completion"
   exec $SHELL
 fi
-
-# Install nvim plugins
-echo "Installing Neovim plugins"
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+success "FZF is g2g"
 
 # Install additional editor tooling
 sudo npm install -g npm@latest
-sudo npm i -g typescript
-
-# Install AWS-CLI if needed
-if command -v aws &> /dev/null; then
-  echo "AWS CLI is good to go"
-else
-  echo "Installing AWS CLI..."
-  pushd /tmp &> /dev/null || echo "Couldn't navigate to /tmp" && exit
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
-    rm -rf aws
-    rm awscliv2.zip
-  popd &> /dev/null || echo "Couldn't popd" && exit
+if ! command -v tsc &> /dev/null; then
+  info "Installing typescript..."
+  sudo npm i -g typescript
 fi
+success "typescript is g2g"
 
 # Setup forwarding GITHUB_TOKEN env var over ssh
 if [ -z ${GITHUB_TOKEN+x} ]; then
-  echo GITHUB_TOKEN is not setup. Adding it to ssh config;
-  sudo sed -i '/AcceptEnv/ s/$/ GITHUB_TOKEN/' /etc/ssh/sshd_config
-  echo Reloading SSH
+  info "GITHUB_TOKEN is not setup. Adding it to ssh config"
+  sudo sed --in-place=.orig 's/^AcceptEnv LANG LC_\*$/& GITHUB_TOKEN/' /etc/ssh/sshd_config
+  info Reloading SSH
   sudo service ssh reload
-else
-  echo "GITHUB_TOKEN is good to go";
 fi
+success "GITHUB_TOKEN is g2g"
 
-echo Done!
+success Done!
