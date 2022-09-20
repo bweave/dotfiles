@@ -176,6 +176,19 @@ EOF
 fi
 success "lua-language-server is g2g"
 
+# manually install fzf to get the most up to date version
+if [ ! -d "$HOME/.fzf" ]; then
+  info "Cloning FZF..."
+  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+fi
+
+if ! command -v fzf &> /dev/null; then
+  info "Install FZF..."
+  "$HOME/.fzf/install --no-update-rc --key-bindings --completion"
+  exec $SHELL
+fi
+success "FZF is g2g"
+
 # install neovim from source
 if ! command -v nvim &> /dev/null; then
   info "installing nvim from source"
@@ -202,18 +215,6 @@ ln -sf "$HOME/src/nvim-minimal/colors" "$HOME/.config/nvim/"
 info "Installing Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 success "Neovim plugins g2g"
-
-# manually install fzf to get the most up to date version
-if [ ! -d "$HOME/.fzf" ]; then
-  info "Cloning FZF..."
-  git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
-fi
-if [ ! command -v fzf &> /dev/null ]; then
-  info "Install FZF..."
-  "$HOME/.fzf/install --no-update-rc --key-bindings --completion"
-  exec $SHELL
-fi
-success "FZF is g2g"
 
 # Install additional editor tooling
 sudo npm install -g npm@latest
