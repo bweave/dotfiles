@@ -184,8 +184,8 @@ fi
 
 if ! command -v fzf &> /dev/null; then
   info "Install FZF..."
-  "$HOME/.fzf/install --no-update-rc --key-bindings --completion"
-  exec $SHELL
+  "$HOME/.fzf/install" --no-update-rc --key-bindings --completion
+  source "$HOME/.zshrc"
 fi
 success "FZF is g2g"
 
