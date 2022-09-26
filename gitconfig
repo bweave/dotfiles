@@ -19,6 +19,7 @@
   default = current
 [alias]
   stashdiff = stash show -
+	pub = push -u origin HEAD
 [init]
 	defaultBranch = main
 [hub]
