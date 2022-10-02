@@ -96,7 +96,9 @@ unsetopt nomatch # for rake tasks with args
 # PCO
 ########################
 
-include ~/pco-box/env.sh
+if [ -d "$HOME/pco-box" ]; then
+  include ~/pco-box/env.sh
+fi
 
 ########################
 # Nvm
