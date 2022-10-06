@@ -42,8 +42,6 @@ packer.startup({
 				"andymass/vim-matchup",
 			},
 		})
-		-- TODO: lualine keeps complaining about base16 themes not being loaded
-		-- Not sure how to fix, yet.
 		use({ "RRethy/nvim-base16" })
 		use({
 			"nvim-lualine/lualine.nvim",
@@ -121,7 +119,6 @@ packer.startup({
 			},
 		})
 		use({ "tpope/vim-commentary" })
-		-- use { 'tpope/vim-obsession' }
 		use({ "tpope/vim-repeat" })
 		use({ "tpope/vim-surround" })
 		use({ "vim-test/vim-test" })
@@ -209,8 +206,8 @@ packer.startup({
 				"saadparwaiz1/cmp_luasnip",
 			},
 		})
-    -- crystal lang
-    use { "jlcrochet/vim-crystal" }
+		-- crystal lang
+		use({ "jlcrochet/vim-crystal" })
 
 		-- Automatically set up your configuration after cloning packer.nvim
 		-- Put this at the end after all plugins

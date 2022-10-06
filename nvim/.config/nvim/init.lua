@@ -2,7 +2,7 @@
 -- Init
 --------------------------------------------------------------------------
 
-require("plugins_init")
+require("plugins")
 require("settings")
 require("colors")
 -- require "statusline"
