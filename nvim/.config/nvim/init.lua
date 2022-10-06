@@ -5,7 +5,6 @@
 require("plugins")
 require("bweave")
 require("colors")
-require("keymaps")
 
 require("plugins/alpha")
 require("plugins/lualine")
@@ -16,4 +15,3 @@ require("plugins/which-key")
 
 -- Experiments
 require("plugins/seeing-is-believing")
-require("completion")

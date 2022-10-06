@@ -6,6 +6,9 @@
 local g = vim.g -- Global vars
 local opt = vim.opt -- Options (global, buffer, window-scoped)
 
+-- Change leader to space
+g.mapleader = " "
+
 -- General
 opt.backup = false -- Disable backups
 opt.completeopt = "menuone,noselect" -- Autocomplete
