@@ -215,34 +215,3 @@ function PrintDiagnostics(opts, bufnr, line_nr, client_id)
 end
 
 vim.cmd([[ autocmd! CursorHold * lua PrintDiagnostics() ]])
-
-----
--- formatting
-----
-local BWFormatting = vim.api.nvim_create_augroup("BWFormatting", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*.lua",
-	callback = function()
-		vim.lsp.buf.format()
-	end,
-	group = BWFormatting,
-})
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*.rb",
-	callback = function()
-		vim.lsp.buf.format()
-	end,
-	group = BWFormatting,
-})
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = "*.go",
-	callback = function()
-		vim.lsp.buf.format()
-	end,
-	group = BWFormatting,
-})
-vim.api.nvim_create_autocmd("BufWritePre", {
-	pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
-	command = "silent! EslintFixAll",
-	group = BWFormatting,
-})
