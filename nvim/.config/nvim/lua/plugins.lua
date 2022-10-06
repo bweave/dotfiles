@@ -232,6 +232,6 @@ packer.startup({
 cmd([[
   augroup user_config
     autocmd!
-    autocmd BufWritePost plugins_init.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
   augroup end
 ]])
