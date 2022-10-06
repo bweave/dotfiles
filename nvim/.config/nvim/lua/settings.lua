@@ -59,7 +59,7 @@ opt.shortmess:append("asI") -- Sane defaults
 
 -- Disable builtins plugins
 local disabled_built_ins = {
-	"netrw",
+	-- "netrw", GBrowse uses this
 	"netrwPlugin",
 	"netrwSettings",
 	"netrwFileHandlers",
@@ -79,9 +79,9 @@ local disabled_built_ins = {
 	"matchit",
 }
 
--- for _, plugin in pairs(disabled_built_ins) do
---   g["loaded_" .. plugin] = 1
--- end
+for _, plugin in pairs(disabled_built_ins) do
+	g["loaded_" .. plugin] = 1
+end
 
 -- Remote
 math.randomseed(os.time())
@@ -123,13 +123,6 @@ vim.api.nvim_create_autocmd("FileType gitcommit", {
 	desc = "Co-authored-by",
 	group = BWAbbreviations,
 })
--- cmd [[autocmd BufWritePre * :%s/\s\+$//e]]  -- Remove whitespace on save
--- cmd 'autocmd VimResized * wincmd ='       -- automatically resize splits when resizing the window
--- cmd 'autocmd FileType javascript iabbrev <buffer> wiplog console.log("WIPLOG",)<left>' -- wiplog JS
--- cmd 'autocmd FileType javascriptreact iabbrev <buffer> wiplog console.log("WIPLOG",)<left>' -- wiplog JS
--- cmd 'autocmd FileType ruby iabbrev <buffer> wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>' -- wiplog Ruby
--- cmd 'autocmd FileType gitcommit iabbrev <buffer> co Co-authored-by: SOMEONE <HANDLE@users.noreply.github.com>' -- Co-authored-by
--- cmd 'autocmd FileType php setlocal tabstop=4 shiftwidth=4 softtabstop=4' -- php
 
 -- Terminal
 cmd([[command! Term :botright vsplit term://$SHELL]]) -- Open a terminal pane on the right using :Term
@@ -156,8 +149,3 @@ vim.api.nvim_create_autocmd("BufLeave", {
 	desc = "Stop Insert mode when leaving a terminal",
 	group = BWTerminalTweaks,
 })
--- cmd([[
---   autocmd TermOpen * setlocal listchars= nonumber norelativenumber nocursorline
---   autocmd TermOpen * startinsert
---   autocmd BufLeave term://* stopinsert
--- ]])
