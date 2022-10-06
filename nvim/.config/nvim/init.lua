@@ -18,5 +18,4 @@ require("plugins/which-key")
 
 -- Experiments
 require("plugins/seeing-is-believing")
-require("lsp")
 require("completion")

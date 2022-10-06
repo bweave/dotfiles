@@ -1,5 +1,5 @@
 --------------------------------------------------------------------------
--- LSP
+-- bweave.lsp
 --------------------------------------------------------------------------
 
 local lsp_status = require("lsp-status")
@@ -91,7 +91,7 @@ require("mason-tool-installer").setup({
 	start_delay = 5000,
 })
 
-local installed_via_bundler = require("utils").installed_via_bundler
+local installed_via_bundler = require("bweave.utils").installed_via_bundler
 -- ruby / syntax_tree
 if installed_via_bundler("syntax_tree") then
 	require("lspconfig").syntax_tree.setup({
