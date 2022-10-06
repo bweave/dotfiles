@@ -5,8 +5,6 @@
 require("plugins")
 require("bweave")
 require("colors")
--- require "statusline"
-require("commands")
 require("keymaps")
 
 require("plugins/alpha")
