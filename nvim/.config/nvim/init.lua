@@ -4,4 +4,3 @@
 
 require("plugins")
 require("bweave")
-require("colors")
