@@ -3,7 +3,7 @@
 --------------------------------------------------------------------------
 
 require("plugins")
-require("settings")
+require("bweave")
 require("colors")
 -- require "statusline"
 require("commands")

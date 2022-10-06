@@ -1,13 +1,10 @@
 --------------------------------------------------------------------------
--- Settings
+-- bweave.settings
 --------------------------------------------------------------------------
 
 -- Nvim API aliases
-local cmd = vim.cmd -- Execute Vim command
-local exec = vim.api.nvim_exec -- Execute Vimstript
 local g = vim.g -- Global vars
 local opt = vim.opt -- Options (global, buffer, window-scoped)
-local api = vim.api -- API
 
 -- General
 opt.backup = false -- Disable backups
