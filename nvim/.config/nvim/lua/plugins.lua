@@ -30,7 +30,13 @@ packer.startup({
 		use("wbthomason/packer.nvim") -- packer can manage itself
 
 		use({ "kyazdani42/nvim-web-devicons" }) -- sweet icons
-		use({ "kyazdani42/nvim-tree.lua" })
+		use({
+			"kyazdani42/nvim-tree.lua",
+			cmd = "NvimTreeToggle",
+			config = function()
+				require("lazy.nvim-tree").setup()
+			end,
+		})
 		use({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
