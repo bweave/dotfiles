@@ -72,25 +72,19 @@ local setup = {
 local normal_mode_mappings = {
 	["<leader>"] = {
 		["/"] = { "<cmd>Commentary<cr>", "Comment toggle" },
-		-- b = { "<cmd>Buffers<cr>", "Buffers" },
 		b = { "<cmd>lua require('fzf-lua').buffers()<cr>", "Buffers" },
-		-- c = { "<cmd>Colors<cr>", "Colors" },
-		c = { "<cmd>lua require ('colors').select_colorscheme()<cr>", "Colors" },
-		-- C = { "<cmd>Commits<cr>", "Commits" },
+		c = { "<cmd>lua require ('after.plugin.color').select_colorscheme()<cr>", "Colors" },
 		C = { "<cmd>lua require ('fzf-lua').git_commits()<cr>", "Commits" },
 		e = {
 			name = "Editor",
-			-- c = { "<cmd>Files ~/.config/nvim<cr>", "Find config file"},
 			c = { "<cmd>lua require 'fzf-lua'.files({ cwd = '~/.config/nvim' })<cr>", "Find nvim config file" },
 			C = { "<cmd>echo g:colors_name<cr>", "Current Colorscheme" },
-			-- d = { "<cmd>Files ~/dotfiles<cr>", "Find dotfile"},
 			d = { "<cmd>lua require 'fzf-lua'.files({ cwd = '~/dotfiles' })<cr>", "Find dotfile" },
 			f = { "<cmd>so ~/.config/nvim/lua/plugins/feline.lua<cr>", "Reload feline (status bar)" },
 			r = { "<cmd>so ~/.config/nvim/init.lua<cr>", "Reload config" },
 			s = { "<cmd>vs .vscode/scratchpad_local.md<cr>", "Scratchpad" },
 		},
 		E = { "<cmd>NvimTreeToggle<cr>", "Explorer toggle" },
-		-- f = { "<cmd>Files<cr>", "Files" },
 		f = { "<cmd>lua require 'fzf-lua'.files()<cr>", "Files" },
 		F = {
 			name = "Find",
