@@ -85,6 +85,7 @@ cmp.setup({
 		{ name = "nvim_lsp_signature_help" },
 		{ name = "nvim_lua" },
 		{ name = "buffer" },
+		{ name = "treesitter" },
 		{ name = "spell", keyword_length = 4 },
 	}, {
 		{ name = "buffer" },
