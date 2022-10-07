@@ -73,14 +73,12 @@ local normal_mode_mappings = {
 	["<leader>"] = {
 		["/"] = { "<cmd>Commentary<cr>", "Comment toggle" },
 		b = { "<cmd>lua require('fzf-lua').buffers()<cr>", "Buffers" },
-		c = { "<cmd>lua require ('after.plugin.color').select_colorscheme()<cr>", "Colors" },
-		C = { "<cmd>lua require ('fzf-lua').git_commits()<cr>", "Commits" },
+		c = { "<cmd>lua require ('after.plugin.color').select_colorscheme()<cr>", "Colorschemes" },
 		e = {
 			name = "Editor",
 			c = { "<cmd>lua require 'fzf-lua'.files({ cwd = '~/.config/nvim' })<cr>", "Find nvim config file" },
 			C = { "<cmd>echo g:colors_name<cr>", "Current Colorscheme" },
 			d = { "<cmd>lua require 'fzf-lua'.files({ cwd = '~/dotfiles' })<cr>", "Find dotfile" },
-			f = { "<cmd>so ~/.config/nvim/lua/plugins/feline.lua<cr>", "Reload feline (status bar)" },
 			r = { "<cmd>so ~/.config/nvim/init.lua<cr>", "Reload config" },
 			s = { "<cmd>vs .vscode/scratchpad_local.md<cr>", "Scratchpad" },
 		},
@@ -88,25 +86,24 @@ local normal_mode_mappings = {
 		f = { "<cmd>lua require 'fzf-lua'.files()<cr>", "Files" },
 		F = {
 			name = "Find",
-			b = { "<cmd>lua require 'fzf-lua'.git_bcommits()<cr>", "Buffer Commits" },
-			B = { "<cmd>lua require 'fzf-lua'.git_branches()<cr>", "Branches" },
 			f = { "<cmd>lua require 'fzf-lua'.filetypes()<cr>", "Filetypes" },
 			F = { "<cmd>NvimTreeFindFile<cr>", "File" },
-			C = { "<cmd>lua require 'fzf-lua'.git_commits()<cr>", "Commits" },
-			s = { "<cmd>lua require 'fzf-lua'.git_status()<cr>", "Status" },
-			S = { "<cmd>lua require 'fzf-lua'.git_stashes()<cr>", "Stashes" },
+			m = { "<cmd>lua require 'fzf-lua'.man_pages()<cr>", "Man Pages" },
 		},
 		g = {
-			name = "Git/Goto",
+			name = "Git",
 			b = {
-				name = "Blame",
-				f = { "<cmd>Git blame<cr>", "File" },
-				l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Line" },
+				name = "Browse",
+				b = { "<cmd>lua require 'fzf-lua'.git_branches()<cr>", "Branches" },
+				B = { "<cmd>lua require 'fzf-lua'.git_bcommits()<cr>", "Buffer Commits" },
+				c = { "<cmd>lua require 'fzf-lua'.git_commits()<cr>", "Commits" },
+				g = { "<cmd>GBrowse<cr>", "Github" },
+				s = { "<cmd>lua require 'fzf-lua'.git_status()<cr>", "Status" },
+				S = { "<cmd>lua require 'fzf-lua'.git_stashes()<cr>", "Stashes" },
 			},
-			B = { "<cmd>GBrowse!<cr>", "Browse on Github" },
-			d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Definition" },
+			B = { "<cmd>Git blame<cr>", "Blame" },
 			h = {
-				name = "Hunk",
+				name = "Hunks",
 				j = { "<cmd>lua require 'gitsigns'.next_hunk()<cr>", "Next Hunk" },
 				k = { "<cmd>lua require 'gitsigns'.prev_hunk()<cr>", "Prev Hunk" },
 				p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", "Preview Hunk" },
@@ -114,14 +111,11 @@ local normal_mode_mappings = {
 				s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
 				u = { "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>", "Unstage Hunk" },
 			},
-			r = { "<cmd>ALEFindReferences<cr>", "References" },
 			s = { "<cmd>vertical Git<cr>", "Status" },
-			S = { "<cmd>GStashList<cr>", "Stashes" },
 		},
 		h = { "<cmd>set hlsearch! hlsearch?<cr>", "Highlight toggle" },
 		j = { "<cmd>SplitjoinSplit<cr>", "Split block" },
 		k = { "<cmd>SplitjoinJoin<cr>", "Join block" },
-		K = { "<cmd>lua require 'fzf-lua'.keymaps()<cr>", "Keymaps" },
 		l = {
 			name = "LSP",
 			a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code action" },
@@ -139,7 +133,6 @@ local normal_mode_mappings = {
 			T = { "<cmd>ToggleDiag<cr>", "Toggle inline diagnostics" },
 		},
 		L = { ':let @*=fnamemodify(expand("%"), ":~:.") . ":" . line(".")<CR>', "Copy path w/line number" },
-		m = { "<cmd>lua require 'fzf-lua'.man_pages()<cr>", "Man Pages" },
 		p = { "<cmd>set invpaste<cr>", "Paste mode toggle" },
 		P = {
 			name = "Packer",
@@ -159,27 +152,6 @@ local normal_mode_mappings = {
 			u = { "<cmd>PackerUpdate<cr>", "Update" },
 		},
 		r = {
-			name = "Rails",
-			c = { "<cmd>Files app/controllers<cr>", "Controllers" },
-			j = { "<cmd>Files app/javascript/src<cr>", "Javascript" },
-			J = { "<cmd>Files app/jobs<cr>", "Jobs" },
-			g = {
-				name = "Graphs",
-				a = { "<cmd>Files app/graphs/app_graph<cr>", "App Graph" },
-				c = { "<cmd>Files app/graphs/church_center_graph<cr>", "Church Center Graph" },
-				p = { "<cmd>Files app/graphs/planning_center_graph<cr>", "Planning Center Graph" },
-			},
-			h = {
-				name = "Hashes",
-				c = { "<cmd>HashColon<cr>", "to Colon" },
-				r = { "<cmd>HashRocket<cr>", "to Rocket" },
-			},
-			m = { "<cmd>Files app/models<cr>", "Models" },
-			q = { "<cmd>Files app/queries<cr>", "Queries" },
-			s = { "<cmd>Files app/services<cr>", "Services" },
-			v = { "<cmd>Files app/views<cr>", "Views" },
-		},
-		R = {
 			name = "Ruby",
 			s = {
 				name = "Seeing is Believing",
@@ -214,7 +186,6 @@ local normal_mode_mappings = {
 				name = "REPL",
 				f = { "<cmd>TREPLSendFile<cr>", "Send file" },
 				l = { "<cmd>TREPLSendLine<cr>", "Send line" },
-				s = { "<cmd>TREPLSendSelection<cr>", "Send selection" },
 			},
 		},
 		w = { "<cmd>bdelete!<cr>", "Buffer delete" },
@@ -236,24 +207,15 @@ local normal_mode_mappings = {
 	["<C-down>"] = { "<cmd>resize +2<cr>", "Resize down" },
 	["<C-left>"] = { "<cmd>vertical resize -2<cr>", "Resize left" },
 	["<C-right>"] = { "<cmd>vertical resize +2<cr>", "Resize right" },
-	["<S-left>"] = { "<cmd>bnext<cr>", "Next Buffer" },
-	["<S-right>"] = { "<cmd>bprevious<cr>", "Prev Buffer" },
+	["<S-right>"] = { "<cmd>bnext<cr>", "Next Buffer" },
+	["<S-left>"] = { "<cmd>bprevious<cr>", "Prev Buffer" },
 }
 
 local visual_mode_mappings = {
 	["<leader>"] = {
 		["/"] = { ":Commentary<cr>", "Comment toggle" },
-		r = {
-			name = "Ruby",
-			h = {
-				name = "Hash",
-				c = { ":HashColon<cr>", "to Colon" },
-				r = { ":HashRocket<cr>", "to Rocket" },
-			},
-		},
 		T = {
 			name = "Terminal",
-			n = { "<cmd>Tnew<cr>", "New" },
 			r = {
 				name = "REPL",
 				s = { "<cmd>TREPLSendSelection<cr>", "Send selection" },
@@ -268,10 +230,10 @@ local insert_mode_mappings = {
 	["jk"] = { "<Esc>", "Esc" },
 	-- Make completion menu work as expected,
 	-- see https://superuser.com/q/246641/736190 and https://unix.stackexchange.com/q/162528/221410
-	["<Tab>"] = { 'pumvisible()?"\\<C-n>":"\\<Tab>"', "Next item (completion)", expr = true },
-	["<S-Tab>"] = { 'pumvisible()?"\\<C-p>":"\\<Tab>"', "Prev item (completion)", expr = true },
-	["<CR>"] = { 'pumvisible()?"\\<C-Y>":"\\<CR>"', "Select item (completion)", expr = true },
-	["<ESC>"] = { 'pumvisible()?"\\<C-e>":"\\<ESC>"', "Close menu (completion)", expr = true },
+	-- ["<Tab>"] = { 'pumvisible()?"\\<C-n>":"\\<Tab>"', "Next item (completion)", expr = true },
+	-- ["<S-Tab>"] = { 'pumvisible()?"\\<C-p>":"\\<Tab>"', "Prev item (completion)", expr = true },
+	-- ["<CR>"] = { 'pumvisible()?"\\<C-Y>":"\\<CR>"', "Select item (completion)", expr = true },
+	-- ["<ESC>"] = { 'pumvisible()?"\\<C-e>":"\\<ESC>"', "Close menu (completion)", expr = true },
 }
 
 local function t(str)
@@ -280,10 +242,6 @@ end
 
 local terminal_mode_mappings = {
 	["<Esc><Esc>"] = { t("<C-\\><C-n>"), "Esc to Normal mode" },
-	-- ["<C-h>"]   = { t('<C-\\><C-n><C-W>h'), 'Move: Left (terminal)' },
-	-- ["<C-j>"]   = { t('<C-\\><C-n><C-W>j'), 'Move: Down (terminal)' },
-	-- ["<C-k>"]   = { t('<C-\\><C-n><C-W>k'), 'Move: Up (terminal)' },
-	-- ["<C-l>"]   = { t('<C-\\><C-n><C-W>l'), 'Move: Right (terminal)' },
 }
 
 local ok, which_key = pcall(require, "which-key")
