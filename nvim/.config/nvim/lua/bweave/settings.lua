@@ -11,6 +11,7 @@ g.mapleader = " "
 
 -- General
 opt.backup = false -- Disable backups
+opt.clipboard = "unnamedplus"
 opt.completeopt = "menuone,noselect" -- Autocomplete
 opt.mouse = "a" -- Enable mouse
 opt.swapfile = false -- Disable swapfiles
