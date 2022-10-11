@@ -73,7 +73,10 @@ local normal_mode_mappings = {
 	["<leader>"] = {
 		["/"] = { "<cmd>Commentary<cr>", "Comment toggle" },
 		b = { "<cmd>lua require('fzf-lua').buffers()<cr>", "Buffers" },
-		c = { "<cmd>lua require ('after.plugin.color').select_colorscheme()<cr>", "Colorschemes" },
+		c = {
+			"<cmd>lua require (vim.env.HOME .. '.config/nvim/after.plugin.color').select_colorscheme()<cr>",
+			"Colorschemes",
+		},
 		e = {
 			name = "Editor",
 			c = { "<cmd>lua require 'fzf-lua'.files({ cwd = '~/.config/nvim' })<cr>", "Find nvim config file" },
