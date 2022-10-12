@@ -50,6 +50,12 @@ if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; th
 fi
 success "zsh-autosuggestions is g2g"
 
+if [ -z "$(pip3 list | grep iterm2)" ]; then
+  info "Installing iterm2 python package..."
+  pip3 install iterm2
+fi
+success "iterm2 python package is g2g"
+
 if [ ! -d "$HOME/.config/base16-shell" ]; then
   info "Cloning base16-shell..."
   git clone https://github.com/chriskempson/base16-shell.git "$HOME/.config/base16-shell"
