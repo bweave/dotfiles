@@ -2,6 +2,9 @@
 
 import asyncio
 import os
+if os.uname().sysname ~= "Darwin":
+    exit()
+
 import sys
 import iterm2
 
