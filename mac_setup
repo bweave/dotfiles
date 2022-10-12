@@ -68,12 +68,11 @@ if [ ! -d "$HOME/dotfiles" ]; then
 fi
 success "dotfiles cloned"
 
-configs=(base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim p10k tmux wezterm zsh)
-for config in $configs; do
+for config in base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim p10k tmux wezterm zsh; do
   info "Symlinking $config..."
-  stow "$config"
+  stow --dotfiles -d "$HOME/dotfiles" -t "$HOME" --restow "$config" # --restow forces it
 done
-success "$configs are g2g"
+success "configs are g2g"
 
 info "Creating .secrets..."
 touch "$HOME/.secrets"

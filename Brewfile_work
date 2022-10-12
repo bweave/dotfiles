@@ -69,6 +69,7 @@ brew "socat"
 brew "sox"
 brew "speedtest-cli"
 brew "ssh-copy-id", link: true
+brew "stow"
 brew "stylua"
 brew "terminal-notifier"
 brew "the_silver_searcher"
