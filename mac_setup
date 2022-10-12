@@ -91,6 +91,7 @@ ruby_version="3.1.2"
 info "Installing ruby v$ruby_version..."
 rbenv install -s $ruby_version
 rbenv global $ruby_version
+eval "$(rbenv init - bash)"
 gem install bundler rails
 rbenv rehash
 success "Ruby $ruby_version installed"
