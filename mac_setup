@@ -56,9 +56,9 @@ if [ ! -d "$HOME/.config/base16-shell" ]; then
 fi
 success "base16-shell is g2g"
 
-if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
   info "Cloning powerlevel10k..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k"
 fi
 success "powerlevel10k is g2g"
 
