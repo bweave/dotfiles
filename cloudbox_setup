@@ -47,6 +47,7 @@ sudo apt install -y \
   python3-pip \
   ripgrep \
   silversearcher-ag \
+  stow \
   unzip \
   zsh-autosuggestions
 
@@ -117,12 +118,11 @@ if [ ! -d "$HOME/dotfiles" ]; then
 fi
 success "dotfiles cloned"
 
-configs=(base16-shell-hooks bin_scripts eslint git irb nvim p10k ssh tmux wezterm zsh)
-for config in $configs; do
+for config in base16-shell-hooks bin_scripts eslint git irb nvim p10k ssh tmux wezterm zsh; do
   info "Symlinking $config..."
-  stow "$config"
+  stow --dotfiles -d "$HOME/dotfiles" -t "$HOME" --restow "$config" # --restow forces it
 done
-success "$configs are g2g"
+success "configs are g2g"
 
 if tmux -V | rb -l "split[1].to_f >= 3.2" &> /dev/null; then
   success "Tmux is good to go"
