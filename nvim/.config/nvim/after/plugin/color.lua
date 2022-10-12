@@ -9,15 +9,28 @@ if not status then
 end
 local helpers = require("fzf.helpers")
 
+function file_exists(name)
+	local f = io.open(name, "r")
+	if f ~= nil then
+		io.close(f)
+		return true
+	else
+		return false
+	end
+end
+
 -- It would be dope if we could just rely on vim.env.BASE16_THEME,
 -- but sadly, there's no good way that I know of to tell
 -- all_the_iterms.py that their env var $BASE16_THEME needs to update.
 -- Instead, we can read the value from ~/.base16_theme.
 local colorscheme = "default"
-for line in io.lines(vim.env.HOME .. "/.base16_theme") do
-	local theme = line:match("^export BASE16_THEME=(.+)")
-	if theme ~= nil then
-		colorscheme = "base16-" .. theme
+local base16_theme_path = vim.env.HOME .. "/.base16_theme"
+if file_exists(base16_theme_path) then
+	for line in io.lines(base16_theme_path) do
+		local theme = line:match("^export BASE16_THEME=(.+)")
+		if theme ~= nil then
+			colorscheme = "base16-" .. theme
+		end
 	end
 end
 vim.cmd("colorscheme " .. colorscheme)
