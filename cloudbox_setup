@@ -104,13 +104,22 @@ if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; th
 fi
 success "zsh-autosuggestions is g2g"
 
+if [ ! -d "$HOME/.config/base16-shell" ]; then
+  info "Cloning base16-shell..."
+  git clone https://github.com/chriskempson/base16-shell.git "$HOME/.config/base16-shell"
+fi
+if [ -z "$BASE16_THEME" ]; then
+  info "Setting base16_decaf theme..."
+  source "$HOME/.config/base16-shell/scripts/base16-decaf.sh"
+fi
+success "base16-shell is g2g"
+
 if [ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
   info "Cloning powerlevel10k..."
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
 fi
 success "powerlevel10k is g2g"
 
-# Setup dotfiles
 mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/dotfiles" ]; then
   info "Cloning dotfiles..."
