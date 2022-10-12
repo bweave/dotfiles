@@ -334,4 +334,3 @@ export BASE16_SHELL_HOOKS="$HOME/.config/base16-shell-hooks/"
 [ -n "$PS1" ] && \
 	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
 	source "$BASE16_SHELL/profile_helper.sh"
-
