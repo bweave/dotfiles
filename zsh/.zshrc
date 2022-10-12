@@ -328,3 +328,10 @@ fixssh() {
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/"
+export BASE16_SHELL_HOOKS="$HOME/.config/base16-shell-hooks/"
+[ -n "$PS1" ] && \
+	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+	source "$BASE16_SHELL/profile_helper.sh"
+

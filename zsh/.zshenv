@@ -1,0 +1,3 @@
+# .zshenv
+
+. "$HOME/.cargo/env"

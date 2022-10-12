@@ -9,65 +9,24 @@ if not status then
 end
 local helpers = require("fzf.helpers")
 
-local function debug(msg)
-	print(vim.inspect(msg))
-end
-
--- this is our single source of truth created above
-local base16_filename = vim.fn.expand(vim.env.HOME .. "/.base16_theme")
-
-local get_colorscheme = function()
-	local file = io.open(base16_filename, "r")
-	local theme = "default"
-
-	if file ~= nil then
-		theme = file:read()
-		file:close()
-	end
-
-	return theme
-end
-vim.cmd("colorscheme " .. get_colorscheme())
-
-local set_global_base16_theme = function(theme)
-	local file = io.open(base16_filename, "w")
-
-	if file ~= nil then
-		file:write(theme)
-		file:close()
+-- It would be dope if we could just rely on vim.env.BASE16_THEME,
+-- but sadly, there's no good way that I know of to tell
+-- all_the_iterms.py that their env var $BASE16_THEME needs to update.
+-- Instead, we can read the value from ~/.base16_theme.
+local colorscheme = "default"
+for line in io.lines(vim.env.HOME .. "/.base16_theme") do
+	local theme = line:match("^export BASE16_THEME=(.+)")
+	if theme ~= nil then
+		colorscheme = "base16-" .. theme
 	end
 end
+vim.cmd("colorscheme " .. colorscheme)
 
-local set_all_nvim_colorschemes = function(colorscheme)
-	for socket, kind in vim.fs.dir("/tmp") do
-		if kind == "socket" and socket:find("nvimsocket") then
-			local server = string.format("/tmp/%s", socket)
-			local remote_send = string.format(":colorscheme %s<cr>", colorscheme)
-			vim.fn.system({ "nvim", "--server", server, "--remote-send", remote_send })
-		end
-	end
-end
-
-local set_all_iterm_color_presets = function(preset)
-	-- TODO
-end
-
-local set_tmux_theme = function(theme)
-	if vim.env.TMUX then
-		vim.fn.system({
-			"tmux",
-			"source-file",
-			string.format("%s/.tmux/plugins/base16-tmux/colors/%s.conf", vim.env.HOME, theme),
-		})
-	end
-end
-
--- this function is the only way we should be setting our colorscheme
+-- IMPORTANT: this function is the canonical way to set colorscheme
 M.set_colorscheme = function(name)
-	set_global_base16_theme(name)
-	set_all_nvim_colorschemes(name)
-	set_all_iterm_color_presets(name)
-	set_tmux_theme(name)
+	local theme_function = string.gsub(name, "-", "_", 1)
+	print(theme_function)
+	vim.fn.system(theme_function)
 end
 
 M.select_colorscheme = function()

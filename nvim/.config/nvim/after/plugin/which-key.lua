@@ -74,7 +74,7 @@ local normal_mode_mappings = {
 		["/"] = { "<cmd>Commentary<cr>", "Comment toggle" },
 		b = { "<cmd>lua require('fzf-lua').buffers()<cr>", "Buffers" },
 		c = {
-			"<cmd>lua require (vim.env.HOME .. '.config/nvim/after.plugin.color').select_colorscheme()<cr>",
+			"<cmd>lua require ('color').select_colorscheme()<cr>",
 			"Colorschemes",
 		},
 		e = {

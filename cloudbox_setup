@@ -50,7 +50,6 @@ sudo apt install -y \
   unzip \
   zsh-autosuggestions
 
-# Install Github CLI
 if ! command -v gh &> /dev/null; then
   info "Installing Github CLI..."
   curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
@@ -61,14 +60,12 @@ if ! command -v gh &> /dev/null; then
 fi
 success "Github CLI is g2g"
 
-# Install Rust lang for editor tooling
 if ! command -v rustc &> /dev/null; then
   info "Installing rust for editor tooling..."
   curl https://sh.rustup.rs -sSf | sh -s -- -y
 fi
 success "rustc is g2g"
 
-# Install wezterm
 if ! command -v wezterm &> /dev/null; then
   info "Installing wezterm..."
   curl -LO https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu20.04.deb
@@ -76,28 +73,24 @@ if ! command -v wezterm &> /dev/null; then
 fi
 success "wezterm is g2g"
 
-# Install rb script for text manipulation with Ruby from the command line
 if ! command -v rb &> /dev/null; then
   info "Installing rb for string manipulation with Ruby..."
   curl https://raw.githubusercontent.com/thisredone/rb/master/rb -o /usr/local/bin/rb && chmod +x /usr/local/bin/rb
 fi
 success "rb is g2g"
 
-# Check if zsh is intalled and install if needed
 if ! command -v zsh &> /dev/null; then
   info "Installing ZSH..."
   sudo apt install -y zsh
 fi
 success "ZSH is good to go"
 
-# Set zsh as the default shell from the current user
 if [ ! "$SHELL" = "$(which zsh)" ]; then
   info "Setting shell to ZSH..."
   sudo chsh "$(whoami)" -s "$(which zsh)"
 fi
 success "ZSH is already set as shell"
 
-# Install oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   info "Installing oh-my-zsh..."
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -110,7 +103,6 @@ if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; th
 fi
 success "zsh-autosuggestions is g2g"
 
-# Install powerlevel10k theme
 if [ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
   info "Cloning powerlevel10k..."
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
@@ -122,23 +114,16 @@ mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/dotfiles" ]; then
   info "Cloning dotfiles..."
   git clone https://github.com/bweave/dotfiles.git "$HOME/dotfiles"
-else
-  info "Updating dotfiles repo..."
-  cd "$HOME/dotfiles" || exit
-  git pull
-  cd - || exit
 fi
-success "dotfiles are g2g"
-info "Symlinking dotfiles..."
-for dotfile in eslintrc gitconfig gitignore gitmessage irbrc p10k.zsh tmux.conf tmux.conf.linux zshrc; do
-  ln -sf "$HOME/dotfiles/$dotfile" "$HOME/.$dotfile"
-done
-ln -sf "$HOME/dotfiles/ssh_rc" "$HOME/.ssh/rc"
-ln -sf "$HOME/dotfiles/tat" /usr/local/bin/tat
-ln -sf "$HOME/dotfiles/wezterm" "$HOME/.config/"
-success "dotfiles are symlinked"
+success "dotfiles cloned"
 
-# Install latest tmux
+configs=(base16-shell-hooks bin_scripts eslint git irb nvim p10k ssh tmux wezterm zsh)
+for config in $configs; do
+  info "Symlinking $config..."
+  stow "$config"
+done
+success "$configs are g2g"
+
 if tmux -V | rb -l "split[1].to_f >= 3.2" &> /dev/null; then
   success "Tmux is good to go"
 else
@@ -159,7 +144,6 @@ else
   success "Tmux is g2g"
 fi
 
-# Lua LSP
 if ! command -v lua-language-server &> /dev/null; then
   info "Installing lua-language-server..."
   sudo mkdir -p /usr/local/lua-language-server
@@ -189,32 +173,14 @@ if ! command -v fzf &> /dev/null; then
 fi
 success "FZF is g2g"
 
-# install neovim from source
 if ! command -v nvim &> /dev/null; then
-  info "installing nvim from source"
+  info "Installing neovim"
   "$HOME/dotfiles/install-neovim-nightly.sh"
 fi
-success "nvim is g2g"
+success "neovim is g2g"
 
-# Clone my neovim config
-mkdir -p "$HOME/src"
-mkdir -p "$HOME/.config/nvim"
-if [ ! -d "$HOME/src/nvim-minimal" ]; then
-  info "Cloning nvim-minimal config"
-  git clone https://github.com/bweave/nvim-minimal.git "$HOME/src/nvim-minimal"
-else
-  info "Updating nvim-minimal config"
-  cd "$HOME/src/nvim-minimal" || exit
-  git pull
-  cd - || exit
-fi
-success "nvim-minimal is g2g"
-ln -sf "$HOME/src/nvim-minimal/init.lua" "$HOME/.config/nvim/init.lua"
-ln -sf "$HOME/src/nvim-minimal/lua" "$HOME/.config/nvim/"
-ln -sf "$HOME/src/nvim-minimal/colors" "$HOME/.config/nvim/"
 info "Installing Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-success "Neovim plugins g2g"
 
 # Install additional editor tooling
 sudo npm install -g npm@latest
@@ -233,4 +199,8 @@ if [ -z ${GITHUB_TOKEN+x} ]; then
 fi
 success "GITHUB_TOKEN is g2g"
 
-success Done!
+echo
+success =================================================
+success "Donezo!"
+success =================================================
+echo

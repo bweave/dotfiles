@@ -9,6 +9,9 @@ local opt = vim.opt -- Options (global, buffer, window-scoped)
 -- Change leader to space
 g.mapleader = " "
 
+-- Setup require-ing from after/plugin dir
+package.path = vim.env.HOME .. "/.config/nvim/after/plugin/?.lua;" .. package.path
+
 -- General
 opt.backup = false -- Disable backups
 opt.clipboard = "unnamedplus"

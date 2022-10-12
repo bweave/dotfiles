@@ -210,6 +210,7 @@ packer.startup({
 			"L3MON4D3/LuaSnip", -- Snippets with completion
 			requires = {
 				"saadparwaiz1/cmp_luasnip",
+				"rafamadriz/friendly-snippets",
 			},
 		})
 		-- crystal lang
