@@ -18,6 +18,7 @@ function file_exists(name)
 		return false
 	end
 end
+vim.cmd("colorscheme " .. colorscheme)
 
 -- It would be dope if we could just rely on vim.env.BASE16_THEME,
 -- but sadly, there's no good way that I know of to tell
