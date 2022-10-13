@@ -38,15 +38,9 @@ do
   break
 done
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  info "Installing oh-my-zsh..."
-  sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
-fi
-success "oh-my-zsh is g2g"
-
-if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+if [ ! -d "$HOME/.zsh-autosuggestions" ]; then
   info "Installing zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh-autosuggestions"
 fi
 success "zsh-autosuggestions is g2g"
 
@@ -66,19 +60,13 @@ if [ -z "$BASE16_THEME" ]; then
 fi
 success "base16-shell is g2g"
 
-if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
-  info "Cloning powerlevel10k..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k"
-fi
-success "powerlevel10k is g2g"
-
 if [ ! -d "$HOME/dotfiles" ]; then
   info "Cloning dotfiles..."
   git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
 fi
 success "dotfiles cloned"
 
-for config in base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim p10k tmux wezterm zsh; do
+for config in base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim starship tmux wezterm zsh; do
   info "Symlinking $config..."
   stow --dotfiles -d "$HOME/dotfiles" -t "$HOME" --restow "$config" # --restow forces it
 done

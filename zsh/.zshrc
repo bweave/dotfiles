@@ -47,20 +47,14 @@ export -U PATH
 # ZSH
 ########################
 
-export ZSH=~/.oh-my-zsh # Path to your oh-my-zsh installation.
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# Starship prompt
+eval "$(starship init zsh)"
+function set_win_title(){
+  echo -ne "\033]0; $(basename "$PWD") \007"
+}
+precmd_functions+=(set_win_title)
 
-plugins=(extract fzf zsh-autosuggestions)
-
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block, everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-include $ZSH/oh-my-zsh.sh
-include $HOME/.p10k.zsh
+include $HOME/.zsh-autosuggestions/zsh-autosuggestions.zsh
 include $HOME/.fzf.zsh
 include $HOME/.secrets
 

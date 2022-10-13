@@ -92,23 +92,11 @@ if [ ! "$SHELL" = "$(which zsh)" ]; then
 fi
 success "ZSH is already set as shell"
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  info "Installing oh-my-zsh..."
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-fi
-success "oh-my-zsh is g2g"
-
-if [ ! -d "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+if [ ! -d "$HOME/.zsh-autosuggestions" ]; then
   info "Cloning zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions"
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh-autosuggestions"
 fi
 success "zsh-autosuggestions is g2g"
-
-if [ ! -d "$HOME/.oh-my-zsh/custom/themes/powerlevel10k" ]; then
-  info "Cloning powerlevel10k..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
-fi
-success "powerlevel10k is g2g"
 
 mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/dotfiles" ]; then
@@ -117,7 +105,7 @@ if [ ! -d "$HOME/dotfiles" ]; then
 fi
 success "dotfiles cloned"
 
-for config in base16-shell-hooks bin_scripts eslint git irb nvim p10k ssh tmux wezterm zsh; do
+for config in base16-shell-hooks bin_scripts eslint git irb nvim ssh starship tmux wezterm zsh; do
   info "Symlinking $config..."
   stow --dotfiles -d "$HOME/dotfiles" -t "$HOME" --restow "$config" # --restow forces it
 done
