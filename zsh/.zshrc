@@ -110,6 +110,9 @@ esac
 # Aliases
 ########################
 
+# Pretty print the path
+alias path='echo $PATH | tr -s ":" "\n"'
+
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
