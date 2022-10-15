@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# -e exit with any non-zero status
+# -u treat unset vars as an error when substituting
+set -eu
+
 RED="\033[0;31m"
 GREEN="\033[0;32m"
 BLUE="\033[0;34m"
@@ -98,6 +102,12 @@ info "setting up NVM with Node LTS"
 nvm install --lts
 nvm alias system node
 success "NVM and Node are g2g"
+
+if [ -d "$HOME/dotfiles/iterm" ]; then
+  info "Setting iTerm preference folder"
+  defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/dotfiles/iterm"
+fi
+success "iTerm preferences are g2g"
 
 echo
 success =================================================
