@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	command = 'iabbrev <buffer> wiplog console.log("WIPLOG",)<left>',
+	command = 'inoreabbrev wiplog console.log("WIPLOG",)<left>',
 	desc = "WIPLOG for js",
 	group = auGroup,
 })
