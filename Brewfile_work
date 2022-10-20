@@ -82,6 +82,7 @@ brew "tmuxinator"
 brew "watchman"
 brew "wget"
 brew "yarn"
+brew "zsh-autosuggestions"
 brew "heroku/brew/heroku"
 brew "ministrycentered/python2/python@2"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]

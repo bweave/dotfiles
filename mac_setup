@@ -42,12 +42,6 @@ do
   break
 done
 
-if [ ! -d "$HOME/.zsh-autosuggestions" ]; then
-  info "Installing zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh-autosuggestions"
-fi
-success "zsh-autosuggestions is g2g"
-
 if [ -z "$(pip3 list | grep iterm2)" ]; then
   info "Installing iterm2 python package..."
   pip3 install iterm2

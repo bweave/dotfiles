@@ -54,7 +54,7 @@ function set_win_title(){
 }
 precmd_functions+=(set_win_title)
 
-include $HOME/.zsh-autosuggestions/zsh-autosuggestions.zsh
+include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 include $HOME/.fzf.zsh
 include $HOME/.secrets
 

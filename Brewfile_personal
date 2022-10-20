@@ -63,6 +63,7 @@ brew "tmux"
 brew "vips"
 brew "wget"
 brew "yarn"
+brew "zsh-autosuggestions"
 brew "heroku/brew/heroku"
 brew "universal-ctags/universal-ctags/universal-ctags", args: ["HEAD"]
 cask "1password"
