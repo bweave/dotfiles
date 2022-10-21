@@ -101,6 +101,9 @@ success "Ruby $ruby_version installed"
 info "setting up NVM with Node LTS"
 nvm install --lts
 nvm alias system node
+npm i -g \
+  vscode-langservers-extracted \
+  bash-language-server
 success "NVM and Node are g2g"
 
 if [ -d "$HOME/dotfiles/iterm" ]; then
