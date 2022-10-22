@@ -2,7 +2,7 @@
 
 import asyncio
 import os
-if os.uname().sysname ~= "Darwin":
+if os.uname().sysname != "Darwin":
     exit()
 
 import sys
@@ -23,7 +23,13 @@ def set_color_preset(change, preset):
                 value.color_space))
 
 async def main(connection):
-    theme_name = 'base16-' + os.getenv('BASE16_THEME')
+    theme_name = "Dark Background"
+    with open(os.path.expanduser('~') + "/.base16_theme") as base16_theme_file:
+        for i, line in enumerate(base16_theme_file):
+            if "export BASE16_THEME=" in line:
+                _, theme = line.split("=")
+                theme_name = "base16-" + theme.strip()
+
     preset = await iterm2.ColorPreset.async_get(connection, theme_name)
     profiles = await iterm2.PartialProfile.async_query(connection)
 
