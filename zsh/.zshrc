@@ -58,6 +58,13 @@ include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 include $HOME/.fzf.zsh
 include $HOME/.secrets
 
+# Completions.
+include /opt/homebrew/etc/profile.d/bash_completion.sh
+include /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+autoload -Uz compinit && compinit
+# Case insensitive.
+zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
+
 case "$OSTYPE" in
   darwin*)
     include "$(brew --prefix)/etc/profile.d/autojump.sh"
@@ -134,7 +141,7 @@ alias c=clear
 alias grep="grep --color=auto"
 
 # Git
-eval "$(hub alias -s)" # Use `hub` as our git wrapper
+# eval "$(hub alias -s)" # Use `hub` as our git wrapper
 alias undopush="git push -f origin HEAD^:master"
 alias gs="git status -sb"
 alias gco="git checkout"
@@ -329,3 +336,5 @@ export BASE16_SHELL_HOOKS="$HOME/.config/base16-shell-hooks/"
 [ -n "$PS1" ] && \
 	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
 	source "$BASE16_SHELL/profile_helper.sh"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
