@@ -139,7 +139,18 @@ end
 null_ls.setup({ sources = sources, on_attach = on_attach })
 
 -- javascript / typescript
-require("lspconfig").tsserver.setup({ capabilities = capabilities, on_attach = on_attach })
+-- this plugin calls lspconfig and sets up tsserver
+require("typescript").setup({
+	disable_commands = false, -- :Typescript* commands
+	debug = false,
+	server = {
+		capabilities = capabilities,
+		init_options = {
+			disableAutomaticTypingAcquisition = true,
+		},
+		on_attach = on_attach,
+	},
+})
 
 -- eslint
 require("lspconfig").eslint.setup({

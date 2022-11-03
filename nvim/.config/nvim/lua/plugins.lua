@@ -49,10 +49,7 @@ packer.startup({
 			},
 		})
 		use({ "RRethy/nvim-base16" })
-		use({
-			"nvim-lualine/lualine.nvim",
-			requires = { "kyazdani42/nvim-web-devicons", opt = true },
-		})
+		use({ "nvim-lualine/lualine.nvim" })
 		use({
 			"lewis6991/gitsigns.nvim",
 			requires = { "nvim-lua/plenary.nvim" },
@@ -149,6 +146,7 @@ packer.startup({
 		use({
 			"neovim/nvim-lspconfig",
 			requires = {
+				"jose-elias-alvarez/typescript.nvim",
 				"williamboman/mason-lspconfig.nvim",
 				"WhoIsSethDaniel/toggle-lsp-diagnostics.nvim",
 			},
