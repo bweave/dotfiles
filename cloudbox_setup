@@ -164,6 +164,14 @@ if ! [ -x "$(command -v fzf)" ]; then
 fi
 success "FZF is g2g"
 
+# Install additional editor tooling
+sudo npm install -g npm@latest
+if ! command -v tsc &> /dev/null; then
+  info "Installing typescript..."
+  sudo npm i -g typescript typescript-language-server
+fi
+success "typescript is g2g"
+
 if ! command -v nvim &> /dev/null; then
   info "Installing neovim"
   "$HOME/dotfiles/install-neovim-nightly.sh"
@@ -172,14 +180,6 @@ success "neovim is g2g"
 
 info "Installing Neovim plugins"
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-
-# Install additional editor tooling
-sudo npm install -g npm@latest
-if ! command -v tsc &> /dev/null; then
-  info "Installing typescript..."
-  sudo npm i -g typescript
-fi
-success "typescript is g2g"
 
 # Setup forwarding GITHUB_TOKEN env var over ssh
 if [ -z ${GITHUB_TOKEN+x} ]; then
