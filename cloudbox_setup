@@ -67,13 +67,6 @@ if ! command -v rustc &> /dev/null; then
 fi
 success "rustc is g2g"
 
-if ! command -v wezterm &> /dev/null; then
-  info "Installing wezterm..."
-  curl -LO https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly.Ubuntu20.04.deb
-  sudo apt install -y ./wezterm-nightly.Ubuntu20.04.deb
-fi
-success "wezterm is g2g"
-
 if ! command -v rb &> /dev/null; then
   info "Installing rb for string manipulation with Ruby..."
   curl https://raw.githubusercontent.com/thisredone/rb/master/rb -o /usr/local/bin/rb && chmod +x /usr/local/bin/rb
