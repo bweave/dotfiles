@@ -129,21 +129,18 @@ success "base16-shell is g2g"
 
 if [ "$(tmux -V | rb -l "split[1].to_f < 3.2")" = "true" ]; then
   info "Installing latest Tmux..."
-  if command -v tmux &> /dev/null; then
-    sudo mv "$(which tmux)" "$(which tmux)_orig"
-  fi
   sudo apt install -y libevent-dev
-  cd || echo "Couldn't cd to ~" && exit
+  cd || (error "Couldn't cd to ~" && exit)
   curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
     | grep "browser_download_url.*" \
     | cut -d : -f 2,3 \
     | tr -d \" \
     | wget -qi -
   tar -zxf tmux-*.tar.gz
-  cd tmux-*/ || echo "Couldn't navigate to tmux-*" && exit
+  cd tmux-*/ || (error "Couldn't navigate to tmux-*" && exit)
     ./configure --prefix=/usr/local
     make && sudo make install
-  cd || echo "Couldn't cd to ~" && exit
+  cd || (error "Couldn't cd to ~" && exit)
   rm -rf tmux-*
 fi
 success "Tmux is g2g"
