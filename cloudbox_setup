@@ -85,11 +85,10 @@ if [ ! "$SHELL" = "$(which zsh)" ]; then
 fi
 success "ZSH is already set as shell"
 
-if [ ! -d "$HOME/.zsh-autosuggestions" ]; then
-  info "Cloning zsh-autosuggestions..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$HOME/.zsh-autosuggestions"
+if ! command -v starship &> /dev/null; then
+  sudo snap install starship
 fi
-success "zsh-autosuggestions is g2g"
+success "starship prompt is g2g"
 
 mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/dotfiles" ]; then
