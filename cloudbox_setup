@@ -114,25 +114,26 @@ if [ -n "$BASE16_THEME" ]; then
 fi
 success "base16-shell is g2g"
 
-if tmux -V | rb -l "split[1].to_f >= 3.2" &> /dev/null; then
-  success "Tmux is good to go"
-else
+if [ "$(tmux -V | rb -l "split[1].to_f < 3.2")" = "true" ]; then
   info "Installing latest Tmux..."
-  sudo mv "$(which tmux)" "$(which tmux)_orig"
+  if command -v tmux &> /dev/null; then
+    sudo mv "$(which tmux)" "$(which tmux)_orig"
+  fi
   sudo apt install -y libevent-dev
+  cd || echo "Couldn't cd to ~" && exit
   curl -s https://api.github.com/repos/tmux/tmux/releases/latest \
     | grep "browser_download_url.*" \
     | cut -d : -f 2,3 \
     | tr -d \" \
     | wget -qi -
   tar -zxf tmux-*.tar.gz
-  pushd tmux-*/ || echo "Couldn't navigate to tmux-*" && exit
-    ./configure --prefix=/usr
+  cd tmux-*/ || echo "Couldn't navigate to tmux-*" && exit
+    ./configure --prefix=/usr/local
     make && sudo make install
-  popd &> /dev/null || echo "Couldn't popd" && exit
+  cd || echo "Couldn't cd to ~" && exit
   rm -rf tmux-*
-  success "Tmux is g2g"
 fi
+success "Tmux is g2g"
 
 if ! command -v lua-language-server &> /dev/null; then
   info "Installing lua-language-server..."
