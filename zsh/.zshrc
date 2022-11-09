@@ -54,10 +54,13 @@ function set_win_title(){
 }
 precmd_functions+=(set_win_title)
 
-include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 include $HOME/.fzf.zsh
 case "$OSTYPE" in
+  darwin*)
+    include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    ;;
   linux*)
+    include /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     include $HOME/.secrets
     ;;
 esac
