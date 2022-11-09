@@ -2,7 +2,7 @@
 ---- javascript filetype
 ----
 
-local auGroup = vim.api.nvim_create_augroup("BwJsAutocmds", {})
+local auGroup = vim.api.nvim_create_augroup("BwJsAutocmds", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function()

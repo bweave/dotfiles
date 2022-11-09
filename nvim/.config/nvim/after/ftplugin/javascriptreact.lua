@@ -2,7 +2,7 @@
 ---- javascriptreact filetype
 ----
 
-local auGroup = vim.api.nvim_create_augroup("BwJsReactAutocmds", {})
+local auGroup = vim.api.nvim_create_augroup("BwJsReactAutocmds", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function()

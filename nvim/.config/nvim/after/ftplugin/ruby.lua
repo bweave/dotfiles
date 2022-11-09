@@ -4,7 +4,7 @@
 
 vim.g.ruby_indent_hanging_elements = 0
 
-local auGroup = vim.api.nvim_create_augroup("BwRubyAutocmds", {})
+local auGroup = vim.api.nvim_create_augroup("BwRubyAutocmds", { clear = true })
 
 vim.api.nvim_create_autocmd("FileType", {
 	command = 'inoreabbrev wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>',

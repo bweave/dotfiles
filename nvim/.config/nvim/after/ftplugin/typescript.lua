@@ -2,7 +2,7 @@
 ---- typescript filetype
 ----
 
-local auGroup = vim.api.nvim_create_augroup("BwTsAutocmds", {})
+local auGroup = vim.api.nvim_create_augroup("BwTsAutocmds", { clear = true })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function()
