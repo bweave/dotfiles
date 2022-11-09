@@ -58,16 +58,23 @@ include $HOME/.fzf.zsh
 case "$OSTYPE" in
   darwin*)
     include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    include $HOME/.secrets
     ;;
   linux*)
     include /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    include $HOME/.secrets
     ;;
 esac
 
 # Completions.
-include /opt/homebrew/etc/profile.d/bash_completion.sh
-include /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+case "$OSTYPE" in
+  darwin*)
+    include /opt/homebrew/etc/profile.d/bash_completion.sh
+    include /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+    ;;
+  linux*)
+    include /etc/profile.d/bash_completion.sh
+    ;;
+esac
 autoload -Uz compinit && compinit
 # Case insensitive.
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]} l:|=* r:|=*'
