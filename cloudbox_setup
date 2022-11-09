@@ -157,7 +157,7 @@ if [ ! -d "$HOME/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
 fi
 
-if ! command -v fzf &> /dev/null; then
+if ! [ -x "$(command -v fzf)" ]; then
   info "Install FZF..."
   "$HOME/.fzf/install" --no-update-rc --key-bindings --completion
   source "$HOME/.zshrc"
