@@ -56,7 +56,11 @@ precmd_functions+=(set_win_title)
 
 include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 include $HOME/.fzf.zsh
-include $HOME/.secrets
+case "$OSTYPE" in
+  linux*)
+    include $HOME/.secrets
+    ;;
+esac
 
 # Completions.
 include /opt/homebrew/etc/profile.d/bash_completion.sh
