@@ -32,7 +32,7 @@ packer.startup({
 		use({ "kyazdani42/nvim-web-devicons" }) -- sweet icons
 		use({
 			"kyazdani42/nvim-tree.lua",
-			cmd = "NvimTreeToggle",
+			-- cmd = "NvimTreeToggle",
 			config = function()
 				require("lazy.nvim-tree").setup()
 			end,
