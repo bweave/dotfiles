@@ -6,7 +6,7 @@ local meh = { "⌥", "⌃", "⇧" }
 hs.window.animationDuration = 0
 
 -- Always find the right app id
-function appID(app)
+local function appID(app)
 	return hs.application.infoForBundlePath(app)["CFBundleIdentifier"]
 end
 
@@ -22,21 +22,20 @@ Install:andUse("ReloadConfiguration", { start = true })
 -- Install:andUse("UnsplashZ")
 
 -- Open URLs in specific apps
--- browser = appID('/Applications/Brave Browser.app')
-browser = appID("/Applications/Safari.app")
-spotify = appID("/Applications/Spotify.app")
--- trello = appID('/Applications/Trello.app')
+local browser = appID("/Applications/Google Chrome.app")
+local spotify = appID("/Applications/Spotify.app")
+local asana = appID("/Applications/Asana.app")
 
 Install:andUse("URLDispatcher", {
 	config = {
 		default_handler = browser,
 		url_patterns = {
 			{ "spotify:", spotify },
-			-- { "trello:", trello },
+			{ "asana:", asana },
 		},
 		url_redir_decoders = {
-			{ "Spotify URLs", "https?://open.spotify.com/(.*)/(.*)", "spotify:%1:%2" },
-			-- { "Trello URLs", "https?://(trello.com/.*)", "trello://%1" },
+			{ "Spotify URLs", "https://open.spotify.com/(.*)/(.*)", "spotify:%1:%2" },
+			{ "Asana URLs", "https://(app.asana.com/.*)", "asana://%1" },
 		},
 	},
 	start = true,
