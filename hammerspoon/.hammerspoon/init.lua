@@ -18,9 +18,6 @@ Install = spoon.SpoonInstall
 -- Auto reload config
 Install:andUse("ReloadConfiguration", { start = true })
 
--- Unsplash wallpapers
--- Install:andUse("UnsplashZ")
-
 -- Open URLs in specific apps
 local browser = appID("/Applications/Google Chrome.app")
 local spotify = appID("/Applications/Spotify.app")
@@ -68,33 +65,6 @@ local function centerOnScreen()
 	cur_window:move({ 0, 10 }) -- account for our margin between windows
 end
 hs.hotkey.bind(hyper, "c", centerOnScreen)
-
-hs.hotkey.bind(meh, "t", function()
-	local win = hs.window.focusedWindow()
-	local f = win:frame()
-	local screen = win:screen()
-	local max = screen:frame()
-	local rect_with_margins = {
-		x = max.x + 10,
-		y = max.y + 10,
-		w = max.w - 20,
-		h = max.h - 20,
-	}
-
-	hs.window.tiling.tileWindows(hs.window.allWindows(), rect_with_margins)
-end)
-
--- App layouts
--- local mainScreen = hs.screen{x=0, y=0}
--- local sideScreen = hs.screen{x=-1, y=0}
--- local pcoLayout = {
---   {"Brave Browser", nil, mainScreen, {x=0, y=0, w=0.5, h=1}, nil, nil},
---   {"iTerm2", nil, mainScreen, {x=0.5, y=0, w=0.5, h=1}, nil, nil},
--- }
--- pcoLayout = {
---   {"Brave Browser", nil, mainScreen, {x=0,y=0,w=0.5,h=1}, nil, nil},
---   {"iTerm2", nil, mainScreen, {x=0.5,y=0,w=0.5,h=1}, nil, nil},
--- }
 
 -- Application shortcuts
 hs.hotkey.bind(hyper, "a", function()
