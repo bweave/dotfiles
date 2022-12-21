@@ -1,6 +1,6 @@
 -- Modifier shortcuts
-hyper = { "⌘", "⌥", "⌃", "⇧" }
-meh = { "⌥", "⌃", "⇧" }
+local hyper = { "⌘", "⌥", "⌃", "⇧" }
+local meh = { "⌥", "⌃", "⇧" }
 
 -- Animations are annoying
 hs.window.animationDuration = 0
@@ -57,14 +57,14 @@ Install:andUse("MiroWindowsManager", {
 -- A little margin around/between things is nice
 hs.grid.setMargins({ x = 10, y = 10 })
 
-function moveToNextMonitor()
-	cur_window = hs.window.focusedWindow()
+local function moveToNextMonitor()
+	local cur_window = hs.window.focusedWindow()
 	cur_window:moveToScreen(cur_window:screen():next(), true, true, 0)
 end
 hs.hotkey.bind(hyper, "n", moveToNextMonitor)
 
-function centerOnScreen()
-	cur_window = hs.window.focusedWindow()
+local function centerOnScreen()
+	local cur_window = hs.window.focusedWindow()
 	cur_window:centerOnScreen()
 	cur_window:move({ 0, 10 }) -- account for our margin between windows
 end
