@@ -57,7 +57,7 @@ precmd_functions+=(set_win_title)
 include $HOME/.fzf.zsh
 case "$OSTYPE" in
   darwin*)
-    include $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    include $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     include $HOME/.secrets
     ;;
   linux*)
@@ -68,8 +68,8 @@ esac
 # Completions.
 case "$OSTYPE" in
   darwin*)
-    include /opt/homebrew/etc/profile.d/bash_completion.sh
-    include /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+    include $(brew --prefix)/etc/profile.d/bash_completion.sh
+    include $(brew --prefix)/share/zsh-history-substring-search/zsh-history-substring-search.zsh
     ;;
   linux*)
     include /etc/profile.d/bash_completion.sh
