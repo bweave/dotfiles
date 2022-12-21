@@ -189,7 +189,7 @@ alias rn_clean="watchman watch-del-all && killall -9 node && rm -rf yarn.lock pa
 # PCO stuff
 alias super_tail="grc tail -f ~/Code/**/log/development.log"
 alias super_tail_publishing="tail -f ~/Code/{api,church-center,publishing}/log/development.log /usr/local/var/log/nginx/{access,error}.log | bat --paging=never -l log"
-alias cloudbox="brew services restart clipper && pco cloud-box start && pco cloud-box allow-my-ip && pco cloud-box update-hosts && ssh cloudbox -t 'tmux -CC new -As pco'"
+alias cloudbox="pco cloud-box up --tmux-iterm -o SendEnv=GITHUB_TOKEN"
 alias block_tests="rerun -bcx --no-notify -- bin/rails test test/models/page_test test/models/blocks_test test/models/blocks/* test/graphs/planning_center_api/pages_test test/graphs/church_center_api/pages_test test/commands/html_to_blocks_test"
 
 # Exercism.io
