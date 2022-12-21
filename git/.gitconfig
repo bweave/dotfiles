@@ -20,6 +20,8 @@
 [alias]
   stashdiff = stash show -
 	pub = push -u origin HEAD
+  wip = !"git add --all; git ls-files --deleted -z | xargs -0 git rm; git commit --message=WIP"
+  unwip = !"git log -n 1 | grep -q -c wip && git reset HEAD~1"
 [init]
 	defaultBranch = main
 [hub]
@@ -28,3 +30,5 @@
 	prune = true
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
+[url "ssh://git@"]
+	insteadOf = git://
