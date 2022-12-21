@@ -105,11 +105,9 @@ hs.hotkey.bind(hyper, "z", function()
 end)
 
 -- Spotify
-local function SpotifyVolUp()
+hs.hotkey.bind(meh, "k", function()
 	hs.spotify.volumeUp()
-end
-hs.hotkey.bind(meh, "k", SpotifyVolUp, nil, SpotifyVolUp)
-local function SpotifyVolDown()
+end)
+hs.hotkey.bind(meh, "j", function()
 	hs.spotify.volumeDown()
-end
-hs.hotkey.bind(meh, "j", SpotifyVolDown, nil, SpotifyVolDown)
+end)
