@@ -351,4 +351,12 @@ export BASE16_SHELL_HOOKS="$HOME/.config/base16-shell-hooks/"
 	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
 	source "$BASE16_SHELL/profile_helper.sh"
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+function zvm_config() {
+  ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
+  ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+}
+function zvm_after_init() {
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+}
+source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
