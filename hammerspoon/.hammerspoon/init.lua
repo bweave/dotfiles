@@ -21,18 +21,18 @@ Install:andUse("ReloadConfiguration", { start = true })
 -- Open URLs in specific apps
 local browser = appID("/Applications/Google Chrome.app")
 local spotify = appID("/Applications/Spotify.app")
-local asana = appID("/Applications/Asana.app")
+-- local asana = appID("/Applications/Asana.app")
 
 Install:andUse("URLDispatcher", {
 	config = {
 		default_handler = browser,
 		url_patterns = {
 			{ "spotify:", spotify },
-			{ "asana:", asana },
+			-- { "asana:", asana },
 		},
 		url_redir_decoders = {
 			{ "Spotify URLs", "https://open.spotify.com/(.*)/(.*)", "spotify:%1:%2" },
-			{ "Asana URLs", "https://(app.asana.com/.*)", "asana://%1" },
+			-- { "Asana URLs", "https://app.asana.com/0/%d+/(.*)", "asana://0/0/%1" },
 		},
 	},
 	start = true,

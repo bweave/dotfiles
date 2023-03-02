@@ -1,122 +1,62 @@
---------------------------------------------------------------------------
--- bweave.lsp
---------------------------------------------------------------------------
+--
+-- lua/bweave/lsp/lua
+--
 
-local lsp_status = require("lsp-status")
-lsp_status.register_progress()
-lsp_status.config({
-	diagnostics = false, -- using the built-in to lualine
-	select_symbol = function(cursor_pos, symbol) -- sumneko_lua offers more capabilities for ranges
-		if symbol.valueRange then
-			local value_range = {
-				["start"] = {
-					character = 0,
-					line = vim.fn.byte2line(symbol.valueRange[1]),
-				},
-				["end"] = {
-					character = 0,
-					line = vim.fn.byte2line(symbol.valueRange[2]),
-				},
-			}
-
-			return require("lsp-status.util").in_range(cursor_pos, value_range)
-		end
-	end,
-})
-
+local utils = require("bweave.utils")
+local nmap = utils.nmap
+local installed_via_bundler = utils.installed_via_bundler
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-capabilities = vim.tbl_extend("keep", capabilities, lsp_status.capabilities)
 
-local on_attach = function(client, bufnr)
-	local opts = { buffer = 0, silent = true }
+local on_attach = function(client)
+	nmap("gd", vim.lsp.buf.definition, "LSP Go to Definition")
+	nmap("<leader>lgd", vim.lsp.buf.definition, "LSP Go to Definition")
+	nmap("<leader>lgD", vim.lsp.buf.declaration, "LSP Go to Declaration")
+	nmap("<leader>li", vim.lsp.buf.implementation, "LSP Implementation")
+	nmap("<leader>lr", vim.lsp.buf.references, "LSP References")
+	nmap("<leader>ls", vim.lsp.buf.signature_help, "LSP Signature Help")
+	nmap("]d", vim.diagnostic.goto_next, "LSP Next Diagnostic")
+	nmap("[d", vim.diagnostic.goto_prev, "LSP Previous Diagnostic")
+	nmap("<F2>", vim.lsp.buf.rename, "LSP Rename")
+	nmap("<leader>lD", vim.lsp.buf.type_definition, "LSP Type Definition")
+	nmap("<leader>ldo", vim.diagnostic.open_float, "LSP Show Info")
+	nmap("<leader>lds", vim.diagnostic.setloclist, "LSP Set Loclist")
+	nmap("<leader>lf", vim.lsp.buf.format, "LSP Format")
 
-	-- TODO: can I setup which-key here instead of these mappings?
-	-- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-	-- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-	-- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-	-- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-	-- vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-	-- vim.keymap.set('n', 'gS', vim.lsp.buf.signature_help, opts)
-	-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-	-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-	-- vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-	-- vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-	-- vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-	-- vim.keymap.set('n', '<leader>de', vim.diagnostic.open_float, opts)
-	-- vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, opts)
-	-- vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, opts)
+	if client.name == "rust_analyzer" then
+		nmap("<leader>la", require("rust-tools").code_action_group.code_action_group(), "LSP Code Action")
+		nmap("<leader>lk", require("rust-tools").hover_actions.hover_actions()("LSP Hover"))
+	else
+		nmap("<leader>la", vim.lsp.buf.code_action, "LSP Code Action")
+		nmap("<leader>lk", vim.lsp.buf.hover, "LSP Hover")
+	end
 
 	if client.name == "tsserver" then
 		client.server_capabilities.document_formatting = false
 		client.server_capabilities.document_range_formatting = false
 	end
-
-	lsp_status.on_attach(client)
 end
 
--- configuration toggles
--- require('toggle_lsp_diagnostics').init({ start_on = true, virtual_text = false, underline = false })
-
--- global diagnostic configuration
+-- virtual text config
 vim.diagnostic.config({
-	virtual_text = false,
-	underline = false,
-	signs = { priority = 10 },
+	virtual_text = {
+		-- source = "always",  -- Or "if_many"
+		prefix = "●", -- Could be '■', '▎', 'x'
+	},
+	severity_sort = true,
 	float = {
-		source = "if_many",
+		source = "always", -- Or "if_many"
 	},
 })
-
--- automatic lsp server installs
-require("mason").setup() -- does more but the lspconfig extension is all we use it for
-require("mason-lspconfig").setup({ automatic_installation = { exclude = { "solargraph" } } })
-require("mason-tool-installer").setup({
-	ensure_installed = {
-		"bash-language-server",
-		"css-lsp",
-		"eslint-lsp",
-		"gopls",
-		"html-lsp",
-		"json-lsp",
-		"lua-language-server",
-		"selene",
-		"shellcheck", -- used by bash-language-server
-		"sqlls",
-		"stylua",
-		"typescript-language-server",
-		"yaml-language-server",
-	},
-	auto_update = true,
-	run_on_start = true,
-	start_delay = 5000,
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	border = "single",
 })
-
-local installed_via_bundler = require("bweave.utils").installed_via_bundler
--- ruby / syntax_tree
-if installed_via_bundler("syntax_tree") then
-	require("lspconfig").syntax_tree.setup({
-		cmd = { "bundle", "exec", "stree", "lsp" },
-		capabilities = capabilities,
-		on_attach = on_attach,
-	})
-end
-
--- ruby / solargraph
-if installed_via_bundler("solargraph") then
-	require("lspconfig").solargraph.setup({
-		cmd = { "bundle", "exec", "solargraph", "stdio" },
-		init_options = {
-			formatting = false,
-		},
-		settings = {
-			solargraph = {
-				diagnostics = true,
-				logLevel = "debug",
-			},
-		},
-		capabilities = capabilities,
-		on_attach = on_attach,
-	})
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+	border = "single",
+})
+local signs = { Error = "", Warn = "", Hint = "", Info = "" }
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
 
 -- null-ls for tooling that's non-lsp-compliant like Rubocop
@@ -137,6 +77,51 @@ if not installed_via_bundler("solargraph") and installed_via_bundler("rubocop") 
 end
 
 null_ls.setup({ sources = sources, on_attach = on_attach })
+
+-- lua
+require("neodev").setup({
+	library = {
+		plugins = { "nvim-treesitter", "plenary.nvim", "gitsigns.nvim" },
+	},
+})
+
+require("lspconfig").sumneko_lua.setup({
+	settings = {
+		Lua = {
+			diagnostics = { globals = { "vim", "hs", "packer_plugins" } },
+			format = { enable = false },
+			telemetry = { enable = false },
+		},
+	},
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
+
+-- syntax_tree
+if installed_via_bundler("syntax_tree") then
+	require("lspconfig").syntax_tree.setup({
+		cmd = { "bundle", "exec", "stree", "lsp" },
+		capabilities = capabilities,
+		on_attach = on_attach,
+	})
+end
+
+-- ruby / solargraph
+if installed_via_bundler("solargraph") then
+	require("lspconfig").solargraph.setup({
+		cmd = { "bundle", "exec", "solargraph", "stdio" },
+		init_options = {
+			formatting = false,
+		},
+		settings = {
+			solargraph = {
+				diagnostics = true,
+			},
+		},
+		capabilities = capabilities,
+		on_attach = on_attach,
+	})
+end
 
 -- javascript / typescript
 -- this plugin calls lspconfig and sets up tsserver
@@ -169,19 +154,8 @@ require("lspconfig").eslint.setup({
 	on_attach = on_attach,
 })
 
--- lua
-require("lspconfig").sumneko_lua.setup({
-	settings = {
-		Lua = {
-			diagnostics = { globals = { "vim", "hs", "packer_plugins" } },
-			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-			format = { enable = false },
-			telemetry = { enable = false },
-		},
-	},
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+-- golang
+require("lspconfig").gopls.setup({ capabilities = capabilities, on_attach = on_attach })
 
 -- bash scripting
 require("lspconfig").bashls.setup({ capabilities = capabilities, on_attach = on_attach })
@@ -190,39 +164,16 @@ require("lspconfig").bashls.setup({ capabilities = capabilities, on_attach = on_
 require("lspconfig").yamlls.setup({ capabilities = capabilities, on_attach = on_attach })
 
 -- json
-require("lspconfig").jsonls.setup({ capabilities = capabilities, on_attach = on_attach })
+require("lspconfig").jsonls.setup({
+	init_options = {
+		provideFormatter = true,
+	},
+	capabilities = capabilities,
+	on_attach = on_attach,
+})
 
 -- html
 require("lspconfig").html.setup({ capabilities = capabilities, on_attach = on_attach })
 
 -- css
 require("lspconfig").cssls.setup({ capabilities = capabilities, on_attach = on_attach })
-
--- golang
-require("lspconfig").gopls.setup({ capabilities = capabilities, on_attach = on_attach })
-
-----
--- diagnostics
-----
-function PrintDiagnostics(opts, bufnr, line_nr, client_id)
-	bufnr = bufnr or 0
-	line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
-	opts = opts or { ["lnum"] = line_nr }
-
-	local line_diagnostics = vim.diagnostic.get(bufnr, opts)
-	if vim.tbl_isempty(line_diagnostics) then
-		return
-	end
-
-	local diagnostic_message = ""
-	for i, diagnostic in ipairs(line_diagnostics) do
-		diagnostic_message = diagnostic_message .. string.format("%d: %s", i, diagnostic.message or "")
-		print(diagnostic_message)
-		if i ~= #line_diagnostics then
-			diagnostic_message = diagnostic_message .. "\n"
-		end
-	end
-	-- vim.api.nvim_echo({{diagnostic_message, "Normal"}}, false, {})
-end
-
-vim.cmd([[ autocmd! CursorHold * lua PrintDiagnostics() ]])

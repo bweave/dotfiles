@@ -1,20 +1,26 @@
 --
--- ruby filetype
+-- after/ftplugin/ruby.lua
 --
 
-vim.g.ruby_indent_hanging_elements = 0
+local cmd = vim.cmd
+local g = vim.g
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
+local auGroup = augroup("BwRubyAutocmds", {})
+local installed_via_bundler = require("bweave.utils").installed_via_bundler
 
-local auGroup = vim.api.nvim_create_augroup("BwRubyAutocmds", { clear = true })
+g.ruby_indent_hanging_elements = 0
 
-vim.api.nvim_create_autocmd("FileType", {
-	command = 'inoreabbrev wiplog Rails.logger.debug "=" * 80<CR>Rails.logger.debug <CR>Rails.logger.debug "=" * 80<Up>',
-	desc = "WIPLOG for ruby",
-	group = auGroup,
-})
+cmd(
+	'iabbrev <buffer> wiplog Rails.logger.debug "=" * 80<CR> Rails.logger.debug "#{self.class.name}##{__method__}"<CR> Rails.logger.debug <CR> Rails.logger.debug "=" * 80<Up>'
+)
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function()
-		vim.lsp.buf.format()
-	end,
-	group = auGroup,
-})
+if installed_via_bundler("rubocop") or installed_via_bundler("syntax_tree") then
+	autocmd("BufWritePost", {
+		callback = function()
+			vim.lsp.buf.format()
+		end,
+		group = auGroup,
+		pattern = "*.rb",
+	})
+end

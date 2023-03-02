@@ -1,41 +1,24 @@
---------------------------------------------------------------------------
+--
 -- nvim-cmp
---------------------------------------------------------------------------
+-- https://github.com/hrsh7th/nvim-cmp
+--
 
 local cmp = require("cmp")
-local luasnip = require("luasnip")
-
+local has_luasnip, luasnip = pcall(require, "luasnip")
 local has_words_before = function()
+	-- unpack = unpack or table.unpack
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
 local key_mappings = {
-	["<C-p>"] = cmp.mapping(function(fallback)
+	["<S-Tab>"] = cmp.mapping(function(fallback)
 		if cmp.visible() then
 			cmp.select_prev_item()
 		elseif has_luasnip and luasnip.choice_active() then
 			luasnip.change_choice(-1)
-		else
-			fallback()
-		end
-	end, { "i", "c" }),
-
-	["<S-TAB>"] = cmp.mapping(function(fallback)
-		if cmp.visible() then
-			cmp.select_prev_item()
-		elseif has_luasnip and luasnip.choice_active() then
-			luasnip.change_choice(-1)
-		else
-			fallback()
-		end
-	end, { "i", "c" }),
-
-	["<C-n>"] = cmp.mapping(function(fallback)
-		if cmp.visible() then
-			cmp.select_next_item()
-		elseif has_luasnip and luasnip.choice_active() then
-			luasnip.change_choice(1)
+		elseif has_luasnip and luasnip.jumpable(-1) then
+			luasnip.jump(-1)
 		else
 			fallback()
 		end
@@ -46,6 +29,10 @@ local key_mappings = {
 			cmp.select_next_item()
 		elseif has_luasnip and luasnip.choice_active() then
 			luasnip.change_choice(1)
+		elseif has_luasnip and luasnip.expand_or_jumpable() then
+			luasnip.expand_or_jump()
+		elseif has_words_before() then
+			cmp.complete()
 		else
 			fallback()
 		end
@@ -69,42 +56,36 @@ local key_mappings = {
 
 cmp.setup({
 	snippet = {
-		-- REQUIRED - you must specify a snippet engine
 		expand = function(args)
-			luasnip.lsp_expand(args.body) -- For `luasnip` users.
+			if has_luasnip then
+				luasnip.lsp_expand(args.body)
+			end
 		end,
 	},
 	window = {
-		-- completion = cmp.config.window.bordered(),
-		-- documentation = cmp.config.window.bordered(),
+		completion = cmp.config.window.bordered({ border = "single" }),
+		documentation = cmp.config.window.bordered({ border = "single" }),
 	},
+	enabled = function()
+		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+	end,
 	mapping = key_mappings,
-	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
+	sources = {
 		{ name = "luasnip" },
+		-- { name = "friendly-snippets" },
+		{ name = "nvim_lsp" },
 		{ name = "nvim_lsp_signature_help" },
-		{ name = "nvim_lua" },
+		{ name = "spell" },
 		{ name = "buffer" },
 		{ name = "treesitter" },
-		{ name = "spell", keyword_length = 4 },
-	}, {
-		{ name = "buffer" },
-	}),
+		{ name = "gh_mentions" },
+		{ name = "gh_coauthors" },
+	},
 	completion = { completeopt = "menu,menuone,noinsert" },
 })
 
 cmp.setup.cmdline("/", {
 	mapping = key_mappings,
-
-	formatting = {
-		format = function(_, vim_item)
-			vim_item.kind = nil
-			vim_item.source = nil
-
-			return vim_item
-		end,
-	},
-
 	sources = {
 		{ name = "buffer" },
 	},
@@ -112,15 +93,6 @@ cmp.setup.cmdline("/", {
 
 cmp.setup.cmdline(":", {
 	mapping = key_mappings,
-
-	formatting = {
-		format = function(_, vim_item)
-			vim_item.kind = nil
-
-			return vim_item
-		end,
-	},
-
 	sources = cmp.config.sources({
 		{ name = "path" },
 	}, {

@@ -1,9 +1,8 @@
 --
--- bweave.init
+-- lua/bweave/init.lua
 --
 
+require("bweave.settings")
+require("bweave.keymaps")
 require("bweave.autocommands")
 require("bweave.lsp")
-require("bweave.seeing-is-believing")
-require("bweave.settings")
-require("bweave.terminal")

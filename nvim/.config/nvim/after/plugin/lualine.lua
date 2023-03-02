@@ -1,16 +1,10 @@
 --
--- Lualine
+-- after/plugin/lualine.lua
 --
-
-local status, lualine = pcall(require, "lualine")
-if not status then
-	return
-end
 
 local winbar_file_path = function()
 	local winbar_filetype_exclude = {
 		"NvimTree",
-		"Trouble",
 		"fugitive",
 		"help",
 		"packer",
@@ -25,6 +19,10 @@ local winbar_file_path = function()
 	return "%=" .. "%#WinBarPath#" .. " " .. file_path .. "%*" .. "%#WinBarModified#" .. modified .. " " .. "%*"
 end
 
+local lualine_status, lualine = pcall(require, "lualine")
+if not lualine_status then
+	print("!! lualine couldn't be required !!")
+end
 lualine.setup({
 	options = {
 		disabled_filetypes = { "NvimTree" },
@@ -32,7 +30,14 @@ lualine.setup({
 	},
 	theme = "auto",
 	sections = {
-		lualine_a = { "mode" },
+		lualine_a = {
+			{
+				"mode",
+				fmt = function(mode)
+					return vim.go.paste == true and mode .. " | PASTE" or mode
+				end,
+			},
+		},
 		lualine_b = { "branch", "diff" },
 		lualine_c = {},
 		lualine_x = { "filetype", "require('lsp-status').status()" },

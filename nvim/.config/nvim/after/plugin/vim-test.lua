@@ -1,8 +1,10 @@
 --
--- lazy.vim-test
+-- after/plugin/vim-test.lua
 --
 
-vim.g["test#strategy"] = "neovim"
-vim.g["test#preserve_screen"] = true
-vim.g["test#neovim#term_position"] = "vert botright 80"
-vim.g["test#vim#term_position"] = "vert botright 80"
+local g = vim.g
+
+g["test#strategy"] = "neovim"
+g["test#preserve_screen"] = true
+g["test#neovim#term_position"] = "vert botright 80"
+g["test#vim#term_position"] = "vert botright 80"

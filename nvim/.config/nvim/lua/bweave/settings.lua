@@ -1,92 +1,53 @@
---------------------------------------------------------------------------
--- bweave.settings
---------------------------------------------------------------------------
+--
+-- lua/settings.lua
+--
 
--- Nvim API aliases
-local g = vim.g -- Global vars
-local opt = vim.opt -- Options (global, buffer, window-scoped)
-
--- Change leader to space
-g.mapleader = " "
-
--- Setup require-ing from after/plugin dir
-package.path = vim.env.HOME .. "/.config/nvim/after/plugin/?.lua;" .. package.path
-
--- General
-opt.backup = false -- Disable backups
-opt.clipboard = "unnamedplus"
-opt.completeopt = "menuone,noselect" -- Autocomplete
-opt.mouse = "a" -- Enable mouse
-opt.swapfile = false -- Disable swapfiles
-opt.writebackup = false -- Disable backups
-
--- UI
-opt.colorcolumn = "101" -- Line lenght marker at 80 columns
-opt.confirm = true -- Ask for confirmation
-opt.cursorline = true -- Highlight curent line
-opt.expandtab = true -- Use spaces, not tabs
-opt.foldmethod = "marker" -- Enable folding (default 'foldmarker')
-opt.ignorecase = true -- Ignore case letters when search
-opt.inccommand = "nosplit" -- Show effects of command as you type
-opt.linebreak = true -- Wrap on word boundary
-opt.joinspaces = false -- Don't add 2 spaces when joining lines
-opt.laststatus = 3 -- show global statusline
-opt.number = true -- Show line number
-opt.showmatch = true -- Highlight matching parenthesis
-opt.showmode = false -- Don't show Vim mode in the command line since I have it in my statusline
-opt.smartcase = true -- Ignore lowercase for the whole pattern
-opt.splitbelow = true -- Orizontal split to the bottom
-opt.splitright = true -- Vertical split to the right
-opt.termguicolors = true -- Enable 24-bit RGB colors
-opt.title = true -- Allow setting the terminal title
-opt.titlestring = vim.fn.fnamemodify(vim.fn.getcwd(), ":t") -- Set the terminal title to the current directory
-opt.wildmode = "list:full" -- List all items and start selecting matches in cmd completion
-opt.wildignore =
-	"blue.vim,darkblue.vim,delek.vim,desert.vim,evening.vim,elflord.vim,industry.vim,koehler.vim,morning.vim,murphy.vim,pablo.vim,peachpuff.vim,ron.vim,shine.vim,slate.vim,torte.vim,zellner.vim" -- ignore default colorschemes
-opt.wrap = false -- Disable line wrapping
-
--- Indentation
-opt.expandtab = true -- Use spaces instead of tabs
-opt.shiftwidth = 2 -- Shift 2 spaces when tab
-opt.smartindent = true -- Autoindent new lines
-opt.tabstop = 2 -- 1 tab == 2 spaces
-
--- Memory & CPU Performance
-opt.hidden = true -- Enable background buffers
-opt.history = 100 -- Remember N lines in history
-opt.lazyredraw = true -- Faster scrolling
-opt.synmaxcol = 240 -- Max column for syntax highlight
-opt.updatetime = 250 -- ms to wait for trigger an event
-
--- Startup
-opt.shortmess:append("asI") -- Sane defaults
-
--- Disable builtins plugins
-local disabled_built_ins = {
-	-- "netrw", GBrowse uses this
-	"netrwPlugin",
-	"netrwSettings",
-	"netrwFileHandlers",
-	"gzip",
-	"zip",
-	"zipPlugin",
-	"tar",
-	"tarPlugin",
-	"getscript",
-	"getscriptPlugin",
-	"vimball",
-	"vimballPlugin",
-	"2html_plugin",
-	"logipat",
-	"rrhelper",
-	"spellfile_plugin",
-	"matchit",
+local options = {
+	backup = false, -- creates a backup file
+	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
+	colorcolumn = "101", -- Line lenght marker at 100 columns
+	completeopt = { "menuone", "noselect" }, -- mostly just for cmp
+	conceallevel = 0, -- so that `` is visible in markdown files
+	cursorline = true, -- highlight the current line
+	expandtab = true, -- convert tabs to spaces
+	fileencoding = "utf-8", -- the encoding written to a file
+	history = 100, -- Remember N lines in history
+	hlsearch = true, -- highlight all matches on previous search pattern
+	ignorecase = true, -- ignore case in search patterns
+	joinspaces = false, -- Don't add 2 spaces when joining lines
+	laststatus = 3, -- show global statusline
+	lazyredraw = true, -- Faster scrolling
+	linebreak = true, -- Wrap on word boundary
+	mouse = "a", -- allow the mouse to be used in neovim
+	number = true, -- set numbered lines
+	numberwidth = 4, -- set number column width to 2 {default 4}
+	pumheight = 10, -- pop up menu height
+	scrolloff = 8, -- minimal number of screen lines to keep above and below the cursor
+	shiftwidth = 2, -- the number of spaces inserted for each indentation
+	showmatch = true, -- Highlight matching parenthesis
+	showmode = false, -- we don't need to see things like -- INSERT -- anymore
+	showtabline = 2, -- always show the tabline
+	sidescrolloff = 8, -- minimal number of screen columns either side of cursor if wrap is `false`
+	signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
+	smartcase = true, -- smart case
+	smartindent = true, -- make indenting smarter again
+	splitbelow = true, -- force all horizontal splits to go below current window
+	splitright = true, -- force all vertical splits to go to the right of current window
+	swapfile = false, -- creates a swapfile
+	tabstop = 2, -- insert 2 spaces for a tab
+	termguicolors = true, -- set term gui colors (most terminals support this)
+	title = true, -- Allow setting the terminal title
+	titlestring = vim.fn.fnamemodify(vim.fn.getcwd(), ":t"), -- Set the terminal title to the current directory
+	timeoutlen = 300, -- time to wait for a mapped sequence to complete (in milliseconds)
+	undofile = true, -- enable persistent undo
+	updatetime = 300, -- faster completion (4000ms default)
+	wrap = false, -- don't wrap lines
+	writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 }
 
-for _, plugin in pairs(disabled_built_ins) do
-	g["loaded_" .. plugin] = 1
+for k, v in pairs(options) do
+	vim.opt[k] = v
 end
 
--- Remote
-math.randomseed(os.time())
-vim.fn.serverstart("/tmp/nvimsocket_" .. math.random(1, 10000))
+require("base16-colorscheme").with_config({ telescope = false })
+vim.cmd("colorscheme base16-espresso")

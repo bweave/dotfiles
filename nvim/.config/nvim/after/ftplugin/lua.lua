@@ -1,5 +1,5 @@
 --
--- lua filetype
+-- after/ftplugin/lua.lua
 --
 
 vim.api.nvim_create_autocmd("BufWritePre", {
