@@ -51,3 +51,11 @@ autocmd("BufLeave", {
 	desc = "Stop Insert mode when leaving a terminal",
 	group = bweaveGroup,
 })
+autocmd("ColorScheme", {
+	pattern = "*",
+	callback = function()
+		require("bweave.winbar").setup()
+	end,
+	desc = "Reload winbar colorscheme highlights",
+	group = bweaveGroup,
+})
