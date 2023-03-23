@@ -122,19 +122,6 @@ if [ -d "$HOME/pco-box" ]; then
 fi
 
 ########################
-# Nvm
-########################
-
-# TODO: setup asdf b/c that's what pco-box uses!
-# case "$OSTYPE" in
-#   darwin*)
-#     export NVM_DIR="$HOME/.nvm"
-#     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-#     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-#     ;;
-# esac
-
-########################
 # Aliases
 ########################
 
