@@ -4,30 +4,33 @@
 
 local utils = require("bweave.utils")
 local nmap = utils.nmap
+local vmap = utils.vmap
 local installed_via_bundler = utils.installed_via_bundler
+local config_exists = utils.config_exists
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 local on_attach = function(client)
-	nmap("gd", vim.lsp.buf.definition, "LSP Go to Definition")
-	nmap("<leader>lgd", vim.lsp.buf.definition, "LSP Go to Definition")
-	nmap("<leader>lgD", vim.lsp.buf.declaration, "LSP Go to Declaration")
-	nmap("<leader>li", vim.lsp.buf.implementation, "LSP Implementation")
-	nmap("<leader>lr", vim.lsp.buf.references, "LSP References")
-	nmap("<leader>ls", vim.lsp.buf.signature_help, "LSP Signature Help")
-	nmap("]d", vim.diagnostic.goto_next, "LSP Next Diagnostic")
-	nmap("[d", vim.diagnostic.goto_prev, "LSP Previous Diagnostic")
-	nmap("<F2>", vim.lsp.buf.rename, "LSP Rename")
-	nmap("<leader>lD", vim.lsp.buf.type_definition, "LSP Type Definition")
-	nmap("<leader>ldo", vim.diagnostic.open_float, "LSP Show Info")
-	nmap("<leader>lds", vim.diagnostic.setloclist, "LSP Set Loclist")
-	nmap("<leader>lf", vim.lsp.buf.format, "LSP Format")
+	nmap("gd", vim.lsp.buf.definition, "Go to Definition")
+	nmap("<leader>lgd", vim.lsp.buf.definition, "Go to Definition")
+	nmap("<leader>lgD", vim.lsp.buf.declaration, "Go to Declaration")
+	nmap("<leader>li", vim.lsp.buf.implementation, "Implementation")
+	nmap("<leader>lr", vim.lsp.buf.references, "References")
+	nmap("<leader>ls", vim.lsp.buf.signature_help, "Signature Help")
+	nmap("]d", vim.diagnostic.goto_next, "Next Diagnostic")
+	nmap("[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+	nmap("<F2>", vim.lsp.buf.rename, "Rename")
+	nmap("<leader>lD", vim.lsp.buf.type_definition, "Type Definition")
+	nmap("<leader>ldo", vim.diagnostic.open_float, "Show Info")
+	nmap("<leader>lds", vim.diagnostic.setloclist, "Set Loclist")
+	nmap("<leader>lf", vim.lsp.buf.format, "Format")
 
 	if client.name == "rust_analyzer" then
-		nmap("<leader>la", require("rust-tools").code_action_group.code_action_group(), "LSP Code Action")
-		nmap("<leader>lk", require("rust-tools").hover_actions.hover_actions()("LSP Hover"))
+		nmap("<leader>la", require("rust-tools").code_action_group.code_action_group, "Code Action")
+		vmap("<leader>la", require("rust-tools").code_action_group.code_action_group, "Code Action")
+		nmap("<leader>lk", require("rust-tools").hover_actions.hover_actions("Hover"))
 	else
-		nmap("<leader>la", vim.lsp.buf.code_action, "LSP Code Action")
-		nmap("<leader>lk", vim.lsp.buf.hover, "LSP Hover")
+		nmap("<leader>la", vim.lsp.buf.code_action, "Code Action")
+		nmap("<leader>lk", vim.lsp.buf.hover, "Hover")
 	end
 
 	if client.name == "tsserver" then
@@ -67,7 +70,7 @@ local sources = {
 }
 
 -- ruby / rubocop via null-ls
-if not installed_via_bundler("solargraph") and installed_via_bundler("rubocop") then
+if not installed_via_bundler("solargraph") and installed_via_bundler("rubocop") and config_exists(".rubocop.yml") then
 	local rubocop_source = null_ls.builtins.diagnostics.rubocop.with({
 		command = "bundle",
 		args = vim.list_extend({ "exec", "rubocop" }, null_ls.builtins.diagnostics.rubocop._opts.args),
@@ -85,7 +88,7 @@ require("neodev").setup({
 	},
 })
 
-require("lspconfig").sumneko_lua.setup({
+require("lspconfig").lua_ls.setup({
 	settings = {
 		Lua = {
 			diagnostics = { globals = { "vim", "hs", "packer_plugins" } },
@@ -154,6 +157,9 @@ require("lspconfig").eslint.setup({
 	on_attach = on_attach,
 })
 
+-- rust
+require("rust-tools").setup({ capabilities = capabilities, on_attach = on_attach })
+
 -- golang
 require("lspconfig").gopls.setup({ capabilities = capabilities, on_attach = on_attach })
 
@@ -161,7 +167,15 @@ require("lspconfig").gopls.setup({ capabilities = capabilities, on_attach = on_a
 require("lspconfig").bashls.setup({ capabilities = capabilities, on_attach = on_attach })
 
 -- yaml
-require("lspconfig").yamlls.setup({ capabilities = capabilities, on_attach = on_attach })
+require("lspconfig").yamlls.setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+	settings = {
+		yaml = {
+			keyOrdering = false,
+		},
+	},
+})
 
 -- json
 require("lspconfig").jsonls.setup({
