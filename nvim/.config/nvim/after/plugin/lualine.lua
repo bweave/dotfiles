@@ -2,23 +2,6 @@
 -- after/plugin/lualine.lua
 --
 
-local winbar_file_path = function()
-	local winbar_filetype_exclude = {
-		"NvimTree",
-		"fugitive",
-		"help",
-		"packer",
-		"qf",
-		"startuptime",
-	}
-	if vim.tbl_contains(winbar_filetype_exclude, vim.bo.filetype) then
-		return ""
-	end
-	local file_path = vim.api.nvim_eval_statusline("%f", {}).str
-	local modified = vim.api.nvim_eval_statusline("%M", {}).str == "+" and "[+]" or ""
-	return "%=" .. "%#WinBarPath#" .. " " .. file_path .. "%*" .. "%#WinBarModified#" .. modified .. " " .. "%*"
-end
-
 local lualine_status, lualine = pcall(require, "lualine")
 if not lualine_status then
 	print("!! lualine couldn't be required !!")
@@ -64,7 +47,8 @@ lualine.setup({
 		lualine_a = {},
 		lualine_b = {},
 		lualine_c = {},
-		lualine_x = { winbar_file_path },
+		-- lualine_x = { winbar_file_path },
+		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},
 	},
@@ -72,7 +56,8 @@ lualine.setup({
 		lualine_a = {},
 		lualine_b = {},
 		lualine_c = {},
-		lualine_x = { winbar_file_path },
+		-- lualine_x = { winbar_file_path },
+		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},
 	},
