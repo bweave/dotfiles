@@ -36,7 +36,7 @@ end, "[A]ppearance Toggle background light/[d]ark")
 nmap("<leader>at", ":TransparentToggle<CR>", "[A]ppearance Toggle [T]ransparency")
 
 -- Finders
-nmap("<leader>E", require("nvim-tree").toggle, "Toggle file explorer")
+nmap("<leader>E", ":NvimTreeToggle<CR>", "Toggle file explorer")
 nmap("<C-p>", ":Telescope find_files follow=true hidden=true<CR>", "Find [F]iles")
 nmap("<leader>f", ":Telescope find_files follow=true hidden=true<CR>", "Find [F]iles")
 nmap("<leader>F", ":NvimTreeFindFile<CR>", "Find [F]ile in explorer")
@@ -100,7 +100,10 @@ nmap("<leader>tr", function()
 	local rspec = installed_via_bundler("rspec")
 	local test_runner = rspec and "bundle exec rspec" or "bin/rails test"
 	local test_type = rspec and "spec" or "test"
-	local test_file = vim.fn.expand("%"):gsub("app", test_type):gsub("(%a+)(%.%a+)$", "%1_" .. test_type .. "%2")
+	local test_file = vim.fn.expand("%")
+	if not test_file:match(test_type) then
+		test_file = vim.fn.expand("%"):gsub("app", test_type):gsub("(%a+)(%.%a+)$", "%1_" .. test_type .. "%2")
+	end
 	local test_command = table.concat({ rerun, rerun_args, test_runner, test_file }, " ")
 
 	vim.cmd.Texec(test_command)
