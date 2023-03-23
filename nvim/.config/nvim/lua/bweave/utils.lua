@@ -95,4 +95,10 @@ function M.installed_via_bundler(gemname)
 	return found
 end
 
+function M.config_exists(filename)
+	local file = vim.fs.find(filename, { type = "file", limit = 1 })[1]
+
+	return vim.fn.filereadable(file) == 1
+end
+
 return M
