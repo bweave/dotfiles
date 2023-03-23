@@ -1,5 +1,5 @@
 --
--- lua/settings.lua
+-- lua/bweave/settings.lua
 --
 
 local options = {
@@ -50,4 +50,4 @@ for k, v in pairs(options) do
 end
 
 require("base16-colorscheme").with_config({ telescope = false })
-vim.cmd("colorscheme base16-espresso")
+vim.cmd("colorscheme base16-onedark")
