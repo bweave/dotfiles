@@ -6,12 +6,16 @@ local lualine_status, lualine = pcall(require, "lualine")
 if not lualine_status then
 	print("!! lualine couldn't be required !!")
 end
+
+local modified_color = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("WarningMsg")), "fg")
+vim.api.nvim_set_hl(0, "WinBarModified", { fg = modified_color })
+
 lualine.setup({
 	options = {
 		disabled_filetypes = { "NvimTree" },
 		globalstatus = true,
+		theme = "auto",
 	},
-	theme = "auto",
 	sections = {
 		lualine_a = {
 			{
@@ -21,33 +25,74 @@ lualine.setup({
 				end,
 			},
 		},
-		lualine_b = { "branch", "diff" },
+		lualine_b = {
+			"branch",
+			"diff",
+			{
+				"diagnostics",
+				source = { "nvim" },
+				sections = { "error" },
+			},
+			{
+				"diagnostics",
+				source = { "nvim" },
+				sections = { "warn" },
+			},
+			{
+				"%w",
+				cond = function()
+					return vim.wo.previewwindow
+				end,
+			},
+			{
+				"%r",
+				cond = function()
+					return vim.bo.readonly
+				end,
+			},
+			{
+				"%q",
+				cond = function()
+					return vim.bo.buftype == "quickfix"
+				end,
+			},
+		},
 		lualine_c = {},
-		lualine_x = { "filetype", "require('lsp-status').status()" },
-		lualine_y = { "diagnostics" },
+		lualine_x = {},
 		lualine_z = { "location" },
 	},
-	inactive_sections = {
+	tabline = {
 		lualine_a = {},
 		lualine_b = {},
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {
-		lualine_a = { "buffers" },
-		lualine_b = {},
-		lualine_c = {},
-		lualine_x = {},
-		lualine_y = {},
-		lualine_z = { "tabs" },
+		lualine_z = {
+			{
+				"tabs",
+				section_separators = { right = "", left = "" },
+				component_separators = { right = "", left = "" },
+			},
+		},
 	},
 	winbar = {
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = {},
-		-- lualine_x = { winbar_file_path },
+		lualine_c = {
+			{
+				"filename",
+				color = function()
+					local fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Normal")), "fg")
+					local bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Normal")), "bg")
+					return { fg = fg, bg = bg, gui = "italic" }
+				end,
+				colored = true,
+				path = 1,
+				symbols = {
+					modified = "%#WinBarModified#",
+				},
+			},
+		},
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},
@@ -55,8 +100,20 @@ lualine.setup({
 	inactive_winbar = {
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = {},
-		-- lualine_x = { winbar_file_path },
+		lualine_c = {
+			{
+				"filename",
+				color = function()
+					local bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID("Normal")), "bg")
+					return { fg = "gray", bg = bg, gui = "italic" }
+				end,
+				colored = true,
+				path = 1,
+				symbols = {
+					modified = "%#WinBarModified#",
+				},
+			},
+		},
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},

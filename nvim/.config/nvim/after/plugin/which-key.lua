@@ -14,7 +14,19 @@ wc.register({
 		a = { name = "[A]ppearance" },
 		e = { name = "[E]dit" },
 		g = { name = "[G]it" },
-		l = { name = "[L]sp" },
+		l = {
+			name = "[L]sp",
+			e = { name = "[E]rrors" },
+		},
+		r = { name = "[R]uby & [R]ails" },
 		t = { name = "[T]esting" },
+		T = {
+			name = "[T]erminal",
+			r = { name = "[R]epl" },
+		},
+		W = {
+			name = "[W]indow",
+			t = { name = "[W]indow [T]ab" },
+		},
 	},
 })

@@ -3,10 +3,11 @@
 --
 
 local options = {
-	backup = false, -- creates a backup file
+	backup = false, -- don't create a backup file
 	clipboard = "unnamedplus", -- allows neovim to access the system clipboard
+	cmdheight = 2,
 	colorcolumn = "101", -- Line lenght marker at 100 columns
-	completeopt = { "menuone", "noselect" }, -- mostly just for cmp
+	completeopt = "menuone,noselect", -- mostly just for cmp
 	conceallevel = 0, -- so that `` is visible in markdown files
 	cursorline = true, -- highlight the current line
 	expandtab = true, -- convert tabs to spaces
@@ -24,6 +25,8 @@ local options = {
 	pumheight = 10, -- pop up menu height
 	scrolloff = 8, -- minimal number of screen lines to keep above and below the cursor
 	shiftwidth = 2, -- the number of spaces inserted for each indentation
+	shortmess = "acIWF", -- disable startup message and others, see :h shortmess
+	showcmd = false, -- don't show the last command in the cmdline
 	showmatch = true, -- Highlight matching parenthesis
 	showmode = false, -- we don't need to see things like -- INSERT -- anymore
 	showtabline = 2, -- always show the tabline
@@ -46,8 +49,7 @@ local options = {
 }
 
 for k, v in pairs(options) do
-	vim.opt[k] = v
+	vim.o[k] = v
 end
 
-require("base16-colorscheme").with_config({ telescope = false })
-vim.cmd("colorscheme base16-onedark")
+require("bweave.utils").setColorscheme()

@@ -24,46 +24,28 @@ nmap("<C-j>", "<C-w>j", "Window down")
 nmap("<C-k>", "<C-w>k", "Window up")
 nmap("<C-l>", "<C-w>l", "Window right")
 
--- Appearance
-nmap("<leader>ad", function()
-	if vim.o.bg == "light" then
-		vim.o.bg = "dark"
-	else
-		vim.o.bg = "light"
-	end
-end, "[A]ppearance Toggle background light/[d]ark")
-
-nmap("<leader>at", ":TransparentToggle<CR>", "[A]ppearance Toggle [T]ransparency")
-
 -- Finders
-nmap("<leader>E", ":NvimTreeToggle<CR>", "Toggle file explorer")
-nmap("<C-p>", ":Telescope find_files follow=true hidden=true<CR>", "Find [F]iles")
-nmap("<leader>f", ":Telescope find_files follow=true hidden=true<CR>", "Find [F]iles")
-nmap("<leader>F", ":NvimTreeFindFile<CR>", "Find [F]ile in explorer")
-nmap("<leader>b", require("telescope.builtin").buffers, "Find [B]uffers")
-nmap("<leader>c", require("telescope.builtin").colorscheme, "[C]olorschemes")
-nmap("<leader>r", require("telescope.builtin").registers, "[R]egisters")
-nmap("<leader>K", require("telescope.builtin").keymaps, "[K]eymaps")
-nmap("<leader>sd", require("telescope.builtin").diagnostics, "[S]earch [D]iagnostics")
-nmap(
-	"<leader>ec",
-	":Telescope find_files cwd=" .. vim.fn.stdpath("config") .. " follow=true hidden=true<CR>",
-	"[E]dit [C]onfig files"
-)
-nmap(
-	"<leader>ed",
-	":Telescope find_files cwd=" .. vim.env.HOME .. "/dotfiles" .. " follow=true hidden=true<CR>",
-	"[E]dit [D]otfiles"
-)
-nmap(
-	"<leader>es",
-	":Telescope find_files cwd=.vscode search_file=scratchpad_local.md follow=true hidden=true<CR>",
-	"[E]dit [S]cratchpad"
-)
+nmap("<leader>E", ":NvimTreeToggle<CR>", "Toggle [E]xplorer")
+nmap("<C-p>", require("fzf-lua").files, "Find [F]iles")
+nmap("<leader>f", require("fzf-lua").files, "Find [F]iles")
+nmap("<leader>F", ":NvimTreeFindFileToggle<CR>", "Find [F]ile in explorer")
+nmap("<leader>b", require("fzf-lua").buffers, "Find [B]uffers")
+nmap("<leader>c", require("fzf-lua").colorschemes, "[C]olorschemes")
+nmap("<leader>q", require("fzf-lua").quickfix, "[Q]uickfix")
+nmap("<leader>R", require("fzf-lua").registers, "[R]egisters")
+nmap("<leader>K", require("fzf-lua").keymaps, "[K]eymaps")
+nmap("<leader>ec", function()
+	require("fzf-lua").files({ cwd = vim.fn.stdpath("config") })
+end, "[E]dit [C]onfig files")
+nmap("<leader>ed", function()
+	require("fzf-lua").files({ cwd = vim.env.HOME .. "/dotfiles" })
+end, "[E]dit [D]otfiles")
+nmap("<leader>es", "<cmd>vs .vscode/scratchpad_local.md<CR>", "[E]dit [S]cratchpad")
 
 -- Search
-nmap("<leader>s", require("telescope.builtin").live_grep, "[S]earch")
-nmap("<leader>S", require("telescope.builtin").grep_string, "[S]earch word under cursor")
+nmap("<leader>lF", require("fzf-lua").lsp_finder, "[F]inder")
+nmap("<leader>s", require("fzf-lua").grep, "[S]earch")
+nmap("<leader>S", require("fzf-lua").grep_cword, "[S]earch word under cursor")
 nmap("<leader>h", ":set hlsearch! hlsearch?<CR>", "Toggle [H]ighlights")
 
 -- Buffers
@@ -81,19 +63,31 @@ nmap("<leader>p", ":set invpaste<CR>", "Toggle [P]aste")
 vmap("<", "<gv", "Dedent selection")
 vmap(">", ">gv", "Indent selection")
 
+-- Window
+nmap("<leader>Wtr", function()
+	vim.ui.input({ prompt = "Enter new tab name: " }, function(input)
+		if input then
+			vim.cmd("LualineRenameTab " .. input)
+		end
+	end)
+end, "[W]indow [T]ab [R]ename")
+nmap("<leader>Wtf", require("fzf-lua").tabs, "[W]indow [T]ab [F]ind")
+
 -- Git
+nmap("<leader>gm", ":GitMessenger<CR>", "[G]it [M]essenger")
 nmap("<leader>gs", ":vertical Git<CR>", "[G]it [S]tatus")
 nmap("<leader>gH", ":GBrowse<CR>", "[G]it[h]ub")
 nmap("<leader>gb", ":Git blame<CR>", "[G]it [B]lame")
-nmap("<leader>gB", require("telescope.builtin").git_branches, "[G]it [B]ranches")
-nmap("<leader>gS", require("telescope.builtin").git_stash, "[G]it [S]tashes")
+nmap("<leader>gB", require("fzf-lua").git_branches, "[G]it [B]ranches")
+nmap("<leader>gS", require("fzf-lua").git_stash, "[G]it [S]tashes")
 nmap("<leader>ghp", require("gitsigns").preview_hunk, "[G]it [P]review [H]unk")
 nmap("<leader>ghr", require("gitsigns").reset_hunk, "[G]it [R]eset [H]unk")
 
--- Testing
-nmap("<leader>tt", ":TestFile<CR>", "Test file")
-nmap("<leader>tT", ":TestNearest<CR>", "Test nearest")
-nmap("<leader>tr", function()
+-- Ruby & Rails
+nmap("<leader>rc", ":Rails console<CR>", "Rails [c]onsole")
+nmap("<leader>rl", ":Texec tail\\ -f\\ log/development.log<CR>", "Rails [l]og")
+nmap("<leader>rR", ":Rails runner %<CR>", "Rails [R]unner")
+nmap("<leader>rr", function()
 	local installed_via_bundler = require("bweave.utils").installed_via_bundler
 	local rerun = installed_via_bundler("rerun") and "bundle exec rerun" or "rerun"
 	local rerun_args = "-bcx --no-notify --"
@@ -107,8 +101,17 @@ nmap("<leader>tr", function()
 	local test_command = table.concat({ rerun, rerun_args, test_runner, test_file }, " ")
 
 	vim.cmd.Texec(test_command)
-end, "Rerun Rails test/spec")
+end, "[R]erun Rails test/spec")
+nmap("<leader>rs", ":Rails server<CR>", "Rails [s]erver")
+
+-- Testing
+nmap("<leader>tf", ":TestFile<CR>", "Test [F]ile")
+nmap("<leader>tn", ":TestNearest<CR>", "Test [N]earest")
+nmap("<leader>ts", ":TestSuite<CR>", "Test [S]uite")
 
 -- Terminal
-nmap("<leader>T", ":botright vsplit term://$SHELL<CR>", "New [T]erminal")
+nmap("<leader>Tn", ":botright vsplit term://$SHELL<CR>", "[N]ew Terminal")
+nmap("<leader>Trf", "<cmd>TREPLSendFile<CR>", "[R]epl [F]ile")
+nmap("<leader>Trl", "<cmd>TREPLSendLine<CR>", "[R]epl [L]ine")
+nmap("<leader>Trs", "<cmd>TREPLSendSelection<CR>", "[R]epl [S]election")
 tmap("<Esc><Esc>", "<C-\\><C-n>", "Esc to Normal mode")

@@ -14,8 +14,33 @@ end
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim" })
 	use({ "Shatur/neovim-session-manager" })
-	use({ "RRethy/nvim-base16" })
-	use({ "rmehri01/onenord.nvim" })
+	use({ "Mofiqul/vscode.nvim" })
+	use({ "CodeGradox/onehalf-lush" })
+	use({ "morhetz/gruvbox" })
+	use({ "~/src/bweave-nvim", requires = { "rktjmp/lush.nvim" } })
+	use({
+		"folke/tokyonight.nvim",
+		lazy = true,
+		opts = { style = "moon" },
+	})
+  use({
+    "rebelot/kanagawa.nvim",
+    config = function()
+      local ok, kanagawa = pcall(require, "kanagawa")
+      if not ok then
+        print("!! kanagawa couldn't be required !!")
+        return
+      end
+
+      kanagawa.setup({
+        colors = {
+          theme = { all = { ui = { bg_gutter = "none" }  }}
+        }
+      })
+      vim.cmd("colorscheme kanagawa-dragon")
+    end
+  })
+
 	use({ "editorconfig/editorconfig-vim" })
 	use({
 		"nvim-treesitter/nvim-treesitter",
@@ -81,8 +106,7 @@ require("packer").startup(function(use)
 			"williamboman/mason-lspconfig.nvim",
 		},
 	})
-	use({ "j-hui/fidget.nvim" })
-	use({ "jose-elias-alvarez/null-ls.nvim" })
+	use({ "j-hui/fidget.nvim", tag = "legacy" })
 	use({
 		"hrsh7th/nvim-cmp",
 		requires = {
@@ -103,10 +127,22 @@ require("packer").startup(function(use)
 	})
 	use({ "folke/which-key.nvim" })
 
+	use({
+		"kkoomen/vim-doge",
+		run = ":call doge#install()",
+	})
+
+	-- use({ "christoomey/vim-tmux-navigator" })
+
+	use({ "rhysd/git-messenger.vim" })
+
 	if is_bootstrap then
 		require("packer").sync()
 	end
 end)
+
+vim.g.git_messenger_floating_win_opts = { border = "single" }
+vim.g.git_messenger_no_default_mappings = true
 
 -- When we are bootstrapping a configuration, it doesn't
 -- make sense to execute the rest of the init.lua.

@@ -6,6 +6,13 @@ local augroup = vim.api.nvim_create_augroup
 local autocmd = vim.api.nvim_create_autocmd
 local bweaveGroup = augroup("BweaveGroup", {})
 
+-- autocmd("CursorHold", {
+-- 	pattern = "*",
+-- 	command = "echon ''",
+-- 	desc = "Automatically clear cmd line",
+-- 	group = bweaveGroup,
+-- })
+
 autocmd("BufWritePre", {
 	pattern = "*",
 	command = "%s/\\s\\+$//e",
@@ -54,8 +61,9 @@ autocmd("BufLeave", {
 autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
-		require("bweave.winbar").setup()
+		-- require("bweave.winbar").setup()
+    require('lualine').refresh()
 	end,
-	desc = "Reload winbar colorscheme highlights",
+	desc = "Reload lualine",
 	group = bweaveGroup,
 })

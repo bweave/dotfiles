@@ -2,7 +2,42 @@
 -- lua/bweave/utils.lua
 --
 
+local dark_theme = vim.env.NVIM_DARK_THEME or "kanagawa-dragon"
+local light_theme = vim.env.NVIM_LIGHT_THEME or "kanagawa-lotus"
+
 local M = {}
+
+function M.setColorscheme()
+	if M.is_dark_mode() then
+		vim.o.background = "dark"
+		vim.cmd("colorscheme " .. dark_theme)
+	else
+		vim.o.background = "light"
+		vim.cmd("colorscheme " .. light_theme)
+	end
+end
+
+function M.get_os()
+	return vim.loop.os_uname().sysname
+end
+
+function M.is_dark_mode()
+	-- TODO: linux may return somthing other than "Dark" so I'll need to handle that
+
+	return "Dark" == string.match(M.get_dark_mode(), "Dark")
+end
+
+function M.get_dark_mode()
+	-- TODO: figure out how to get current dark mode setting on Ubuntu
+
+	local dark_mode = "Dark"
+
+	if M.get_os() == "Darwin" then
+		dark_mode = vim.fn.system("defaults read -g AppleInterfaceStyle 2>/dev/null") or "Dark"
+	end
+
+	return dark_mode
+end
 
 local function keymap(mode, keys, func, opts)
 	local options = { noremap = true, silent = true }
