@@ -54,7 +54,7 @@ if [ ! -d "$HOME/dotfiles" ]; then
 fi
 success "dotfiles cloned"
 
-for config in base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim starship tmux wezterm zsh; do
+for config in base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim tmux zsh; do
   info "Symlinking $config..."
   stow --dotfiles -d "$HOME/dotfiles" -t "$HOME" --restow "$config" # --restow forces it
 done
