@@ -54,11 +54,21 @@ if [ ! -d "$HOME/dotfiles" ]; then
 fi
 success "dotfiles cloned"
 
-for config in base16-shell-hooks bin_scripts eslint git hammerspoon irb karabiner nvim tmux zsh; do
-  info "Symlinking $config..."
-  stow --dotfiles -d "$HOME/dotfiles" -t "$HOME" --restow "$config" # --restow forces it
-done
-success "configs are g2g"
+info "Symlinking dotfiles..."
+ln -sf "$HOME/dotfiles/bin_scripts/bin/git-nuke-staging" "$HOME/bin/git-nuke-staging"
+ln -sf "$HOME/dotfiles/bin_scripts/bin/tat" "$HOME/bin/tat"
+ln -sf "$HOME/dotfiles/eslint/.eslintrc" "$HOME/.eslintrc"
+ln -sf "$HOME/dotfiles/git/.gitconfig" "$HOME/.gitconfig"
+ln -sf "$HOME/dotfiles/git/.gitignore" "$HOME/.gitignore"
+ln -sf "$HOME/dotfiles/git/.gitmessage" "$HOME/.gitmessage"
+ln -sf "$HOME/dotfiles/irb/.irbrc" "$HOME/.irbrc"
+ln -sf "$HOME/dotfiles/nvim/.config/nvim" "$HOME/.config/"
+ln -sf "$HOME/dotfiles/ssh/.ssh/rc" "$HOME/.ssh/rc"
+ln -sf "$HOME/dotfiles/tmux/.tmux.conf" "$HOME/.tmux.conf"
+ln -sf "$HOME/dotfiles/tmux/.tmux.conf.linux" "$HOME/.tmux.conf.linux"
+ln -sf "$HOME/dotfiles/zsh/.zshrc" "$HOME/.zshrc"
+ln -sf "$HOME/dotfiles/zsh/.zshenv" "$HOME/.zshenv"
+success "dotfiles are g2g"
 
 info "Creating .secrets..."
 touch "$HOME/.secrets"
@@ -73,7 +83,7 @@ sudo defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
 sudo defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 success "fast key repeat set"
 
-ruby_version="3.1.2"
+ruby_version="3.2.2"
 info "Installing ruby v$ruby_version..."
 rbenv install -s $ruby_version
 rbenv global $ruby_version
