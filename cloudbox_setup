@@ -86,6 +86,7 @@ if [ ! "$SHELL" = "$(which zsh)" ]; then
 fi
 success "ZSH is already set as shell"
 
+# TODO: use powerlevel10k instead?
 if ! command -v starship &> /dev/null; then
   sudo snap install starship
 fi
@@ -117,16 +118,6 @@ ln -sf "$HOME/dotfiles/tmux/.tmux.conf.linux" "$HOME/.tmux.conf.linux"
 ln -sf "$HOME/dotfiles/zsh/.zshrc" "$HOME/.zshrc"
 ln -sf "$HOME/dotfiles/zsh/.zshenv" "$HOME/.zshenv"
 success "dotfiles are g2g"
-
-if [ ! -d "$HOME/.config/base16-shell" ]; then
-  info "Cloning base16-shell..."
-  git clone https://github.com/chriskempson/base16-shell.git "$HOME/.config/base16-shell"
-fi
-if [ -n "$BASE16_THEME" ]; then
-  info "Setting base16_decaf theme..."
-  source "$HOME/.config/base16-shell/scripts/base16-decaf.sh"
-fi
-success "base16-shell is g2g"
 
 if [ "$(tmux -V | rb -l "split[1].to_f < 3.2")" = "true" ]; then
   info "Installing latest Tmux..."
