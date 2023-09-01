@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 #  ___      _    __ _ _                _______ _  _
 # |   \ ___| |_ / _(_) |___ ___  ___  |_  / __| || |
 # | |) / _ \  _|  _| | / -_|_-< |___|  / /\__ \ __ |
@@ -39,6 +46,10 @@ fi
 if [ -d $HOME/Code/pco ]; then
   path_prepend $HOME/Code/pco/bin
 fi
+if [ -d $HOME/.tmuxifier/bin ]; then
+  path_prepend "$HOME/.tmuxifier/bin"
+  eval "$(tmuxifier init -)"
+fi
 
 # ensure PATH only has unique values with -U
 export -U PATH
@@ -46,22 +57,24 @@ export -U PATH
 ########################
 # ZSH
 ########################
+include $HOME/.config/powerlevel10k/powerlevel10k.zsh-theme
+include $HOME/.p10k.zsh
+include $HOME/.secrets
+include $HOME/.fzf.zsh
 
-if [[ $TERM_PROGRAM != "WarpTerminal" ]]; then
+if [[ $TERM_PROGRAM != "WarpTerminal" ]] || [[ $VIM ]]; then
 ##### WHAT YOU WANT TO DISABLE FOR WARP - BELOW
 
 # Starship prompt
-eval "$(starship init zsh)"
-function set_win_title(){
-  echo -ne "\033]0; $(basename "$PWD") \007"
-}
-precmd_functions+=(set_win_title)
+# eval "$(starship init zsh)"
+# function set_win_title(){
+#   echo -ne "\033]0; $(basename "$PWD") \007"
+# }
+# precmd_functions+=(set_win_title)
 
-include $HOME/.fzf.zsh
 case "$OSTYPE" in
   darwin*)
     include $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    include $HOME/.secrets
     ;;
   linux*)
     include /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -95,16 +108,6 @@ case "$OSTYPE" in
 esac
 
 ########################
-# Base16 Kitty Theme
-########################
-
-if [ ! -z $KITTY_PID ]; then
-  if [ -d "$HOME/src/base16-kitty" ]; then
-    eval "kitty @ set-colors -a -c $HOME/src/base16-kitty/colors/$(cat $HOME/.base16_theme).conf"
-  fi
-fi
-
-########################
 # Ruby
 ########################
 
@@ -130,8 +133,6 @@ alias path='echo $PATH | tr -s ":" "\n"'
 
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
-
-alias kitty_theme="cd $HOME/src/base16-kitty && fzf --preview 'head -n 100 {} && kitty @ set-colors -c {}'; cd -"
 
 alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy ; echo 'Copied to Clipboard.'"
 alias ..="cd .."
@@ -214,7 +215,7 @@ export ANSIBLE_ROLES_PATH=~/.ansible/roles
 export DISABLE_AUTO_TITLE='true'
 export EDITOR="nvim" # Make vim the default editor
 export VISUAL="nvim" # Make vim the default editor
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore=.git --ignore=node_modules --ignore=vendor --ignore=bundle -g ""'
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help" # Make some commands not show up in history
@@ -337,13 +338,6 @@ fixssh() {
 }
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
-
-# Base16 Shell
-BASE16_SHELL="$HOME/.config/base16-shell/"
-export BASE16_SHELL_HOOKS="$HOME/.config/base16-shell-hooks/"
-[ -n "$PS1" ] && \
-	[ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-	source "$BASE16_SHELL/profile_helper.sh"
 
 function zvm_config() {
   ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLOCK
