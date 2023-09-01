@@ -26,3 +26,6 @@ ETAGS
 solargraph_rails_definitions.rb
 config/definitions.rb
 projections.json
+.projections.json
+scratch.js
+scratch.rb

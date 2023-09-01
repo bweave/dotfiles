@@ -17,11 +17,13 @@
   rebase = true
 [push]
   default = current
+	autoSetupRemote = true
 [alias]
   stashdiff = stash show -
 	pub = push -u origin HEAD
   wip = !"git add --all; git ls-files --deleted -z | xargs -0 git rm; git commit --message=WIP"
-  unwip = !"git log -n 1 | grep -q -c wip && git reset HEAD~1"
+  unwip = !"git log -n 1 | grep -q -c 'WIP' && git reset HEAD~1"
+	lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate=full
 [init]
 	defaultBranch = main
 [hub]
