@@ -37,6 +37,7 @@ require("packer").startup(function(use)
           theme = { all = { ui = { bg_gutter = "none" }  }}
         }
       })
+      -- TODO: get this working properly. it's called out of my expected order to accept these configs
       vim.cmd("colorscheme kanagawa-dragon")
     end
   })
@@ -106,7 +107,7 @@ require("packer").startup(function(use)
 			"williamboman/mason-lspconfig.nvim",
 		},
 	})
-	use({ "j-hui/fidget.nvim", tag = "legacy" })
+	use({ "j-hui/fidget.nvim" })
 	use({
 		"hrsh7th/nvim-cmp",
 		requires = {
