@@ -66,11 +66,9 @@ require("packer").startup(function(use)
 		},
 	})
 	use({
-		"nvim-telescope/telescope.nvim",
-		requires = {
-			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
-			"nvim-telescope/telescope-ui-select.nvim",
-		},
+		"ibhagwan/fzf-lua",
+		-- optional for icon support
+		requires = { "nvim-tree/nvim-web-devicons" },
 	})
 	use({ "williamboman/mason.nvim" })
 	use({ "WhoIsSethDaniel/mason-tool-installer.nvim" })
