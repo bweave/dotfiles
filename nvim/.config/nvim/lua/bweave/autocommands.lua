@@ -61,8 +61,8 @@ autocmd("BufLeave", {
 autocmd("ColorScheme", {
 	pattern = "*",
 	callback = function()
-		-- require("bweave.winbar").setup()
-    require('lualine').refresh()
+		-- TODO: not sure what's up with this erroring
+    -- require('lualine').refresh()
 	end,
 	desc = "Reload lualine",
 	group = bweaveGroup,
