@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require "pry"
+require "fileutils"
+
+`bundle init`
+`bundle add minitest pry rerun solargraph syntax_tree`
+
+FileUtils.cp("/Users/brianweaver/Code/taskr/.rubocop.yml", "./")
+
+FileUtils.mkdir_p("test")
+
+File.write(
+  "./test/test_helper.rb",
+  <<~TEST_HELPER
+    require "minitest/autorun"
+    require "minitest/pride"
+    require "pry"
+  TEST_HELPER
+)
+
+Dir.glob("*_test.rb").each do |test_filename|
+  filename = test_filename.gsub("_test.rb", "")
+  _minitest, *contents = File.read(test_filename).gsub(filename, "../#{filename}").split("\n")
+  File.open("./test/#{test_filename}", "w") do |test|
+    test.write "require_relative \"test_helper\"\n"
+    test.write contents.join("\n")
+  end
+  FileUtils.rm(test_filename)
+end
+
+cmds = [
+  "tabnew",
+  "args test/*_test.rb",
+  "argd",
+  "vs",
+  "args *.rb",
+  "wincmd h",
+  "Texec bundle\ exec\ rerun\ -bcx\ --no-notify\ --\ bundle\ exec\ ruby\ -Itest \%",
+  "wincmd h",
+  "wincmd ="
+].join(" | ")
+
+system "nvim README.md -c \"#{cmds}\""
