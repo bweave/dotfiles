@@ -13,6 +13,14 @@ end
 
 require("packer").startup(function(use)
 	use({ "wbthomason/packer.nvim" })
+  use({
+    "folke/zen-mode.nvim",
+    config = function()
+      require("zen-mode").setup({
+        window = { width = 80 }
+      })
+    end,
+  })
 	use({ "Shatur/neovim-session-manager" })
 	use({ "Mofiqul/vscode.nvim" })
 	use({ "CodeGradox/onehalf-lush" })
