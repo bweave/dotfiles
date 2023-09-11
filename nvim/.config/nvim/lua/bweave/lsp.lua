@@ -15,14 +15,23 @@ local on_attach = function(client)
 	nmap("<leader>lgD", vim.lsp.buf.declaration, "[G]o to [D]eclaration")
 	nmap("<leader>li", vim.lsp.buf.implementation, "[I]mplementation")
 	nmap("<leader>lr", vim.lsp.buf.references, "[R]eferences")
-	nmap("<leader>ls", vim.lsp.buf.signature_help, "[S]ignature Help")
+	nmap("<leader>lS", vim.lsp.buf.signature_help, "[S]ignature Help")
 	nmap("<leader>len", vim.diagnostic.goto_next, "[N]ext Diagnostic")
 	nmap("<leader>lep", vim.diagnostic.goto_prev, "[P]revious Diagnostic")
 	nmap("<F2>", vim.lsp.buf.rename, "Rename")
 	nmap("<leader>lD", vim.lsp.buf.type_definition, "Type [D]efinition")
-	nmap("<leader>ldo", vim.diagnostic.open_float, "Show Info")
-	nmap("<leader>lds", vim.diagnostic.setloclist, "Set Loclist")
+	nmap("<leader>ls", vim.diagnostic.open_float, "[S]how Info")
+	nmap("<leader>ll", vim.diagnostic.setloclist, "[L]ist")
 	nmap("<leader>lf", vim.lsp.buf.format, "[F]ormat")
+
+  -- fzf-lua helpers
+	nmap("<leader>lFa", require("fzf-lua").lsp_finder, "[F]ind [A]ll")
+	nmap("<leader>lFr", require("fzf-lua").lsp_references, "[F]ind [R]eferences")
+	nmap("<leader>lFd", require("fzf-lua").lsp_definitions, "[F]ind [D]efinitions")
+	nmap("<leader>lFD", require("fzf-lua").lsp_declarations, "[F]ind [D]eclarations")
+	nmap("<leader>lFe", require("fzf-lua").diagnostics_document, "[F]ind Diagnostics in [D]ocument")
+	nmap("<leader>lFw", require("fzf-lua").diagnostics_workspace, "[F]ind Diagnostics in [W]orkspace")
+	nmap("<leader>lFc", require("fzf-lua").lsp_code_actions, "[F]ind [C]ode actions")
 
 	if client.name == "rust_analyzer" then
 		nmap("<leader>la", require("rust-tools").code_action_group.code_action_group, "Code [A]ction")
@@ -42,7 +51,7 @@ end
 -- virtual text config
 vim.diagnostic.config({
 	virtual_text = {
-		-- source = "always",  -- Or "if_many"
+		source = "always",  -- Or "if_many"
 		prefix = "●", -- Could be '■', '▎', 'x'
 	},
 	severity_sort = true,

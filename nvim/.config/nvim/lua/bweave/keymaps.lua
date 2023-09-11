@@ -72,6 +72,7 @@ nmap("<leader>Wtr", function()
 	end)
 end, "[W]indow [T]ab [R]ename")
 nmap("<leader>Wtf", require("fzf-lua").tabs, "[W]indow [T]ab [F]ind")
+nmap("<leader>z", function() require("zen-mode").toggle({ window = { width = 80 }}) end, "[Z]enMode")
 
 -- Git
 nmap("<leader>gm", ":GitMessenger<CR>", "[G]it [M]essenger")
