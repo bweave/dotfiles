@@ -186,6 +186,7 @@ alias super_tail="grc tail -f ~/Code/**/log/development.log"
 alias super_tail_publishing="tail -f ~/Code/{api,church-center,publishing}/log/development.log /usr/local/var/log/nginx/{access,error}.log | bat --paging=never -l log"
 alias cloudbox="pco cloud-box up --tmux-iterm -o SendEnv=GITHUB_TOKEN"
 alias block_tests="rerun -bcx --no-notify -- bin/rails test test/models/page_test test/models/blocks_test test/models/blocks/* test/graphs/planning_center_api/pages_test test/graphs/church_center_api/pages_test test/commands/html_to_blocks_test"
+alias dynamo="DYNAMO_ENDPOINT=http://localhost:8000 AWS_ACCESS_KEY_ID='developmentId' dynamodb-admin"
 
 # Exercism.io
 alias exrb='nvim -O *.rb term://"rerun -x -b --dir . --pattern \"*.rb\" -- ruby -r minitest/pride *_test.rb"'
