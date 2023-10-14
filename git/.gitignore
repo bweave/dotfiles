@@ -19,10 +19,9 @@ tags.*
 Session.vim
 .tern-port
 .vimrc
-.solargraph.yml
 ETAGS
 .rerun
-.solargraph.yml
+# .solargraph.yml
 solargraph_rails_definitions.rb
 config/definitions.rb
 projections.json
@@ -30,3 +29,4 @@ projections.json
 scratch.js
 scratch.rb
 scratch.lua
+runner.rb
