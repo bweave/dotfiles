@@ -107,6 +107,11 @@ if [ -d "$HOME/dotfiles/iterm" ]; then
 fi
 success "iTerm preferences are g2g"
 
+info "setting up autolights.sh"
+ln -sf "$HOME/dotfiles/elgato_key_light/com.user.autolights.plist" "$HOME/Library/LaunchAgents/com.user.autolights.plist"
+launchctl bootstrap gui/"$(id -u)" "$HOME"/Library/LaunchAgents/com.user.autolights.plist
+success "autolights.sh is g2g"
+
 echo
 success =================================================
 success "Donezo!"
