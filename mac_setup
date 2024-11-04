@@ -67,6 +67,8 @@ ln -sf "$HOME/dotfiles/raycast/extensions/dark-mode-all-the-things.sh" "$HOME/sr
 ln -sf "$HOME/dotfiles/ssh/.ssh/rc" "$HOME/.ssh/rc"
 ln -sf "$HOME/dotfiles/tmux/.tmux.conf" "$HOME/.tmux.conf"
 ln -sf "$HOME/dotfiles/tmux/.tmux.conf.linux" "$HOME/.tmux.conf.linux"
+ln -sf "$HOME/dotfiles/wezterm/.config/wezterm/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
+ln -sf "$HOME/dotfiles/wezterm/.config/wezterm/color_scheme.lua.lua" "$HOME/.config/wezterm/color_scheme.lua"
 ln -sf "$HOME/dotfiles/zsh/.zshrc" "$HOME/.zshrc"
 ln -sf "$HOME/dotfiles/zsh/.zshenv" "$HOME/.zshenv"
 success "dotfiles are g2g"
