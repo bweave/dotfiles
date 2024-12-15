@@ -1,0 +1,38 @@
+################
+# Defaults
+################
+
+RCS
+.+,v
+
+CVS
+\.\#.+       # CVS conflict files / emacs lock files
+\.cvsignore
+
+\.svn
+_darcs
+\.hg
+
+\.git
+\.gitignore
+\.gitmodules
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
+
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+################
+# Custom ignores
+################
+
+elgato_key_light
+Brewfile
+mac_setup
+cloudbox_setup
+install-neovim-nightly.sh
+.ruby-lsp
+.git-blame-ignore-revs
+.luarc.json

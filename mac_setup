@@ -10,67 +10,41 @@ BLUE="\033[0;34m"
 ENDCOLOR="\033[0m"
 
 function msg() {
-  echo -e "$1"
+	echo -e "$1"
 }
 
 function info() {
-  msg "$BLUE$1$ENDCOLOR"
+	msg "$BLUE$1$ENDCOLOR"
 }
 
 function success() {
-  msg "${GREEN}$1${ENDCOLOR}"
+	msg "${GREEN}$1${ENDCOLOR}"
 }
 
 function error() {
-  msg "${RED}$1${ENDCOLOR}"
+	msg "${RED}$1${ENDCOLOR}"
 }
 
 info "Mac setup - enter your password to get started:"
 sudo echo "Let's go!"
 
 if [ ! "$(command -v brew)" ]; then
-  info "Installing homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	info "Installing homebrew..."
+	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 success "Homebrew is g2g"
 
 info "Install Homebrew packages:"
-PS3="Select a Brewfile to install: "
-select brewfile in personal work
-do
-  brew bundle --file "$HOME/dotfiles/Brewfile_$brewfile"
-  break
-done
-
-if [ -z "$(pip3 list | grep iterm2)" ]; then
-  info "Installing iterm2 python package..."
-  pip3 install iterm2
-fi
-success "iterm2 python package is g2g"
+brew bundle --file "$HOME/dotfiles/Brewfile"
 
 if [ ! -d "$HOME/dotfiles" ]; then
-  info "Cloning dotfiles..."
-  git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
+	info "Cloning dotfiles..."
+	git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
 fi
 success "dotfiles cloned"
 
 info "Symlinking dotfiles..."
-ln -sf "$HOME/dotfiles/bin_scripts/bin/git-nuke-staging" "$HOME/bin/git-nuke-staging"
-ln -sf "$HOME/dotfiles/bin_scripts/bin/tat" "$HOME/bin/tat"
-ln -sf "$HOME/dotfiles/eslint/.eslintrc" "$HOME/.eslintrc"
-ln -sf "$HOME/dotfiles/git/.gitconfig" "$HOME/.gitconfig"
-ln -sf "$HOME/dotfiles/git/.gitignore" "$HOME/.gitignore"
-ln -sf "$HOME/dotfiles/git/.gitmessage" "$HOME/.gitmessage"
-ln -sf "$HOME/dotfiles/irb/.irbrc" "$HOME/.irbrc"
-ln -sf "$HOME/dotfiles/nvim/.config/nvim" "$HOME/.config/"
-ln -sf "$HOME/dotfiles/raycast/extensions/dark-mode-all-the-things.sh" "$HOME/src/raycast/extensions/dark-mode-all-the-things.sh"
-ln -sf "$HOME/dotfiles/ssh/.ssh/rc" "$HOME/.ssh/rc"
-ln -sf "$HOME/dotfiles/tmux/.tmux.conf" "$HOME/.tmux.conf"
-ln -sf "$HOME/dotfiles/tmux/.tmux.conf.linux" "$HOME/.tmux.conf.linux"
-ln -sf "$HOME/dotfiles/wezterm/.config/wezterm/wezterm.lua" "$HOME/.config/wezterm/wezterm.lua"
-ln -sf "$HOME/dotfiles/wezterm/.config/wezterm/color_scheme.lua.lua" "$HOME/.config/wezterm/color_scheme.lua"
-ln -sf "$HOME/dotfiles/zsh/.zshrc" "$HOME/.zshrc"
-ln -sf "$HOME/dotfiles/zsh/.zshenv" "$HOME/.zshenv"
+stow --dir "$HOME/dotfiles" --target "$HOME"
 success "dotfiles are g2g"
 
 info "Creating .secrets..."
@@ -79,40 +53,28 @@ touch "$HOME/.secrets"
 info "Installing neovim..."
 "$HOME/dotfiles/install-neovim-nightly.sh"
 
-info "Installing Neovim plugins"
-nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-
 sudo defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
-sudo defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
+sudo defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
 success "fast key repeat set"
 
-ruby_version="3.2.2"
+rubies="$(rbenv versions --bare)"
+ruby_version=$(echo "$rubies" | fzf --prompt="Select Ruby version: ")
 info "Installing ruby v$ruby_version..."
-rbenv install -s $ruby_version
-rbenv global $ruby_version
+rbenv install -s "$ruby_version"
+rbenv global "$ruby_version"
 eval "$(rbenv init - bash)"
 gem install bundler rails
 rbenv rehash
 success "Ruby $ruby_version installed"
 
 info "setting up NVM with Node LTS"
+mkdir -p "$HOME/.nvm"
 nvm install --lts
 nvm alias system node
 npm i -g \
-  vscode-langservers-extracted \
-  bash-language-server
+	vscode-langservers-extracted \
+	bash-language-server
 success "NVM and Node are g2g"
-
-if [ -d "$HOME/dotfiles/iterm" ]; then
-  info "Setting iTerm preference folder"
-  defaults write com.googlecode.iterm2 PrefsCustomFolder "$HOME/dotfiles/iterm"
-fi
-success "iTerm preferences are g2g"
-
-info "setting up autolights.sh"
-ln -sf "$HOME/dotfiles/elgato_key_light/com.user.autolights.plist" "$HOME/Library/LaunchAgents/com.user.autolights.plist"
-launchctl bootstrap gui/"$(id -u)" "$HOME"/Library/LaunchAgents/com.user.autolights.plist
-success "autolights.sh is g2g"
 
 echo
 success =================================================

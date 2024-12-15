@@ -1,8 +1,10 @@
 #!/bin/bash
 
+set -e
+
 platform=$(case "$OSTYPE" in
   (linux*) echo "linux64";;
-  (darwin*) echo "macos";;
+  (darwin*) echo "macos-arm64";;
   (*) exit 1;;
 esac)
 
@@ -17,5 +19,5 @@ tar xzvf "./nvim-$platform.tar.gz"
 cd /usr/local/ || exit
 sudo rm -rf "./nvim-$platform"
 sudo mv "/tmp/nvim-$platform" "/usr/local/nvim-$platform"
-ln -sf "/usr/local/nvim-$platform/bin/nvim" /usr/local/bin/nvim
+sudo ln -sf "/usr/local/nvim-$platform/bin/nvim" /usr/local/bin/nvim
 echo "Done!"
