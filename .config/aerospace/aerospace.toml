@@ -44,6 +44,7 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = true
 
 # Lock apps to specific workspaces
+# See https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback
 [[on-window-detected]]
 if.app-id = 'com.github.wez.wezterm'
 run = 'move-node-to-workspace 1'
@@ -78,13 +79,18 @@ run = 'move-node-to-workspace 7'
 
 [[on-window-detected]]
 if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace 8'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = 'move-node-to-workspace 7'
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
-run = 'move-node-to-workspace 9'
+run = 'move-node-to-workspace 8'
 
 # Floating windows
+# See https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback
 [[on-window-detected]]
 if.app-name-regex-substring = 'messages'
 run = 'layout floating'
@@ -116,6 +122,18 @@ outer.left = 8
 outer.bottom = 8
 outer.top = 8
 outer.right = 8
+
+# See https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[workspace-to-monitor-force-assignment]
+1 = 1
+2 = 1
+3 = 1
+4 = 1
+5 = 1
+6 = 1
+7 = 1
+8 = 1
+9 = [2, 1]
 
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -172,8 +190,8 @@ alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
-alt-shift-minus = 'resize smart -50'
-alt-shift-equal = 'resize smart +50'
+alt-ctrl-shift-minus = 'resize smart -50'
+alt-ctrl-shift-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
 alt-1 = 'workspace 1'
@@ -185,28 +203,6 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-# alt-a = 'workspace A'
-# alt-b = 'workspace B'
-# alt-c = 'workspace C'
-# alt-d = 'workspace D'
-# alt-e = 'workspace E'
-# alt-f = 'workspace F'
-# alt-g = 'workspace G'
-# alt-i = 'workspace I'
-# alt-m = 'workspace M'
-# alt-n = 'workspace N'
-# alt-o = 'workspace O'
-# alt-p = 'workspace P'
-# alt-q = 'workspace Q'
-# alt-r = 'workspace R'
-# alt-s = 'workspace S'
-# alt-t = 'workspace T'
-# alt-u = 'workspace U'
-# alt-v = 'workspace V'
-# alt-w = 'workspace W'
-# alt-x = 'workspace X'
-# alt-y = 'workspace Y'
-# alt-z = 'workspace Z'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
@@ -218,33 +214,11 @@ alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
 alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
 alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
 alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
-# alt-shift-a = 'move-node-to-workspace --focus-follows-window A'
-# alt-shift-b = 'move-node-to-workspace --focus-follows-window B'
-# alt-shift-c = 'move-node-to-workspace --focus-follows-window C'
-# alt-shift-d = 'move-node-to-workspace --focus-follows-window D'
-# alt-shift-e = 'move-node-to-workspace --focus-follows-window E'
-# alt-shift-f = 'move-node-to-workspace --focus-follows-window F'
-# alt-shift-g = 'move-node-to-workspace --focus-follows-window G'
-# alt-shift-i = 'move-node-to-workspace --focus-follows-window I'
-# alt-shift-m = 'move-node-to-workspace --focus-follows-window M'
-# alt-shift-n = 'move-node-to-workspace --focus-follows-window N'
-# alt-shift-o = 'move-node-to-workspace --focus-follows-window O'
-# alt-shift-p = 'move-node-to-workspace --focus-follows-window P'
-# alt-shift-q = 'move-node-to-workspace --focus-follows-window Q'
-# alt-shift-r = 'move-node-to-workspace --focus-follows-window R'
-# alt-shift-s = 'move-node-to-workspace --focus-follows-window S'
-# alt-shift-t = 'move-node-to-workspace --focus-follows-window T'
-# alt-shift-u = 'move-node-to-workspace --focus-follows-window U'
-# alt-shift-v = 'move-node-to-workspace --focus-follows-window V'
-# alt-shift-w = 'move-node-to-workspace --focus-follows-window W'
-# alt-shift-x = 'move-node-to-workspace --focus-follows-window X'
-# alt-shift-y = 'move-node-to-workspace --focus-follows-window Y'
-# alt-shift-z = 'move-node-to-workspace --focus-follows-window Z'
 
 alt-tab = 'workspace-back-and-forth'
 alt-ctrl-shift-n = 'move-workspace-to-monitor --wrap-around next'
 
-# Launch applications
+# Launch applications with hyper key
 cmd-alt-ctrl-shift-1 = 'exec-and-forget open -a /Applications/1Password.app'
 cmd-alt-ctrl-shift-t = 'exec-and-forget open -a /Applications/WezTerm.app'
 cmd-alt-ctrl-shift-a = 'exec-and-forget open -a /Applications/Asana.app'
@@ -259,7 +233,7 @@ cmd-alt-ctrl-shift-v = 'exec-and-forget open -a /Applications/Visual\ Studio\ Co
 cmd-alt-ctrl-shift-z = 'exec-and-forget open -a /Applications/Zoom.app'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-shift-semicolon = 'mode service'
+alt-ctrl-shift-semicolon = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -271,7 +245,3 @@ f = [
   'mode main',
 ] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
-
-# alt-shift-enter = 'mode apps'
-# [mode.apps.binding]
-# alt-w = ['exec-and-forget open -a /Applications/WezTerm.app', 'mode main']
