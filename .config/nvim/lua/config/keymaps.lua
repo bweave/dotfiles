@@ -35,7 +35,11 @@ end
 
 -- C-P classic
 nmap("<C-P>", function()
-  require("telescope.builtin").find_files({ hidden = true })
+  if vim.loop.fs_stat(vim.loop.cwd() .. "/.git") then
+    require("telescope.builtin").git_files({ hidden = true })
+  else
+    require("telescope.builtin").find_files({ hidden = true })
+  end
 end, "Find files")
 
 -- toggle maximize window
