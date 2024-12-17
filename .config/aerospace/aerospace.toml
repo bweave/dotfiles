@@ -10,7 +10,7 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0',
+  'exec-and-forget borders active_color=0xffb8e986 inactive_color=0xff494d64 width=5.0',
 ]
 
 # Start AeroSpace at login
@@ -73,6 +73,10 @@ run = 'move-node-to-workspace 5'
 
 [[on-window-detected]]
 if.app-id = 'com.cron.electron'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
 run = 'move-node-to-workspace 6'
 
 [[on-window-detected]]
@@ -225,9 +229,9 @@ cmd-alt-ctrl-shift-1 = 'exec-and-forget open -a /Applications/1Password.app'
 cmd-alt-ctrl-shift-t = 'exec-and-forget open -a /Applications/WezTerm.app'
 cmd-alt-ctrl-shift-a = 'exec-and-forget open -a /Applications/Asana.app'
 cmd-alt-ctrl-shift-b = 'exec-and-forget open -a /Applications/Google\ Chrome.app'
-cmd-alt-ctrl-shift-c = 'exec-and-forget open -a /Applications/Notion\ Calendar.app'
+cmd-alt-ctrl-shift-c = 'exec-and-forget open -a /System/Applications/Calendar.app'
 cmd-alt-ctrl-shift-i = 'exec-and-forget open -a /Applications/Spotify.app'
-cmd-alt-ctrl-shift-m = 'exec-and-forget open -a /Applications/Messages.app'
+cmd-alt-ctrl-shift-m = 'exec-and-forget open -a /System/Applications/Messages.app'
 cmd-alt-ctrl-shift-n = 'exec-and-forget open -a /Applications/Notion.app'
 cmd-alt-ctrl-shift-p = 'exec-and-forget open -a /Applications/Postman.app'
 cmd-alt-ctrl-shift-s = 'exec-and-forget open -a /Applications/Slack.app'
