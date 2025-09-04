@@ -32,7 +32,7 @@ end)
 local color_scheme = require("color_scheme")
 color_scheme.apply_to_config(config)
 
-config.font_size = 14.0
+config.font_size = 16.0
 config.adjust_window_size_when_changing_font_size = false
 
 config.inactive_pane_hsb = {
