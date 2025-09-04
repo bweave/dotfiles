@@ -1,0 +1,14 @@
+config-file = theme
+
+background-opacity = 0.93
+background-blur-radius = 20
+adjust-cell-height = 50%
+confirm-close-surface = false
+cursor-style = block
+font-family = "Monaspace Argon Var"
+font-size = 20
+macos-titlebar-style=transparent
+unfocused-split-opacity = 1
+window-padding-balance = true 
+window-save-state = always
+keybind = shift+enter=text:\n
