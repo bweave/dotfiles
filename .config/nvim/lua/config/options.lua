@@ -6,6 +6,8 @@ local options = {
   cursorline = true,
   number = true,
   relativenumber = false,
+  title = true,
+  titlestring = "%{fnamemodify(getcwd(), ':t')}",
 }
 
 for k, v in pairs(options) do

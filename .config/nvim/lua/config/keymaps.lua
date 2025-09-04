@@ -10,10 +10,10 @@ end
 unmap("n", "<leader>/")
 
 -- remove window keymaps, note which-key.lua has a related change, too
-unmap("n", "<leader>ww")
+-- unmap("n", "<leader>ww")
 unmap("n", "<leader>wd")
-unmap("n", "<leader>w-")
-unmap("n", "<leader>w|")
+-- unmap("n", "<leader>w-")
+-- unmap("n", "<leader>w|")
 unmap("n", "<leader>wm")
 
 local function keymap(mode, keys, func, opts)
@@ -60,8 +60,8 @@ nmap("<leader>z", function()
 end, "ZenMode")
 
 -- close buffer
-nmap("<leader>w", "<cmd>bd<cr>", "Close buffer")
-nmap("<leader>W", "<cmd>%bd<cr>", "Close all buffers")
+-- nmap("<leader>w", "<cmd>bd<cr>", "Close buffer")
+-- nmap("<leader>W", "<cmd>%bd<cr>", "Close all buffers")
 
 -- colorscheme
 nmap("<leader>C", function()

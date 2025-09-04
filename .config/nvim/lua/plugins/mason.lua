@@ -2,6 +2,8 @@
 return {
   "williamboman/mason.nvim",
   opts = {
+    -- Dont' install Ruby tools with Mason. They must be installed manually.
+    exclude = { "rubocop", "ruby_lsp", "solargraph", "syntax_tree" },
     ensure_installed = {
       "bash-language-server",
       "css-lsp",
