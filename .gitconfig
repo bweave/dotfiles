@@ -31,6 +31,10 @@
   wip = !"git add --all; git ls-files --deleted -z | xargs -0 git rm; git commit --message=WIP"
   unwip = !"git log -n 1 | grep -q -c 'WIP' && git reset HEAD~1"
   lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate=full
+  gwtl = worktree list
+  wta = !f() { git worktree add -b "$1" "../$1"; }; f
+  wtr = !f() { git worktree remove "../$1"; }; f
+  gwtp = worktree prune
 [init]
   defaultBranch = main
 [hub]

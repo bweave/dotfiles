@@ -3,6 +3,7 @@ gems.tags
 *.swp
 *.swo
 .DS_Store
+.cursorrules
 *.sublime*
 .idea
 .byebug_history
