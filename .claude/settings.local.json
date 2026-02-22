@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/brianweaver/Pictures/magic_mirror/**)",
+      "Bash(~/.local/venv/crop_magic_mirror/bin/pip install:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

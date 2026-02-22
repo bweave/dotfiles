@@ -7,6 +7,7 @@ $username\
 $hostname\
 $localip\
 $directory\
+$direnv\
 $git_branch\
 $git_commit\
 $git_state\
@@ -26,6 +27,9 @@ symbol_threshold = 1
 
 [os]
 disabled = false
+
+# [direnv]
+# disabled = false
 
 [aws]
 symbol = "  "

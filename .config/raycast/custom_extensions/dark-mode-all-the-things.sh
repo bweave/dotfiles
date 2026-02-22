@@ -18,9 +18,9 @@
 dark_mode_status=$(osascript -e 'tell app "System Events" to tell appearance preferences to get dark mode')
 
 if [ "$dark_mode_status" = "true" ]; then
-	theme="rose-pine-dawn"
+  theme="monokai-pro-light"
 else
-	theme="everforest"
+  theme="everforest"
 fi
 
-"$HOME"/bin/omakub $theme
+"$HOME"/bin/omakub $theme >/dev/null 2>&1
