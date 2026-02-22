@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+# claude-notify - Send macOS notifications for Claude Code hook events
+#
+# Receives JSON on stdin from Claude Code hooks.
+# Sends macOS notifications via ClaudeNotify (terminal-notifier with Claude's icon).
+
+set -euo pipefail
+
+input=$(cat)
+
+event=$(echo "$input" | jq -r '.hook_event_name // "unknown"')
+cwd=$(echo "$input" | jq -r '.cwd // ""')
+project=$(basename "${cwd:-unknown}")
+
+title="Claude Code"
+subtitle="$project"
+message=""
+sound="default"
+
+case "$event" in
+  Notification)
+    notification_type=$(echo "$input" | jq -r '.notification_type // "unknown"')
+
+    case "$notification_type" in
+      permission_prompt)
+        title="Permission Required"
+        message="Waiting for your approval"
+        sound="Ping"
+        ;;
+      idle_prompt)
+        title="Waiting for Input"
+        message="Claude is idle"
+        sound="Tink"
+        ;;
+      auth_success)
+        title="Authenticated"
+        message="Authentication successful"
+        sound="Glass"
+        ;;
+      *)
+        title="Attention"
+        message="Claude needs your attention"
+        sound="Ping"
+        ;;
+    esac
+    ;;
+  Stop)
+    title="Response Complete"
+    message="Claude has finished"
+    sound="Glass"
+    ;;
+  *)
+    title="Claude Code"
+    message="$event"
+    sound="default"
+    ;;
+esac
+
+~/Applications/ClaudeNotify.app/Contents/MacOS/terminal-notifier \
+  -title "$title" \
+  -subtitle "$subtitle" \
+  -message "$message" \
+  -sound "$sound" \
+  > /dev/null 2>&1 &
