@@ -15,12 +15,6 @@ include () {
 }
 
 ########################
-# Brew
-########################
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-########################
 # Path
 ########################
 
@@ -33,10 +27,20 @@ path_prepend() {
   path=($1 "$path[@]")
 }
 
+########################
+# Brew
+########################
+
+if [[ -e "/opt/homebrew/bin/brew" ]]; then
+  path_prepend /opt/homebrew/bin
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 path_prepend $HOME/.local/bin
 path_prepend $HOME/bin
 path_prepend $HOME/.rbenv/shims
 path_prepend $HOME/.cargo/bin
+path_prepend $HOME/.claude/local
 if command -v go &> /dev/null; then
   path_prepend $(go env GOPATH)/bin
 fi
@@ -78,7 +82,7 @@ eval "$(zoxide init zsh --cmd j)"
 # Ruby
 ########################
 
-if type rbenv > /dev/null; then
+if [[ -d $HOME/.rbenv ]]; then
   eval "$(rbenv init -)"
 fi
 unsetopt nomatch # for rake tasks with args
@@ -102,10 +106,11 @@ fi
 # Aliases
 ########################
 
-# Pretty print the path
-alias path='echo $PATH | tr -s ":" "\n"'
+# Pretty print $PATH in precedence order
+alias path='echo $PATH | tr -s ":" "\n" | awk "{print NR \": \" \$0}"'
 
 alias zshconfig="nvim ~/.zshrc"
+alias nvim-min='NVIM_APPNAME=nvim_minimal nvim'
 
 alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy ; echo 'Copied to Clipboard.'"
 alias ..="cd .."
@@ -121,6 +126,7 @@ alias sudo='sudo '
 alias dc=docker-compose
 alias c=clear
 alias grep="grep --color=auto"
+alias mux=tmuxinator
 
 # Git
 # eval "$(hub alias -s)" # Use `hub` as our git wrapper
@@ -142,13 +148,77 @@ alias gunwip="git log -n 1 | grep -q -c 'WIP' ; git reset HEAD~1"
 alias nah="echo '(╯°□°)╯︵ ┻━┻' && git reset --hard;git clean -df;"
 alias commit_count='git rev-list --count HEAD ^master'
 
+# Git Worktrees
+alias gwl="git worktree list"
+alias gwp="worktree prune" # util function to clean up worktree metadata in case you `rm -rf` a worktree folder
+
+# Create a new git worktree and optionally a tmux session
+# Usage: gwa <branch-name>
+gwa() {
+  local branch_name="$1"
+  local repo_path=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -z "$repo_path" ]]; then
+    echo "Error: Not a git repository"
+    return 1
+  fi
+
+  local repo_name=$(basename "$repo_path")
+  local folder_suffix="${branch_name//\//-}" # ${var//pattern/replacement} replaces all `/` with `-`
+  local worktree_path="../${repo_name}-${folder_suffix}"
+  local absolute_path=$(cd "$(dirname "$repo_path")" && pwd)/${repo_name}-${folder_suffix}
+
+  if git worktree add -b "$branch_name" "$worktree_path"; then
+    local session_name="${repo_name}-${folder_suffix}"
+
+    echo
+    read -q "choice?Create tmux session '${session_name}'? (y/n) "
+    echo
+    if [[ "$choice" == "y" ]]; then
+      if [[ -f "${absolute_path}/.envrc" ]]; then
+        direnv allow "$absolute_path"
+      fi
+      tmux new-session -d -s "$session_name" -c "$absolute_path"
+      if [[ -n "$TMUX" ]]; then
+        tmux switch-client -t "$session_name"
+      else
+        tmux attach-session -t "$session_name"
+      fi
+    fi
+  fi
+}
+
+# Remove a git worktree and optionally delete the branch
+# Usage: gwr <branch-name>
+gwr() {
+  local branch_name="$1"
+  local repo_path=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -z "$repo_path" ]]; then
+    echo "Error: Not a git repository"
+    return 1
+  fi
+
+  local repo_name=$(basename "$repo_path")
+  local folder_suffix="${branch_name//\//-}" # ${var//pattern/replacement} replaces all `/` with `-`
+  local target_path="../${repo_name}-${folder_suffix}"
+  if git worktree remove "$target_path"; then
+    echo "Successfully removed worktree at $target_path"
+    read -q "choice?Delete branch '$1' as well? (y/n) "
+    echo
+    if [[ "$choice" == "y" ]]; then
+      git branch -d "$1"
+    fi
+  else
+    echo "Error: Could not find or remove worktree at $target_path"
+    return 1
+  fi
+}
+
 # Ruby & Rails
 alias be='bundle exec'
 alias r="bundle exec rails"
 alias rc="bin/rails console"
 alias rs="bin/rails server"
 alias rdebug='rdebug --host 127.0.0.1 --port 1234 -- bin/rails s'
-alias rdebug='rdebug-ide --host 127.0.0.1 --port 1234 -- bin/rails s'
 alias yundle="yarn install && bundle install"
 alias yundlegate="yarn install && bundle install && rails db:migrate"
 
@@ -188,7 +258,7 @@ esac
 
 export EDITOR="nvim" # Make nvim the default editor
 export VISUAL="nvim" # Make nvim the default editor
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore=.git --ignore=node_modules --ignore=vendor --ignore=bundle -g ""'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!{.git,node_modules,vendor,bundle}/*"'
 export HISTCONTROL=ignoredups
 export HISTFILESIZE=$HISTSIZE
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help" # Make some commands not show up in history
@@ -255,3 +325,19 @@ fixssh() {
 # Direnv - needs to be at the end
 #################################
 eval "$(direnv hook zsh)"
+
+# bun completions
+[ -s "/Users/brianweaver/.bun/_bun" ] && source "/Users/brianweaver/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+
+# HSTR configuration - add this to ~/.zshrc
+alias hh=hstr                    # hh to be alias for hstr
+setopt histignorespace           # skip cmds w/ leading space from history
+export HSTR_CONFIG=hicolor       # get more colors
+bindkey -s "\C-r" "\C-a hstr -- \C-j"     # bind hstr to Ctrl-r (for Vi mode check doc)
+export HSTR_TIOCSTI=y
+
