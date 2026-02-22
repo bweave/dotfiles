@@ -1,5 +1,13 @@
 return {
   {
+    "loctvl842/monokai-pro.nvim",
+    config = function()
+      require("monokai-pro").setup({
+        transparent_background = true,
+      })
+    end,
+  },
+  {
     "neanias/everforest-nvim",
     config = function()
       require("everforest").setup({

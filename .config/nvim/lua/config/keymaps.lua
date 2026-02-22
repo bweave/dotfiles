@@ -16,6 +16,17 @@ unmap("n", "<leader>wd")
 -- unmap("n", "<leader>w|")
 unmap("n", "<leader>wm")
 
+local wk = require("which-key")
+local function add_which_key(lhs, rhs, opts)
+  opts = opts or {}
+  opts["mode"] = opts["mode"] or "n"
+  local keybind = { lhs, rhs }
+  for k, v in pairs(opts) do
+    keybind[k] = v
+  end
+  wk.add({ keybind })
+end
+
 local function keymap(mode, keys, func, opts)
   local options = { noremap = true, silent = true }
   if opts then
@@ -55,22 +66,38 @@ unmap("n", "<leader>bb") -- remove <leader>bb mapping so I can replace it, besid
 nmap("<leader>bb", require("telescope.builtin").buffers, "Find Buffers")
 
 -- zen mode
-nmap("<leader>z", function()
+add_which_key("<leader>z", function()
   require("zen-mode").toggle()
-end, "ZenMode")
+end, { desc = "ZenMode", icon = "󰍉 " })
 
 -- close buffer
 -- nmap("<leader>w", "<cmd>bd<cr>", "Close buffer")
 -- nmap("<leader>W", "<cmd>%bd<cr>", "Close all buffers")
 
 -- colorscheme
-nmap("<leader>C", function()
+add_which_key("<leader>C", function()
   require("telescope.builtin").colorscheme({ enable_preview = true })
-end, "Colorscheme with preview")
+end, { desc = "Colorscheme with preview", icon = " " })
 
 -- splitjoin
-nmap("<leader>j", "<cmd>SplitjoinSplit<cr>", "Split")
-nmap("<leader>k", "<cmd>SplitjoinJoin<cr>", "Join")
+add_which_key("<leader>j", "<cmd>SplitjoinSplit<cr>", { desc = "Split", icon = "󰹹" })
+add_which_key("<leader>k", "<cmd>SplitjoinJoin<cr>", { desc = "Join", icon = "󰹳 " })
 
 -- toggle highlights
 nmap("<leader>h", ":set hlsearch! hlsearch?<CR>", "Toggle Highlights")
+
+-- berg weekly update
+add_which_key("<leader>U", function()
+  local date_str = os.date("%m-%d-%Y")
+  local file_path = "~/brain/berg-weekly-updates/" .. date_str .. ".md"
+  local dir_path = vim.fn.expand("~/brain/berg-weekly-updates")
+  vim.fn.mkdir(dir_path, "p")
+  local success, err = pcall(function()
+    vim.cmd("Template " .. vim.fn.fnameescape(file_path) .. " berg_weekly_update")
+  end)
+  if not success then
+    vim.notify("Failed to create weekly update: " .. tostring(err), vim.log.levels.ERROR)
+  else
+    vim.notify("Created weekly update: " .. file_path, vim.log.levels.INFO)
+  end
+end, { desc = "Berg Weekly Update", icon = "󰨳" })
