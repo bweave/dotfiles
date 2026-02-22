@@ -1,6 +1,7 @@
-config-file = theme
+config-file = themes/everforest
+# theme = Tomorrow Night
 
-background-opacity = 0.93
+background-opacity = 0.90
 background-blur-radius = 20
 adjust-cell-height = 50%
 confirm-close-surface = false
@@ -8,7 +9,8 @@ cursor-style = block
 font-family = "Monaspace Argon Var"
 font-size = 20
 macos-titlebar-style=transparent
+macos-option-as-alt = true
 unfocused-split-opacity = 1
 window-padding-balance = true 
 window-save-state = always
-keybind = shift+enter=text:\n
+keybind = shift+enter=text:\x1b\r
