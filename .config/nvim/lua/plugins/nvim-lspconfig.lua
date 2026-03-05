@@ -21,12 +21,11 @@ return {
     },
     setup = {
       eslint = function()
-        require("lazyvim.util").lsp.on_attach(function(client)
-          if client.name == "eslint" then
-            client.server_capabilities.documentFormattingProvider = true
-          elseif client.name == "tsserver" then
-            client.server_capabilities.documentFormattingProvider = false
-          end
+        Snacks.util.lsp.on({ name = "eslint" }, function(_, client)
+          client.server_capabilities.documentFormattingProvider = true
+        end)
+        Snacks.util.lsp.on({ name = "tsserver" }, function(_, client)
+          client.server_capabilities.documentFormattingProvider = false
         end)
       end,
     },
