@@ -1,7 +1,13 @@
 # Claude Code Guidelines
 
-- Please think about multiple options for each implementation and ask me which one I would like or if I would like to do something else
-- Use Ripgrep (rg) to grep codebases
+## Tooling for shell interactions
+
+- Is it about finding FILES? use `fd`
+- Is it about finding TEXT/strings? use `rg`
+- Is it about finding CODE STRUCTURE? use `ast-grep`
+- Is it about SELECTING from multiple results? pipe to `fzf`
+- Is it about interacting with JSON? use `jq`
+- Is it about interacting with YAML or XML? use `yq`
 
 ## Coding Guidelines
 
@@ -81,7 +87,7 @@ When creating commits, follow these guidelines:
 - Wrap the longer description to 72 characters
 - Use markdown when appropriate
 
-## Github
+### Github
 
 - Only create draft pull requests
 - When creating PRs, check for a template at `.github/pull_request_template.md` and follow its format

@@ -2,7 +2,28 @@
   "permissions": {
     "allow": [
       "Read(//Users/brianweaver/Pictures/magic_mirror/**)",
-      "Bash(~/.local/venv/crop_magic_mirror/bin/pip install:*)"
+      "Bash(~/.local/venv/crop_magic_mirror/bin/pip install:*)",
+      "Bash(gh repo:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.slack.dev)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(gh search:*)",
+      "mcp__notion__notion-search",
+      "Bash(gh pr:*)",
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-query-meeting-notes",
+      "mcp__asana__asana_get_project_task_counts",
+      "mcp__asana__asana_get_stories_for_task",
+      "Bash(head:*)",
+      "Bash(tmux source-file:*)",
+      "Bash(tmux:*)",
+      "Bash(nvim:*)",
+      "Bash(rg:*)",
+      "Bash(gh issue:*)",
+      "Bash(tree-sitter:*)",
+      "Bash(rg prebuilt\\\\|wasm\\\\|download\\\\|compile:*)",
+      "Bash(# Let's check the actual parser.c from the tree-sitter-vim tarball to see if it has \"tab\"\ncurl -sL \"https://github.com/tree-sitter-grammars/tree-sitter-vim/archive/3092fcd99eb87bbd0fc434aa03650ba58bd5b43b.tar.gz\" | tar -xzf - --include=\"*/src/node-types.json\" -O 2>/dev/null | jq '[.[] | select\\(.type == \"tab_statement\"\\)] | length' 2>/dev/null)"
     ],
     "deny": [],
     "ask": []
