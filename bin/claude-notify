@@ -4,6 +4,21 @@
 # Receives JSON on stdin from Claude Code hooks.
 # Sends macOS notifications via ClaudeNotify (terminal-notifier with Claude's icon).
 
+# Add this to settings.json to use this script
+#
+# "hooks": {
+#     "Stop": [
+#       {
+#         "hooks": [
+#           {
+#             "type": "command",
+#             "command": "$HOME/dotfiles/bin/claude-notify"
+#           }
+#         ]
+#       }
+#     ]
+#   },
+
 set -euo pipefail
 
 input=$(cat)
@@ -18,42 +33,42 @@ message=""
 sound="default"
 
 case "$event" in
-  Notification)
-    notification_type=$(echo "$input" | jq -r '.notification_type // "unknown"')
+Notification)
+  notification_type=$(echo "$input" | jq -r '.notification_type // "unknown"')
 
-    case "$notification_type" in
-      permission_prompt)
-        title="Permission Required"
-        message="Waiting for your approval"
-        sound="Ping"
-        ;;
-      idle_prompt)
-        title="Waiting for Input"
-        message="Claude is idle"
-        sound="Tink"
-        ;;
-      auth_success)
-        title="Authenticated"
-        message="Authentication successful"
-        sound="Glass"
-        ;;
-      *)
-        title="Attention"
-        message="Claude needs your attention"
-        sound="Ping"
-        ;;
-    esac
+  case "$notification_type" in
+  permission_prompt)
+    title="Permission Required"
+    message="Waiting for your approval"
+    sound="Ping"
     ;;
-  Stop)
-    title="Response Complete"
-    message="Claude has finished"
+  idle_prompt)
+    title="Waiting for Input"
+    message="Claude is idle"
+    sound="Tink"
+    ;;
+  auth_success)
+    title="Authenticated"
+    message="Authentication successful"
     sound="Glass"
     ;;
   *)
-    title="Claude Code"
-    message="$event"
-    sound="default"
+    title="Attention"
+    message="Claude needs your attention"
+    sound="Ping"
     ;;
+  esac
+  ;;
+Stop)
+  title="Response Complete"
+  message="Claude has finished"
+  sound="Glass"
+  ;;
+*)
+  title="Claude Code"
+  message="$event"
+  sound="default"
+  ;;
 esac
 
 ~/Applications/ClaudeNotify.app/Contents/MacOS/terminal-notifier \
@@ -61,4 +76,4 @@ esac
   -subtitle "$subtitle" \
   -message "$message" \
   -sound "$sound" \
-  > /dev/null 2>&1 &
+  >/dev/null 2>&1 &
