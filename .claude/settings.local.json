@@ -23,7 +23,17 @@
       "Bash(gh issue:*)",
       "Bash(tree-sitter:*)",
       "Bash(rg prebuilt\\\\|wasm\\\\|download\\\\|compile:*)",
-      "Bash(# Let's check the actual parser.c from the tree-sitter-vim tarball to see if it has \"tab\"\ncurl -sL \"https://github.com/tree-sitter-grammars/tree-sitter-vim/archive/3092fcd99eb87bbd0fc434aa03650ba58bd5b43b.tar.gz\" | tar -xzf - --include=\"*/src/node-types.json\" -O 2>/dev/null | jq '[.[] | select\\(.type == \"tab_statement\"\\)] | length' 2>/dev/null)"
+      "Bash(# Let's check the actual parser.c from the tree-sitter-vim tarball to see if it has \"tab\"\ncurl -sL \"https://github.com/tree-sitter-grammars/tree-sitter-vim/archive/3092fcd99eb87bbd0fc434aa03650ba58bd5b43b.tar.gz\" | tar -xzf - --include=\"*/src/node-types.json\" -O 2>/dev/null | jq '[.[] | select\\(.type == \"tab_statement\"\\)] | length' 2>/dev/null)",
+      "Bash(claude /ide 2>&1 || true)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(which claude:*)",
+      "Bash(grep -E \"\\\\.\\(lua|json\\)$\")",
+      "Bash(prettier --version)",
+      "Bash(prettier --help)",
+      "Bash(/tmp/test.yaml:*)",
+      "Read(//tmp/**)",
+      "Bash(prettier:*)",
+      "Skill(claude-md-toolkit:optimize-claude-md)"
     ],
     "deny": [],
     "ask": []
