@@ -1,16 +1,20 @@
-config-file = themes/everforest
-# theme = Tomorrow Night
+#config-file = themes/everforest
+#theme = Tomorrow Night
+#theme = everforest
+theme = dark:Catppuccin Mocha,light:Github Light High Contrast
 
-background-opacity = 0.90
+background-opacity = 1
 background-blur-radius = 20
 adjust-cell-height = 50%
 confirm-close-surface = false
 cursor-style = block
 font-family = "Monaspace Argon Var"
-font-size = 20
+font-size = 18
 macos-titlebar-style=transparent
 macos-option-as-alt = true
 unfocused-split-opacity = 1
 window-padding-balance = true 
 window-save-state = always
 keybind = shift+enter=text:\x1b\r
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+
