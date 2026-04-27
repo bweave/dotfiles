@@ -1,9 +1,9 @@
 return {
-  "zbirenbaum/copilot.lua",
-  opts = {
-    copilot_model = "gpt-41-copilot",
-    copilot_node_command = "/opt/homebrew/bin/node",
-    suggestion = { enabled = true },
-    panel = { enabled = true },
-  },
+  -- "zbirenbaum/copilot.lua",
+  -- opts = {
+  --   copilot_model = "gpt-41-copilot",
+  --   copilot_node_command = "/opt/homebrew/bin/node",
+  --   suggestion = { enabled = true },
+  --   panel = { enabled = true },
+  -- },
 }
