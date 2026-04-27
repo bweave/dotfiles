@@ -1,5 +1,9 @@
 return {
   {
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
+  },
+  {
     "loctvl842/monokai-pro.nvim",
     config = function()
       require("monokai-pro").setup({
@@ -47,5 +51,13 @@ return {
         },
       })
     end,
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    opts = {
+      flavour = "mocha",
+      transparent_background = true,
+    },
   },
 }
