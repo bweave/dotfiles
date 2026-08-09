@@ -19,20 +19,30 @@ return {
       },
       ruby_lsp = {
         mason = false,
-        -- Clear devbox/bundler env vars so rbenv's ruby-lsp resolves gems
-        -- from rbenv's gem path instead of nix store paths.
         cmd = function(dispatchers, config)
           local root_dir = config and (config.cmd_cwd or config.root_dir)
-          return vim.lsp.rpc.start(
-            {
-              "env", "-u", "BUNDLE_GEMFILE", "-u", "RUBYGEMS_GEMDEPS",
-              "-u", "GEM_HOME", "-u", "GEM_PATH", "-u", "GEMRC",
-              "-u", "RUBYLIB", "-u", "RUBY_CONFDIR",
-              "ruby-lsp",
-            },
-            dispatchers,
-            root_dir and { cwd = root_dir }
-          )
+          -- ruby-lsp sends semanticTokens/full/delta responses after Neovim
+          -- has cleared the callback (e.g. on restart). Swallow that specific
+          -- error rather than logging noise on every startup.
+          local orig_on_error = dispatchers.on_error
+          dispatchers.on_error = function(code, err)
+            if code == vim.lsp.rpc.client_errors.NO_RESULT_CALLBACK_FOUND then return end
+            if orig_on_error then orig_on_error(code, err) end
+          end
+          -- devbox projects manage Ruby via nix/direnv — pass through the
+          -- environment as-is so devbox's ruby-lsp is used. Non-devbox projects
+          -- need the strip so stale nix vars from a previous direnv session don't
+          -- override rbenv's gem paths.
+          local uses_devbox = root_dir and vim.fn.filereadable(root_dir .. "/devbox.json") == 1
+          local cmd = uses_devbox
+            and { "ruby-lsp" }
+            or  {
+                  "env", "-u", "BUNDLE_GEMFILE", "-u", "RUBYGEMS_GEMDEPS",
+                  "-u", "GEM_HOME", "-u", "GEM_PATH", "-u", "GEMRC",
+                  "-u", "RUBYLIB", "-u", "RUBY_CONFDIR",
+                  "ruby-lsp",
+                }
+          return vim.lsp.rpc.start(cmd, dispatchers, root_dir and { cwd = root_dir })
         end,
         -- Projects with both gems (e.g. rubocop-rails-omakase + syntax_tree)
         -- follow the syntax_tree README pattern: syntax_tree formats,
