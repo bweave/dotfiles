@@ -1,0 +1,53 @@
+{
+  "Ruby class (1 arg)": {
+    "prefix": "rclass",
+    "description": "Class with 1 initialize arg and private attr_reader",
+    "body": [
+      "class ${1:ClassName}",
+      "  def initialize(${2:arg})",
+      "    @${2:arg} = ${2:arg}",
+      "  end",
+      "",
+      "  private",
+      "",
+      "  attr_reader :${2:arg}",
+      "end",
+      "$0"
+    ]
+  },
+  "Ruby class (2 args)": {
+    "prefix": "rclass2",
+    "description": "Class with 2 initialize args and private attr_readers",
+    "body": [
+      "class ${1:ClassName}",
+      "  def initialize(${2:arg1}, ${3:arg2})",
+      "    @${2:arg1} = ${2:arg1}",
+      "    @${3:arg2} = ${3:arg2}",
+      "  end",
+      "",
+      "  private",
+      "",
+      "  attr_reader :${2:arg1}, :${3:arg2}",
+      "end",
+      "$0"
+    ]
+  },
+  "Ruby class (3 args)": {
+    "prefix": "rclass3",
+    "description": "Class with 3 initialize args and private attr_readers",
+    "body": [
+      "class ${1:ClassName}",
+      "  def initialize(${2:arg1}, ${3:arg2}, ${4:arg3})",
+      "    @${2:arg1} = ${2:arg1}",
+      "    @${3:arg2} = ${3:arg2}",
+      "    @${4:arg3} = ${4:arg3}",
+      "  end",
+      "",
+      "  private",
+      "",
+      "  attr_reader :${2:arg1}, :${3:arg2}, :${4:arg3}",
+      "end",
+      "$0"
+    ]
+  }
+}

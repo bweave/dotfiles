@@ -9,3 +9,26 @@ vim.api.nvim_create_autocmd("VimLeave", {
     io.write("\27[2 q") -- DECSCUSR: reset to block cursor
   end,
 })
+
+-- Ruby-specific refactoring keymaps (buffer-local; override any global <leader>re binding).
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "ruby",
+  callback = function(ev)
+    vim.keymap.set("x", "<leader>re", function()
+      -- Capture extent while still in visual mode; '< and '> may not be updated yet.
+      local anchor = vim.fn.getpos("v")
+      local cursor = vim.fn.getpos(".")
+      local start_line = math.min(anchor[2], cursor[2]) - 1  -- 0-indexed
+      local end_line   = math.max(anchor[2], cursor[2]) - 1  -- 0-indexed
+      require("ruby_refactor").extract_method(start_line, end_line)
+    end, { buffer = ev.buf, desc = "Ruby: extract method" })
+
+    vim.keymap.set("n", "<leader>rn", function()
+      require("ruby_refactor").rename_local()
+    end, { buffer = ev.buf, desc = "Ruby: rename local variable" })
+
+    vim.keymap.set("n", "<leader>rg", function()
+      require("ruby_refactor").guard_clause()
+    end, { buffer = ev.buf, desc = "Ruby: if..else → guard clause" })
+  end,
+})
