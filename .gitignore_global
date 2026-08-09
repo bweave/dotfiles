@@ -31,3 +31,7 @@ scratch.js
 scratch.rb
 scratch.lua
 runner.rb
+
+**/.claude/settings.local.json
+
+**/.claude/.cc-writes/

@@ -1,5 +1,9 @@
 # Claude Code Guidelines
 
+## Writing in Brian's Voice
+
+- Never use em dashes when writing as Brian (Slack messages, PR comments, docs, emails, anything in his voice). He doesn't use them. Ever. Restructure the sentence: use a period, comma, colon, or parentheses instead.
+
 ## Shell Tooling
 
 - FILES: `fd` | TEXT: `rg` | CODE STRUCTURE: `ast-grep` | SELECTION: `fzf` | JSON: `jq` | YAML/XML: `yq`
