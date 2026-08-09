@@ -34,17 +34,17 @@ if [ ! "$(command -v brew)" ]; then
 fi
 success "Homebrew is g2g"
 
-info "Install Homebrew packages:"
-brew bundle --file "$HOME/dotfiles/Brewfile"
-
 if [ ! -d "$HOME/dotfiles" ]; then
 	info "Cloning dotfiles..."
 	git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
 fi
 success "dotfiles cloned"
 
+info "Install Homebrew packages:"
+brew bundle --file "$HOME/dotfiles/Brewfile"
+
 info "Symlinking dotfiles..."
-stow --dir "$HOME/dotfiles" --target "$HOME"
+stow --dir "$HOME/dotfiles" --target "$HOME" .
 success "dotfiles are g2g"
 
 info "Creating .secrets..."
@@ -57,8 +57,10 @@ sudo defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
 sudo defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
 success "fast key repeat set"
 
-rubies="$(rbenv versions --bare)"
-ruby_version=$(echo "$rubies" | fzf --prompt="Select Ruby version: ")
+# rbenv versions --bare only lists already-installed rubies, which is empty
+# on a fresh machine, so offer installable versions instead.
+rubies="$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$')"
+ruby_version=$(echo "$rubies" | fzf --prompt="Select Ruby version: " --tac)
 info "Installing ruby v$ruby_version..."
 rbenv install -s "$ruby_version"
 rbenv global "$ruby_version"
@@ -68,7 +70,11 @@ rbenv rehash
 success "Ruby $ruby_version installed"
 
 info "setting up NVM with Node LTS"
-mkdir -p "$HOME/.nvm"
+export NVM_DIR="$HOME/.nvm"
+mkdir -p "$NVM_DIR"
+# nvm is a shell function, not a binary, so it must be sourced before use.
+# shellcheck disable=SC1091
+. "$(brew --prefix nvm)/nvm.sh"
 nvm install --lts
 nvm alias system node
 npm i -g \
