@@ -40,7 +40,6 @@ path_prepend $HOME/.local/bin
 path_prepend $HOME/bin
 path_prepend $HOME/.rbenv/shims
 path_prepend $HOME/.cargo/bin
-path_prepend $HOME/.claude/local
 if command -v go &> /dev/null; then
   path_prepend $(go env GOPATH)/bin
 fi
@@ -105,6 +104,13 @@ fi
 ########################
 # Aliases
 ########################
+
+# Guard against bare `claude` so an accidental invocation can't repopulate ~/.claude.
+# Bypass with `command claude` or `\claude` if ever truly needed.
+# alias claude='echo "Use claude-work or claude-personal" >&2; false'
+# Personal and Work Claude
+alias claude-personal='CLAUDE_CONFIG_DIR=~/.claude-personal claude'
+alias claude-work='CLAUDE_CONFIG_DIR=~/.claude-work claude'
 
 # Pretty print $PATH in precedence order
 alias path='echo $PATH | tr -s ":" "\n" | awk "{print NR \": \" \$0}"'
@@ -341,3 +347,6 @@ export HSTR_CONFIG=hicolor       # get more colors
 bindkey -s "\C-r" "\C-a hstr -- \C-j"     # bind hstr to Ctrl-r (for Vi mode check doc)
 export HSTR_TIOCSTI=y
 
+
+# opencode
+export PATH=/Users/brianweaver/.opencode/bin:$PATH
