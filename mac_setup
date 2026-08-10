@@ -34,6 +34,17 @@ if [ ! "$(command -v brew)" ]; then
 fi
 success "Homebrew is g2g"
 
+if [ ! "$(command -v gh)" ]; then
+	info "Installing GitHub CLI..."
+	brew install gh
+fi
+
+if ! gh auth status >/dev/null 2>&1; then
+	info "Authenticating with GitHub - this also generates and uploads an SSH key if you don't have one yet:"
+	gh auth login --hostname github.com --git-protocol ssh --web
+fi
+success "GitHub SSH access is g2g"
+
 if [ ! -d "$HOME/dotfiles" ]; then
 	info "Cloning dotfiles..."
 	git clone git@github.com:bweave/dotfiles.git "$HOME/dotfiles"
