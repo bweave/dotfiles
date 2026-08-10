@@ -55,6 +55,7 @@ else
 	error "Couldn't reach 1Password - sign in ('op signin' or unlock the desktop app) and rerun:"
 	error "  op inject --account planningcenter.1password.com -i \$HOME/dotfiles/.secrets.tpl -o \$HOME/.secrets --force"
 	touch "$HOME/.secrets"
+	chmod 600 "$HOME/.secrets"
 fi
 
 info "Installing neovim..."
