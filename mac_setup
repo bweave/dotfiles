@@ -47,8 +47,15 @@ info "Symlinking dotfiles..."
 stow --dir "$HOME/dotfiles" --target "$HOME" .
 success "dotfiles are g2g"
 
-info "Creating .secrets..."
-touch "$HOME/.secrets"
+info "Generating .secrets from 1Password..."
+if command -v op >/dev/null && op inject --account planningcenter.1password.com \
+	-i "$HOME/dotfiles/.secrets.tpl" -o "$HOME/.secrets" --force; then
+	success ".secrets generated from 1Password"
+else
+	error "Couldn't reach 1Password - sign in ('op signin' or unlock the desktop app) and rerun:"
+	error "  op inject --account planningcenter.1password.com -i \$HOME/dotfiles/.secrets.tpl -o \$HOME/.secrets --force"
+	touch "$HOME/.secrets"
+fi
 
 info "Installing neovim..."
 "$HOME/dotfiles/install-neovim-nightly.sh"

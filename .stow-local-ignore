@@ -31,6 +31,7 @@ _darcs
 elgato_key_light
 Brewfile
 mac_setup
+.secrets.tpl
 cloudbox_setup
 install-neovim-nightly.sh
 .ruby-lsp
