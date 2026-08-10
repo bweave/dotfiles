@@ -55,7 +55,7 @@ export -U PATH
 ########################
 
 include $HOME/.secrets
-include $HOME/.fzf.zsh
+command -v fzf &> /dev/null && source <(fzf --zsh)
 include $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Starship prompt
@@ -75,7 +75,7 @@ eval "$(zoxide init zsh --cmd j)"
 # Rust
 ########################
 
-. "$HOME/.cargo/env"
+include "$HOME/.cargo/env"
 
 ########################
 # Ruby
