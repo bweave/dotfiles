@@ -118,7 +118,7 @@ alias path='echo $PATH | tr -s ":" "\n" | awk "{print NR \": \" \$0}"'
 alias zshconfig="nvim ~/.zshrc"
 alias nvim-min='NVIM_APPNAME=nvim_minimal nvim'
 
-alias sshkey="cat ~/.ssh/id_rsa.pub | pbcopy ; echo 'Copied to Clipboard.'"
+alias sshkey="cat ~/.ssh/id_ed25519.pub | pbcopy ; echo 'Copied to Clipboard.'"
 alias ..="cd .."
 alias cd..="cd .."
 alias ...="cd ../.."
@@ -249,8 +249,8 @@ case "$OSTYPE" in
     alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
     alias hideFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
     alias resetav="sudo killall VDCAssistant"
-    alias python=/usr/local/bin/python3
-    alias pip=/usr/local/bin/pip3
+    alias python=python3
+    alias pip=pip3
     ;;
   linux*)
     alias pbcopy='xclip -selection clipboard'
@@ -275,7 +275,7 @@ export LC_ALL="en_US.UTF-8"
 export LESS_TERMCAP_md="$ORANGE" # Highlight section titles in manual pages
 export MANPAGER="less -X" # Don’t clear the screen after quitting a manual page
 export PRERENDER_SERVICE_URL=http://localhost:3000
-export SSH_KEY_PATH="~/.ssh/rsa_id" # ssh
+export SSH_KEY_PATH="~/.ssh/id_ed25519" # ssh
 export NVM_DIR="$HOME/.nvm"
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#d75f87'
 export PCO_APPS=accounts:api:calendar:check-ins:church-center:giving:groups:helpdesk:home:login:notifications:people:publishing:registrations:services:webhooks
