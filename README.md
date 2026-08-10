@@ -30,6 +30,7 @@ for GitHub auth as needed.
   - Install latest Neovim
   - Install Ruby via rbenv
   - Install Node via nvm along with some global packages
+  - Install Rust via rustup
 
 ## After `mac_setup`
 

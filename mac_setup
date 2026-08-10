@@ -72,6 +72,12 @@ fi
 info "Installing neovim..."
 "$HOME/dotfiles/install-neovim-nightly.sh"
 
+if [ ! -d "$HOME/.cargo" ]; then
+	info "Installing Rust via rustup..."
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+fi
+success "Rust is g2g"
+
 defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
 defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
 success "fast key repeat set"
