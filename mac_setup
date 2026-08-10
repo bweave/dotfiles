@@ -53,8 +53,8 @@ touch "$HOME/.secrets"
 info "Installing neovim..."
 "$HOME/dotfiles/install-neovim-nightly.sh"
 
-sudo defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
-sudo defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
+defaults write -g InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+defaults write -g KeyRepeat -int 1         # normal minimum is 2 (30 ms)
 success "fast key repeat set"
 
 # rbenv versions --bare only lists already-installed rubies, which is empty

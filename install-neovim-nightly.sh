@@ -20,7 +20,7 @@ cd /tmp || exit
 rm -rf "./nvim-$platform.tar.gz"
 rm -rf "./nvim-$platform/"
 curl -fsSL -O "https://github.com/neovim/neovim/releases/download/nightly/nvim-$platform.tar.gz"
-if [ "$platform" == "macos" ]; then
+if [[ "$platform" == macos* ]]; then
   xattr -c "./nvim-$platform.tar.gz" # avoid macOS not developer signed warnings
 fi
 tar xzvf "./nvim-$platform.tar.gz"
