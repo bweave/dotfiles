@@ -10,6 +10,18 @@ vim.api.nvim_create_autocmd("VimLeave", {
   end,
 })
 
+-- gitcommit buffers have no conform formatter configured, but LazyVim's global
+-- formatexpr always routes through conform.formatexpr(), which reports success
+-- even when no formatter ran. That silences Vim's fallback to its built-in
+-- textwidth-based formatter, so `gq` does nothing on commit messages. Clear it
+-- here so gq wraps at 'textwidth' as expected.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "gitcommit",
+  callback = function()
+    vim.bo.formatexpr = ""
+  end,
+})
+
 -- Ruby-specific refactoring keymaps (buffer-local; override any global <leader>re binding).
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "ruby",
